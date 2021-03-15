@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STB-DiffChecker", "STB-DiffChecker\STB-DiffChecker.csproj", "{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release_Designer|Any CPU = Release_Designer|Any CPU
+		Release_Designer|x64 = Release_Designer|x64
+		Release_Inspector|Any CPU = Release_Inspector|Any CPU
+		Release_Inspector|x64 = Release_Inspector|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|x64.Build.0 = Debug|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Designer|Any CPU.ActiveCfg = Release_Designer|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Designer|Any CPU.Build.0 = Release_Designer|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Designer|x64.ActiveCfg = Release_Designer|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Designer|x64.Build.0 = Release_Designer|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Inspector|Any CPU.ActiveCfg = Release_Inspector|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Inspector|Any CPU.Build.0 = Release_Inspector|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Inspector|x64.ActiveCfg = Release_Inspector|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Inspector|x64.Build.0 = Release_Inspector|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|Any CPU.ActiveCfg = Release_Inspector|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|Any CPU.Build.0 = Release_Inspector|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|x64.ActiveCfg = Release_Inspector|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|x64.Build.0 = Release_Inspector|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A29DC16E-3FDA-444F-B830-AE6F0DAD576F}
+	EndGlobalSection
+EndGlobal
