@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,7 +46,10 @@ namespace STBDiffChecker
         public MainWindow()
         {
             InitializeComponent();
+            AssemblyName assembly = Assembly.GetExecutingAssembly().GetName();
+            Version ver = assembly.Version;
 
+            this.TitleName.Title += " Ver"+ver.ToString();
             #region 設定情報のデフォルト設定
             Activated += (s, e) =>
             {
