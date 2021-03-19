@@ -26,7 +26,7 @@
 
 ## イメージ
 "STB-DiffChecker"では以下のような結果出力が可能
-![STB-DiffCheckerImage](https://user-images.githubusercontent.com/10394393/101854381-c6263480-3ba4-11eb-91c4-27ceb1800547.gif)
+![STB-DiffCheckerImage](https://github.com/NS-NS/STB-DiffChecker/blob/master/image/STB-DiffCheckerImage.gif)
  
 ## ST-Bridgeとは 
 [buildingSMART Japan 構造設計小委員会](https://www.building-smart.or.jp/meeting/buildall/structural-design/)より引用
