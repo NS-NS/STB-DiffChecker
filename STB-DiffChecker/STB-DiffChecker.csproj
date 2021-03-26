@@ -165,6 +165,7 @@
     <Compile Include="Record\v201\TotalRecord.cs" />
     <Compile Include="Record\v201\CheckObjects.cs" />
     <Compile Include="Setting\UserTolerance.cs" />
+    <Compile Include="XmlValidate.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
