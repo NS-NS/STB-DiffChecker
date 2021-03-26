@@ -9,9 +9,9 @@
       </xs:sequence>
       <xs:attribute name="version" type="xs:string" use="required" />
     </xs:complexType>
-    <xs:unique name="guidList">
+    <xs:unique name="guid">
     	<xs:selector xpath=".//*"/>
-    	<xs:field xpath="@guidList"/>
+    	<xs:field xpath="@guid"/>
     </xs:unique>
   </xs:element>
   <xs:element name="StbCommon">
@@ -20,7 +20,7 @@
         <xs:element ref="stb:StbReinforcementStrengthList" minOccurs="0" maxOccurs="1" />
         <xs:element ref="stb:StbApplyConditionsList" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="project_name" type="xs:string" use="required" />
       <xs:attribute name="app_name" type="xs:string" use="required" />
       <xs:attribute name="strength_concrete" type="xs:string" />
@@ -160,13 +160,13 @@
     </xs:complexType>
   	<xs:key name="stbNodes">
   		<xs:selector xpath="stb:StbNode"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbNode">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="X" type="xs:double" use="required" />
       <xs:attribute name="Y" type="xs:double" use="required" />
       <xs:attribute name="Z" type="xs:double" use="required" />
@@ -184,7 +184,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
-      <xs:attribute name="idList_member" type="xs:positiveInteger" />
+      <xs:attribute name="id_member" type="xs:positiveInteger" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbNodeIdList">
@@ -195,12 +195,12 @@
     </xs:complexType>
   	<xs:key name="stbNodeIdList">
   		<xs:selector xpath="stb:StbNodeId"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbNodeId">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbNodeIdOrder" type="stb:monolist"/>
@@ -226,7 +226,7 @@
     </xs:complexType>
   	<xs:key name="stbParallelAxes">
   		<xs:selector xpath="stb:StbParallelAxis"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbParallelAxis">
@@ -234,8 +234,8 @@
       <xs:sequence>
         <xs:element ref="stb:StbNodeIdList" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="distance" type="xs:double" use="required" />
     </xs:complexType>
@@ -253,7 +253,7 @@
     </xs:complexType>
   	<xs:key name="stbArcAxes">
   		<xs:selector xpath="stb:StbArcAxis"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbArcAxis">
@@ -261,8 +261,8 @@
       <xs:sequence>
         <xs:element ref="stb:StbNodeIdList" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="radius" type="stb:length" use="required" />
     </xs:complexType>
@@ -278,7 +278,7 @@
     </xs:complexType>
   	<xs:key name="stbRadialAxes">
   		<xs:selector xpath="stb:StbRadialAxis"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbRadialAxis">
@@ -286,8 +286,8 @@
       <xs:sequence>
         <xs:element ref="stb:StbNodeIdList" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="angle" type="stb:angle" use="required" />
     </xs:complexType>
@@ -329,7 +329,7 @@
     </xs:complexType>
   	<xs:key name="stbStories">
   		<xs:selector xpath="stb:StbStory"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbStory">
@@ -337,8 +337,8 @@
       <xs:sequence>
         <xs:element ref="stb:StbNodeIdList" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="height" type="xs:double" use="required" />
       <xs:attribute name="kind" use="required">
@@ -353,7 +353,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
-      <xs:attribute name="idList_dependence" type="xs:positiveInteger" />
+      <xs:attribute name="id_dependence" type="xs:positiveInteger" />
       <xs:attribute name="strength_concrete" type="xs:string" />
     </xs:complexType>
   </xs:element>
@@ -384,7 +384,7 @@
     </xs:complexType>
   	<xs:key name="stbColumns">
   		<xs:selector xpath="stb:StbColumn"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbColumn">
@@ -400,7 +400,7 @@
     </xs:complexType>
   	<xs:key name="stbPosts">
   		<xs:selector xpath="stb:StbPost"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbPost">
@@ -416,7 +416,7 @@
     </xs:complexType>
   	<xs:key name="stbGirders">
   		<xs:selector xpath="stb:StbGirder"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbGirder">
@@ -432,7 +432,7 @@
     </xs:complexType>
   	<xs:key name="stbBeams">
   		<xs:selector xpath="stb:StbBeam"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbBeam">
@@ -448,18 +448,18 @@
     </xs:complexType>
   	<xs:key name="stbBraces">
   		<xs:selector xpath="stb:StbBrace"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbBrace">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
-      <xs:attribute name="idList_node_start" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="idList_node_end" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node_start" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node_end" type="xs:positiveInteger" use="required" />
       <xs:attribute name="rotate" type="stb:angle" default="0" />
-      <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
       <xs:attribute name="kind_structure" use="required">
         <xs:simpleType>
           <xs:restriction base="xs:string">
@@ -519,8 +519,8 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
-      <xs:attribute name="joint_idList_start" type="xs:positiveInteger"/>
-      <xs:attribute name="joint_idList_end" type="xs:positiveInteger"/>
+      <xs:attribute name="joint_id_start" type="xs:positiveInteger"/>
+      <xs:attribute name="joint_id_end" type="xs:positiveInteger"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSlabs">
@@ -531,7 +531,7 @@
     </xs:complexType>
   	<xs:key name="stbSlabs">
   		<xs:selector xpath="stb:StbSlab"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbSlab">
@@ -541,10 +541,10 @@
         <xs:element ref="stb:StbSlabOffsetList" minOccurs="0" maxOccurs="1" />
         <xs:element ref="stb:StbOpenIdList" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
-      <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
       <xs:attribute name="kind_structure" use="required">
       	<xs:simpleType>
       		<xs:restriction base="xs:string">
@@ -595,7 +595,7 @@
   </xs:element>
   <xs:element name="StbSlabOffset">
     <xs:complexType>
-      <xs:attribute name="idList_node" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node" type="xs:positiveInteger" use="required" />
       <xs:attribute name="offset_X" type="xs:double" use="required" />
       <xs:attribute name="offset_Y" type="xs:double" use="required" />
       <xs:attribute name="offset_Z" type="xs:double" use="required" />
@@ -609,7 +609,7 @@
     </xs:complexType>
   	<xs:key name="stbWalls">
   		<xs:selector xpath="stb:StbWall"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbWall">
@@ -619,10 +619,10 @@
         <xs:element ref="stb:StbWallOffsetList" minOccurs="0" maxOccurs="1" />
         <xs:element ref="stb:StbOpenIdList" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
-      <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
       <xs:attribute name="kind_structure" type="xs:string" fixed="RC" use="required" />
       <xs:attribute name="kind_layout" use="required">
         <xs:simpleType>
@@ -647,7 +647,7 @@
       <xs:attribute name="slit_bottom" type="stb:length" />
       <xs:attribute name="slit_right" type="stb:length" />
       <xs:attribute name="slit_left" type="stb:length" />
-      <xs:attribute name="type_outsidListe">
+      <xs:attribute name="type_outside">
         <xs:simpleType>
           <xs:restriction base="xs:string">
             <xs:enumeration value="TYPE_PLUS" />
@@ -667,7 +667,7 @@
   </xs:element>
   <xs:element name="StbWallOffset">
     <xs:complexType>
-      <xs:attribute name="idList_node" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node" type="xs:positiveInteger" use="required" />
       <xs:attribute name="offset_X" type="xs:double" use="required" />
       <xs:attribute name="offset_Y" type="xs:double" use="required" />
       <xs:attribute name="offset_Z" type="xs:double" use="required" />
@@ -681,17 +681,17 @@
     </xs:complexType>
   	<xs:key name="stbFootings">
   		<xs:selector xpath="stb:StbFooting"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbFooting">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
-      <xs:attribute name="idList_node" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node" type="xs:positiveInteger" use="required" />
       <xs:attribute name="rotate" type="stb:angle" default="0" />
-      <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
       <xs:attribute name="offset_X" type="xs:double" />
       <xs:attribute name="offset_Y" type="xs:double" />
       <xs:attribute name="level_bottom" type="xs:double" />
@@ -711,17 +711,17 @@
     </xs:complexType>
   	<xs:key name="stbStripFootings">
   		<xs:selector xpath="stb:StbStripFooting"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbStripFooting">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
-      <xs:attribute name="idList_node_start" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="idList_node_end" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node_start" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node_end" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
       <xs:attribute name="kind_structure" type="xs:string" fixed="RC" use="required" />
       <xs:attribute name="level" type="xs:double" />
       <xs:attribute name="offset" type="xs:double" />
@@ -737,16 +737,16 @@
     </xs:complexType>
   	<xs:key name="stbPiles">
   		<xs:selector xpath="stb:StbPile"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbPile">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
-      <xs:attribute name="idList_node" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
       <xs:attribute name="kind_structure" use="required">
         <xs:simpleType>
           <xs:restriction base="xs:string">
@@ -772,19 +772,19 @@
     </xs:complexType>
   	<xs:key name="stbFoundationColumns">
   		<xs:selector xpath="stb:StbFoundationColumn"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbFoundationColumn">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
-      <xs:attribute name="idList_node" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node" type="xs:positiveInteger" use="required" />
       <xs:attribute name="rotate" type="stb:angle" default="0" />
       <xs:attribute name="offset_Z" type="xs:double" />
       <xs:attribute name="kind_structure" type="xs:string" fixed="RC" use="required" />
-      <xs:attribute name="idList_section_FD" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section_FD" type="xs:positiveInteger" use="required" />
       <xs:attribute name="length_FD" type="stb:length" />
       <xs:attribute name="offset_FD_X" type="xs:double" />
       <xs:attribute name="offset_FD_Y" type="xs:double" />
@@ -792,7 +792,7 @@
       <xs:attribute name="thickness_add_FD_end_X" type="stb:nonNegativeLength" />
       <xs:attribute name="thickness_add_FD_start_Y" type="stb:nonNegativeLength" />
       <xs:attribute name="thickness_add_FD_end_Y" type="stb:nonNegativeLength" />
-      <xs:attribute name="idList_section_WR" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section_WR" type="xs:positiveInteger" use="required" />
       <xs:attribute name="length_WR" type="stb:length" />
       <xs:attribute name="offset_WR_X" type="xs:double" />
       <xs:attribute name="offset_WR_Y" type="xs:double" />
@@ -810,17 +810,17 @@
     </xs:complexType>
   	<xs:key name="stbParapets">
   		<xs:selector xpath="stb:StbParapet"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbParapet">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
-      <xs:attribute name="idList_node_start" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="idList_node_end" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node_start" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_node_end" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
       <xs:attribute name="kind_structure" type="xs:string" fixed="RC" use="required" />
       <xs:attribute name="kind_layout" use="required">
         <xs:simpleType>
@@ -851,15 +851,15 @@
     </xs:complexType>
   	<xs:key name="stbOpens">
   		<xs:selector xpath="stb:StbOpen"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbOpen">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" />
-      <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
       <xs:attribute name="position_X" type="xs:double" use="required" />
       <xs:attribute name="position_Y" type="xs:double" use="required" />
       <xs:attribute name="length_X" type="stb:length" use="required" />
@@ -875,12 +875,12 @@
     </xs:complexType>
   	<xs:key name="stbOpenIdList">
   		<xs:selector xpath="stb:StbOpenId"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbOpenId">
     <xs:complexType>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSections">
@@ -909,75 +909,75 @@
     </xs:complexType>
   	<xs:key name="stbSecColumn_RC">
   		<xs:selector xpath="stb:StbSecColumn_RC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecColumn_S">
   		<xs:selector xpath="stb:StbSecColumn_S"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecColumn_SRC">
   		<xs:selector xpath="stb:StbSecColumn_SRC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecColumn_CFT">
   		<xs:selector xpath="stb:StbSecColumn_CFT"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecBeam_RC">
   		<xs:selector xpath="stb:StbSecBeam_RC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecBeam_S">
   		<xs:selector xpath="stb:StbSecBeam_S"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecBeam_SRC">
   		<xs:selector xpath="stb:StbSecBeam_SRC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecBrace_S">
   		<xs:selector xpath="stb:StbSecBrace_S"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecSlab_RC">
   		<xs:selector xpath="stb:StbSecSlab_RC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecSlabDeck">
   		<xs:selector xpath="stb:StbSecSlabDeck"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecSlabPrecast">
   		<xs:selector xpath="stb:StbSecSlabPrecast"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecWall_RC">
   		<xs:selector xpath="stb:StbSecWall_RC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecFoundation_RC">
   		<xs:selector xpath="stb:StbSecFoundation_RC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecPile_RC">
   		<xs:selector xpath="stb:StbSecPile_RC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecPile_S">
   		<xs:selector xpath="stb:StbSecPile_S"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecPileProduct">
   		<xs:selector xpath="stb:StbSecPileProduct"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecOpen_RC">
   		<xs:selector xpath="stb:StbSecOpen_RC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecParapet_RC">
   		<xs:selector xpath="stb:StbSecParapet_RC"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   	<xs:key name="stbSecSteel">
   		<xs:selector xpath="stb:StbSecSteel/*"/>
@@ -990,8 +990,8 @@
         <xs:element ref="stb:StbSecFigureColumn_RC" minOccurs="1" maxOccurs="1" />
         <xs:element ref="stb:StbSecBarArrangementColumn_RC" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="floor" type="xs:string" />
       <xs:attribute name="kind_column" default="COLUMN">
@@ -1096,8 +1096,8 @@
           <xs:element ref="stb:StbSecBaseConventional_S" minOccurs="0" maxOccurs="1" />
         </xs:choice>
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="floor" type="xs:string" />
       <xs:attribute name="kind_column" default="COLUMN">
@@ -1128,8 +1128,8 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
-      <xs:attribute name="joint_idList_top" type="xs:positiveInteger" />
-      <xs:attribute name="joint_idList_bottom" type="xs:positiveInteger" />
+      <xs:attribute name="joint_id_top" type="xs:positiveInteger" />
+      <xs:attribute name="joint_id_bottom" type="xs:positiveInteger" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecSteelColumn_S_Same">
@@ -1211,8 +1211,8 @@
           <xs:element ref="stb:StbSecBaseConventional_SRC" minOccurs="0" maxOccurs="1" />
         </xs:choice>
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="floor" type="xs:string" />
       <xs:attribute name="kind_column" default="COLUMN">
@@ -1311,8 +1311,8 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
-      <xs:attribute name="joint_idList_top" type="xs:positiveInteger" />
-      <xs:attribute name="joint_idList_bottom" type="xs:positiveInteger" />
+      <xs:attribute name="joint_id_top" type="xs:positiveInteger" />
+      <xs:attribute name="joint_id_bottom" type="xs:positiveInteger" />
       <xs:attribute name="length_embedded" type="stb:length" />
     </xs:complexType>
   </xs:element>
@@ -1480,8 +1480,8 @@
           <xs:element ref="stb:StbSecBaseConventional_CFT" minOccurs="0" maxOccurs="1" />
         </xs:choice>
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="floor" type="xs:string" />
       <xs:attribute name="kind_column" default="COLUMN">
@@ -1585,8 +1585,8 @@
         <xs:element ref="stb:StbSecFigureBeam_RC" minOccurs="1" maxOccurs="1" />
         <xs:element ref="stb:StbSecBarArrangementBeam_RC" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="floor" type="xs:string" />
       <xs:attribute name="kind_beam" default="GIRDER">
@@ -1644,7 +1644,7 @@
       <xs:attribute name="interval" type="stb:length" />
       <xs:attribute name="center_top" type="stb:length" />
       <xs:attribute name="center_bottom" type="stb:length" />
-      <xs:attribute name="center_sidListe" type="stb:length" />
+      <xs:attribute name="center_side" type="stb:length" />
       <xs:attribute name="center_interval" type="stb:length" />
       <xs:attribute name="length_bar_start" type="stb:length" />
       <xs:attribute name="length_bar_end" type="stb:length" />
@@ -1676,8 +1676,8 @@
       <xs:sequence>
         <xs:element ref="stb:StbSecSteelFigureBeam_S" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="floor" type="xs:string" />
       <xs:attribute name="kind_beam" default="GIRDER">
@@ -1701,8 +1701,8 @@
         <xs:element ref="stb:StbSecSteelBeam_S_Haunch" minOccurs="2" maxOccurs="3" />
         <xs:element ref="stb:StbSecSteelBeam_S_FiveTypes" minOccurs="3" maxOccurs="5" />
       </xs:choice>
-      <xs:attribute name="joint_idList_start" type="xs:positiveInteger" />
-      <xs:attribute name="joint_idList_end" type="xs:positiveInteger" />
+      <xs:attribute name="joint_id_start" type="xs:positiveInteger" />
+      <xs:attribute name="joint_id_end" type="xs:positiveInteger" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecSteelBeam_S_Straight">
@@ -1737,8 +1737,8 @@
         <xs:element ref="stb:StbSecBarArrangementBeam_SRC" minOccurs="0" maxOccurs="1" />
         <xs:element ref="stb:StbSecSteelFigureBeam_SRC" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="floor" type="xs:string" />
       <xs:attribute name="kind_beam" default="GIRDER">
@@ -1793,7 +1793,7 @@
       <xs:attribute name="interval" type="stb:length" />
       <xs:attribute name="center_top" type="stb:length" />
       <xs:attribute name="center_bottom" type="stb:length" />
-      <xs:attribute name="center_sidListe" type="stb:length" />
+      <xs:attribute name="center_side" type="stb:length" />
       <xs:attribute name="center_interval" type="stb:length" />
       <xs:attribute name="bar_length_start" type="stb:length" />
       <xs:attribute name="bar_length_end" type="stb:length" />
@@ -1825,8 +1825,8 @@
       </xs:choice>
       <xs:attribute name="offset" type="xs:double" />
       <xs:attribute name="level" type="xs:double" />
-      <xs:attribute name="joint_idList_start" type="xs:positiveInteger" />
-      <xs:attribute name="joint_idList_end" type="xs:positiveInteger" />
+      <xs:attribute name="joint_id_start" type="xs:positiveInteger" />
+      <xs:attribute name="joint_id_end" type="xs:positiveInteger" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecSteelBeam_SRC_Straight">
@@ -1859,8 +1859,8 @@
       <xs:sequence>
         <xs:element ref="stb:StbSecSteelFigureBrace_S" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="floor" type="xs:string" />
       <xs:attribute name="kind_brace" default="VERTICAL">
@@ -1880,8 +1880,8 @@
         <xs:element ref="stb:StbSecSteelBrace_S_NotSame" minOccurs="2" maxOccurs="2" />
         <xs:element ref="stb:StbSecSteelBrace_S_ThreeTypes" minOccurs="3" maxOccurs="3" />
       </xs:choice>
-      <xs:attribute name="joint_idList_start" type="xs:positiveInteger"/>
-      <xs:attribute name="joint_idList_end" type="xs:positiveInteger"/>
+      <xs:attribute name="joint_id_start" type="xs:positiveInteger"/>
+      <xs:attribute name="joint_id_end" type="xs:positiveInteger"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecSteelBrace_S_Same">
@@ -1928,8 +1928,8 @@
         <xs:element ref="stb:StbSecFigureSlab_RC" minOccurs="1" maxOccurs="1" />
         <xs:element ref="stb:StbSecBarArrangementSlab_RC" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="isFoundation" type="xs:boolean" default="false"/>
       <xs:attribute name="isEarthen" type="xs:boolean" default="false"/>
@@ -2066,8 +2066,8 @@
         <xs:element ref="stb:StbSecBarArrangementSlabDeck" minOccurs="0" maxOccurs="1" />
         <xs:element ref="stb:StbSecProductSlabDeck" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="product_type" use="required" >
         <xs:simpleType>
@@ -2132,8 +2132,8 @@
         <xs:element ref="stb:StbSecBarArrangementSlabPrecast" minOccurs="0" maxOccurs="1" />
         <xs:element ref="stb:StbSecProductSlabPrecast" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="precast_type" use="required">
         <xs:simpleType>
@@ -2198,8 +2198,8 @@
         <xs:element ref="stb:StbSecFigureWall_RC" minOccurs="1" maxOccurs="1" />
         <xs:element ref="stb:StbSecBarArrangementWall_RC" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="strength_concrete" type="xs:string" />
     </xs:complexType>
@@ -2223,13 +2223,13 @@
           <xs:element ref="stb:StbSecBarWall_RC_Single" minOccurs="2" maxOccurs="2" />
           <xs:element ref="stb:StbSecBarWall_RC_Zigzag" minOccurs="2" maxOccurs="2" />
           <xs:element ref="stb:StbSecBarWall_RC_DoubleNet" minOccurs="2" maxOccurs="2" />
-          <xs:element ref="stb:StbSecBarWall_RC_InsidListeAndOutsidListe" minOccurs="4" maxOccurs="12" />
+          <xs:element ref="stb:StbSecBarWall_RC_InsideAndOutside" minOccurs="4" maxOccurs="12" />
         </xs:choice>
         <xs:element ref="stb:StbSecBarWall_RC_Edge" minOccurs="0" maxOccurs="4" />
         <xs:element ref="stb:StbSecBarWall_RC_Open" minOccurs="0" maxOccurs="3" />
       </xs:sequence>
-      <xs:attribute name="depth_cover_outsidListe" type="stb:length" />
-      <xs:attribute name="depth_cover_insidListe" type="stb:length" />
+      <xs:attribute name="depth_cover_outside" type="stb:length" />
+      <xs:attribute name="depth_cover_inside" type="stb:length" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecBarWall_RC_Single">
@@ -2277,7 +2277,7 @@
       <xs:attribute name="pitch" type="stb:length" use="required" />
     </xs:complexType>
   </xs:element>
-  <xs:element name="StbSecBarWall_RC_InsidListeAndOutsidListe">
+  <xs:element name="StbSecBarWall_RC_InsideAndOutside">
     <xs:complexType>
       <xs:attribute name="pos" use="required">
         <xs:simpleType>
@@ -2344,8 +2344,8 @@
         <xs:element ref="stb:StbSecFigureFoundation_RC" minOccurs="1" maxOccurs="1" />
         <xs:element ref="stb:StbSecBarArrangementFoundation_RC" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="strength_concrete" type="xs:string" />
     </xs:complexType>
@@ -2364,51 +2364,51 @@
   </xs:element>
   <xs:element name="StbSecFoundation_RC_Rect">
     <xs:complexType>
-      <xs:attribute name="widListth_X" type="stb:length" use="required" />
-      <xs:attribute name="widListth_Y" type="stb:length" use="required" />
+      <xs:attribute name="width_X" type="stb:length" use="required" />
+      <xs:attribute name="width_Y" type="stb:length" use="required" />
       <xs:attribute name="depth" type="stb:length" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecFoundation_RC_TaperedRect">
     <xs:complexType>
-      <xs:attribute name="widListth_X" type="stb:length" use="required" />
-      <xs:attribute name="widListth_Y" type="stb:length" use="required" />
+      <xs:attribute name="width_X" type="stb:length" use="required" />
+      <xs:attribute name="width_Y" type="stb:length" use="required" />
       <xs:attribute name="depth_base" type="stb:length" use="required" />
       <xs:attribute name="depth_tip" type="stb:length" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecFoundation_RC_Triangle">
     <xs:complexType>
-      <xs:attribute name="widListth_X" type="stb:length" use="required" />
-      <xs:attribute name="widListth_Y" type="stb:length" use="required" />
+      <xs:attribute name="width_X" type="stb:length" use="required" />
+      <xs:attribute name="width_Y" type="stb:length" use="required" />
       <xs:attribute name="depth" type="stb:length" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecFoundation_RC_EquiTriangle">
     <xs:complexType>
-      <xs:attribute name="widListth_base" type="stb:length" use="required" />
-      <xs:attribute name="widListth_chamfer" type="stb:length" use="required" />
+      <xs:attribute name="width_base" type="stb:length" use="required" />
+      <xs:attribute name="width_chamfer" type="stb:length" use="required" />
       <xs:attribute name="depth" type="stb:length" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecFoundation_RC_Octagon">
     <xs:complexType>
-      <xs:attribute name="widListth_X" type="stb:length" use="required" />
-      <xs:attribute name="widListth_Y" type="stb:length" use="required" />
-      <xs:attribute name="widListth_chamfer1_X" type="stb:nonNegativeLength" use="required"/>
-      <xs:attribute name="widListth_chamfer1_Y" type="stb:nonNegativeLength" use="required"/>
-      <xs:attribute name="widListth_chamfer2_X" type="stb:nonNegativeLength" use="required"/>
-      <xs:attribute name="widListth_chamfer2_Y" type="stb:nonNegativeLength" use="required"/>
-      <xs:attribute name="widListth_chamfer3_X" type="stb:nonNegativeLength" use="required"/>
-      <xs:attribute name="widListth_chamfer3_Y" type="stb:nonNegativeLength" use="required"/>
-      <xs:attribute name="widListth_chamfer4_X" type="stb:nonNegativeLength" use="required"/>
-      <xs:attribute name="widListth_chamfer4_Y" type="stb:nonNegativeLength" use="required"/>
+      <xs:attribute name="width_X" type="stb:length" use="required" />
+      <xs:attribute name="width_Y" type="stb:length" use="required" />
+      <xs:attribute name="width_chamfer1_X" type="stb:nonNegativeLength" use="required"/>
+      <xs:attribute name="width_chamfer1_Y" type="stb:nonNegativeLength" use="required"/>
+      <xs:attribute name="width_chamfer2_X" type="stb:nonNegativeLength" use="required"/>
+      <xs:attribute name="width_chamfer2_Y" type="stb:nonNegativeLength" use="required"/>
+      <xs:attribute name="width_chamfer3_X" type="stb:nonNegativeLength" use="required"/>
+      <xs:attribute name="width_chamfer3_Y" type="stb:nonNegativeLength" use="required"/>
+      <xs:attribute name="width_chamfer4_X" type="stb:nonNegativeLength" use="required"/>
+      <xs:attribute name="width_chamfer4_Y" type="stb:nonNegativeLength" use="required"/>
       <xs:attribute name="depth" type="stb:length" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecFoundation_RC_Continuous">
     <xs:complexType>
-      <xs:attribute name="widListth" type="stb:length" use="required" />
+      <xs:attribute name="width" type="stb:length" use="required" />
       <xs:attribute name="depth_base" type="stb:length" use="required" />
       <xs:attribute name="depth_tip" type="stb:length" use="required" />
       <xs:attribute name="type" use="required">
@@ -2432,7 +2432,7 @@
       </xs:choice>
       <xs:attribute name="depth_cover_top" type="stb:length"/>
       <xs:attribute name="depth_cover_bottom" type="stb:length"/>
-      <xs:attribute name="depth_cover_sidListe" type="stb:length"/>
+      <xs:attribute name="depth_cover_side" type="stb:length"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="StbSecBarFoundation_RC_Rect">
@@ -2514,8 +2514,8 @@
         <xs:element ref="stb:StbSecFigurePile_RC" minOccurs="1" maxOccurs="1" />
         <xs:element ref="stb:StbSecBarArrangementPile_RC" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="strength_concrete" type="xs:string" />
     </xs:complexType>
@@ -2649,8 +2649,8 @@
       <xs:sequence>
         <xs:element ref="stb:StbSecFigurePile_S" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
     </xs:complexType>
   </xs:element>
@@ -2664,12 +2664,12 @@
     </xs:complexType>
     <xs:key name="SecFigurePile_S">
     	<xs:selector xpath="./*"/>
-    	<xs:field xpath="@idList_order"/>
+    	<xs:field xpath="@id_order"/>
     </xs:key>
   </xs:element>
   <xs:element name="StbSecPile_S_Straight">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2680,7 +2680,7 @@
   </xs:element>
   <xs:element name="StbSecPile_S_Rotational">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2692,7 +2692,7 @@
   </xs:element>
   <xs:element name="StbSecPile_S_Taper">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2707,8 +2707,8 @@
       <xs:sequence>
         <xs:element ref="stb:StbSecFigurePileProduct" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
     </xs:complexType>
   </xs:element>
@@ -2728,7 +2728,7 @@
   </xs:element>
   <xs:element name="StbSecPileProduct_PHC">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2743,7 +2743,7 @@
   </xs:element>
   <xs:element name="StbSecPileProduct_ST">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2760,7 +2760,7 @@
   </xs:element>
   <xs:element name="StbSecPileProduct_SC">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2774,7 +2774,7 @@
   </xs:element>
   <xs:element name="StbSecPileProduct_PRC">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2792,7 +2792,7 @@
   </xs:element>
   <xs:element name="StbSecPileProduct_CPRC">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2810,7 +2810,7 @@
   </xs:element>
   <xs:element name="StbSecPileProductNodular_PHC">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2826,7 +2826,7 @@
   </xs:element>
   <xs:element name="StbSecPileProductNodular_PRC">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2845,7 +2845,7 @@
   </xs:element>
   <xs:element name="StbSecPileProductNodular_CPRC">
     <xs:complexType>
-      <xs:attribute name="idList_order" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id_order" type="xs:positiveInteger" use="required" />
       <xs:attribute name="product_company" type="xs:string" />
       <xs:attribute name="product_code" type="xs:string" />
       <xs:attribute name="length_pile" type="stb:length" use="required" />
@@ -2867,8 +2867,8 @@
       <xs:sequence>
         <xs:element ref="stb:StbSecBarArrangementOpen_RC" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" />
     </xs:complexType>
   </xs:element>
@@ -2923,8 +2923,8 @@
         <xs:element ref="stb:StbSecFigureParapet_RC" minOccurs="1" maxOccurs="1" />
         <xs:element ref="stb:StbSecBarArrangementParapet_RC" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-      <xs:attribute name="guidList" type="stb:guidList" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="guid" type="stb:guid" />
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="strength_concrete" type="xs:string" />
     </xs:complexType>
@@ -2974,8 +2974,8 @@
         <xs:element ref="stb:StbSecBarParapet_RC_Tip" minOccurs="0" maxOccurs="2" />
         <xs:element ref="stb:StbSecBarParapet_RC_Edge" minOccurs="0" maxOccurs="4" />
       </xs:sequence>
-      <xs:attribute name="depth_cover_outsidListe" type="stb:length" />
-      <xs:attribute name="depth_cover_insidListe" type="stb:length" />
+      <xs:attribute name="depth_cover_outside" type="stb:length" />
+      <xs:attribute name="depth_cover_inside" type="stb:length" />
       <xs:attribute name="isTipline" type="xs:boolean" default="true"/>
     </xs:complexType>
   </xs:element>
@@ -3236,7 +3236,7 @@
     </xs:complexType>
   	<xs:key name="stbJoints">
   		<xs:selector xpath="./*"/>
-  		<xs:field xpath="@idList"/>
+  		<xs:field xpath="@id"/>
   	</xs:key>
   </xs:element>
   <xs:element name="StbJointBeamShapeH">
@@ -3246,7 +3246,7 @@
         <xs:element ref="stb:StbJointShapeHFlange" minOccurs="0" maxOccurs="1" />
         <xs:element ref="stb:StbJointShapeHWeb" minOccurs="1" maxOccurs="1"/>
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
       <xs:attribute name="joint_name" type="xs:string" />
       <xs:attribute name="joint_mark" type="xs:string" />
     </xs:complexType>
@@ -3269,12 +3269,12 @@
       <xs:attribute name="pitch" type="stb:length" use="required" />
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
-      <xs:attribute name="outsidListe_thickness" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_widListth" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_length" type="stb:length" />
-      <xs:attribute name="insidListe_thickness" type="stb:length" />
-      <xs:attribute name="insidListe_widListth" type="stb:length" />
-      <xs:attribute name="insidListe_length" type="stb:length" />
+      <xs:attribute name="outside_thickness" type="stb:length" use="required" />
+      <xs:attribute name="outside_width" type="stb:length" use="required" />
+      <xs:attribute name="outside_length" type="stb:length" />
+      <xs:attribute name="inside_thickness" type="stb:length" />
+      <xs:attribute name="inside_width" type="stb:length" />
+      <xs:attribute name="inside_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbJointShapeHWeb">
@@ -3286,7 +3286,7 @@
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
       <xs:attribute name="plate_thickness" type="stb:length" use="required" />
-      <xs:attribute name="plate_widListth" type="stb:length" use="required" />
+      <xs:attribute name="plate_width" type="stb:length" use="required" />
       <xs:attribute name="plate_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
@@ -3297,7 +3297,7 @@
         <xs:element ref="stb:StbJointShapeHFlange" minOccurs="0" maxOccurs="1" />
         <xs:element ref="stb:StbJointShapeHWeb" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
       <xs:attribute name="joint_name" type="xs:string" />
       <xs:attribute name="joint_mark" type="xs:string" />
     </xs:complexType>
@@ -3312,7 +3312,7 @@
         <xs:element ref="stb:StbJointShapeTFlangeT" minOccurs="0" maxOccurs="1" />
         <xs:element ref="stb:StbJointShapeTWebT" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
       <xs:attribute name="joint_name" type="xs:string" />
       <xs:attribute name="joint_mark" type="xs:string" />
     </xs:complexType>
@@ -3336,12 +3336,12 @@
       <xs:attribute name="pitch" type="stb:length" use="required" />
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
-      <xs:attribute name="outsidListe_thickness" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_widListth" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_length" type="stb:length" />
-      <xs:attribute name="insidListe_thickness" type="stb:length" />
-      <xs:attribute name="insidListe_widListth" type="stb:length" />
-      <xs:attribute name="insidListe_length" type="stb:length" />
+      <xs:attribute name="outside_thickness" type="stb:length" use="required" />
+      <xs:attribute name="outside_width" type="stb:length" use="required" />
+      <xs:attribute name="outside_length" type="stb:length" />
+      <xs:attribute name="inside_thickness" type="stb:length" />
+      <xs:attribute name="inside_width" type="stb:length" />
+      <xs:attribute name="inside_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbJointShapeTWebHLong">
@@ -3353,7 +3353,7 @@
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
       <xs:attribute name="plate_thickness" type="stb:length" use="required" />
-      <xs:attribute name="plate_widListth" type="stb:length" use="required" />
+      <xs:attribute name="plate_width" type="stb:length" use="required" />
       <xs:attribute name="plate_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
@@ -3366,7 +3366,7 @@
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
       <xs:attribute name="plate_thickness" type="stb:length" use="required" />
-      <xs:attribute name="plate_widListth" type="stb:length" use="required" />
+      <xs:attribute name="plate_width" type="stb:length" use="required" />
       <xs:attribute name="plate_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
@@ -3380,12 +3380,12 @@
       <xs:attribute name="pitch" type="stb:length" use="required" />
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
-      <xs:attribute name="outsidListe_thickness" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_widListth" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_length" type="stb:length" />
-      <xs:attribute name="insidListe_thickness" type="stb:length" />
-      <xs:attribute name="insidListe_widListth" type="stb:length" />
-      <xs:attribute name="insidListe_length" type="stb:length" />
+      <xs:attribute name="outside_thickness" type="stb:length" use="required" />
+      <xs:attribute name="outside_width" type="stb:length" use="required" />
+      <xs:attribute name="outside_length" type="stb:length" />
+      <xs:attribute name="inside_thickness" type="stb:length" />
+      <xs:attribute name="inside_width" type="stb:length" />
+      <xs:attribute name="inside_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbJointShapeTWebT">
@@ -3397,7 +3397,7 @@
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
       <xs:attribute name="plate_thickness" type="stb:length" use="required" />
-      <xs:attribute name="plate_widListth" type="stb:length" use="required" />
+      <xs:attribute name="plate_width" type="stb:length" use="required" />
       <xs:attribute name="plate_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
@@ -3412,7 +3412,7 @@
         <xs:element ref="stb:StbJointShapeCrossYWebLong" minOccurs="1" maxOccurs="1" />
         <xs:element ref="stb:StbJointShapeCrossYWebShort" minOccurs="1" maxOccurs="1" />
       </xs:sequence>
-      <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="id" type="xs:positiveInteger" use="required" />
       <xs:attribute name="joint_name" type="xs:string" />
       <xs:attribute name="joint_mark" type="xs:string" />
     </xs:complexType>
@@ -3437,12 +3437,12 @@
       <xs:attribute name="pitch" type="stb:length" use="required" />
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
-      <xs:attribute name="outsidListe_thickness" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_widListth" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_length" type="stb:length" />
-      <xs:attribute name="insidListe_thickness" type="stb:length" />
-      <xs:attribute name="insidListe_widListth" type="stb:length" />
-      <xs:attribute name="insidListe_length" type="stb:length" />
+      <xs:attribute name="outside_thickness" type="stb:length" use="required" />
+      <xs:attribute name="outside_width" type="stb:length" use="required" />
+      <xs:attribute name="outside_length" type="stb:length" />
+      <xs:attribute name="inside_thickness" type="stb:length" />
+      <xs:attribute name="inside_width" type="stb:length" />
+      <xs:attribute name="inside_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbJointShapeCrossXWebLong">
@@ -3454,7 +3454,7 @@
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
       <xs:attribute name="plate_thickness" type="stb:length" use="required" />
-      <xs:attribute name="plate_widListth" type="stb:length" use="required" />
+      <xs:attribute name="plate_width" type="stb:length" use="required" />
       <xs:attribute name="plate_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
@@ -3467,7 +3467,7 @@
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
       <xs:attribute name="plate_thickness" type="stb:length" use="required" />
-      <xs:attribute name="plate_widListth" type="stb:length" use="required" />
+      <xs:attribute name="plate_width" type="stb:length" use="required" />
       <xs:attribute name="plate_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
@@ -3481,12 +3481,12 @@
       <xs:attribute name="pitch" type="stb:length" use="required" />
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
-      <xs:attribute name="outsidListe_thickness" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_widListth" type="stb:length" use="required" />
-      <xs:attribute name="outsidListe_length" type="stb:length" />
-      <xs:attribute name="insidListe_thickness" type="stb:length" />
-      <xs:attribute name="insidListe_widListth" type="stb:length" />
-      <xs:attribute name="insidListe_length" type="stb:length" />
+      <xs:attribute name="outside_thickness" type="stb:length" use="required" />
+      <xs:attribute name="outside_width" type="stb:length" use="required" />
+      <xs:attribute name="outside_length" type="stb:length" />
+      <xs:attribute name="inside_thickness" type="stb:length" />
+      <xs:attribute name="inside_width" type="stb:length" />
+      <xs:attribute name="inside_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbJointShapeCrossYWebLong">
@@ -3498,7 +3498,7 @@
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
       <xs:attribute name="plate_thickness" type="stb:length" use="required" />
-      <xs:attribute name="plate_widListth" type="stb:length" use="required" />
+      <xs:attribute name="plate_width" type="stb:length" use="required" />
       <xs:attribute name="plate_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
@@ -3511,7 +3511,7 @@
       <xs:attribute name="e1" type="stb:length" use="required" />
       <xs:attribute name="e2" type="stb:length" />
       <xs:attribute name="plate_thickness" type="stb:length" use="required" />
-      <xs:attribute name="plate_widListth" type="stb:length" use="required" />
+      <xs:attribute name="plate_width" type="stb:length" use="required" />
       <xs:attribute name="plate_length" type="stb:length" />
     </xs:complexType>
   </xs:element>
@@ -3528,7 +3528,7 @@
         <xs:element ref="stb:StbExtObject" minOccurs="0" maxOccurs="unbounded" />
         <xs:element ref="stb:StbExtElement" minOccurs="0" maxOccurs="unbounded" />
       </xs:sequence>
-      <xs:attribute name="idListentifier" type="xs:string" use="required"/>
+      <xs:attribute name="identifier" type="xs:string" use="required"/>
       <xs:attribute name="description" type="xs:string" />
     </xs:complexType>
   </xs:element>
@@ -3538,7 +3538,7 @@
         <xs:element ref="stb:StbExtProperty" minOccurs="0" maxOccurs="unbounded" />
       </xs:sequence>
       <xs:attribute name="object_name" type="xs:string" use="required" />
-      <xs:attribute name="idList_object" type="xs:nonNegativeInteger" use="required" />
+      <xs:attribute name="id_object" type="xs:nonNegativeInteger" use="required" />
     </xs:complexType>
   </xs:element>
   <xs:element name="StbExtProperty">
@@ -3598,10 +3598,10 @@
   </xs:attributeGroup>
   <xs:attributeGroup name="Beam_RC_RebarPositionApply">
   		<xs:attribute name="set_default" type="xs:boolean" use="required"/>
-  		<xs:attribute name="depth_cover_sidListe" type="stb:length"/>
+  		<xs:attribute name="depth_cover_side" type="stb:length"/>
   		<xs:attribute name="depth_cover_top_bottom" type="stb:length"/>
   		<xs:attribute name="interval" type="stb:length"/>
-  		<xs:attribute name="center_sidListe" type="stb:length"/>
+  		<xs:attribute name="center_side" type="stb:length"/>
   		<xs:attribute name="center_top_bottom" type="stb:length"/>
   		<xs:attribute name="length_to_center" type="stb:length"/>
   </xs:attributeGroup>
@@ -3617,13 +3617,13 @@
   		<xs:attribute name="N_bar_spacing" type="xs:positiveInteger"/>
   </xs:attributeGroup>
  <xs:attributeGroup name="Column">
-    <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-    <xs:attribute name="guidList" type="stb:guidList" />
+    <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="guid" type="stb:guid" />
     <xs:attribute name="name" type="xs:string" use="required" />
-    <xs:attribute name="idList_node_bottom" type="xs:positiveInteger" use="required" />
-    <xs:attribute name="idList_node_top" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="id_node_bottom" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="id_node_top" type="xs:positiveInteger" use="required" />
     <xs:attribute name="rotate" type="stb:angle" default="0" />
-    <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
     <xs:attribute name="kind_structure" use="required">
       <xs:simpleType>
         <xs:restriction base="xs:string">
@@ -3680,17 +3680,17 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="joint_idList_top" type="xs:positiveInteger" />
-    <xs:attribute name="joint_idList_bottom" type="xs:positiveInteger" />
+    <xs:attribute name="joint_id_top" type="xs:positiveInteger" />
+    <xs:attribute name="joint_id_bottom" type="xs:positiveInteger" />
   </xs:attributeGroup>
   <xs:attributeGroup name="Girder">
-    <xs:attribute name="idList" type="xs:positiveInteger" use="required" />
-    <xs:attribute name="guidList" type="stb:guidList" />
+    <xs:attribute name="id" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="guid" type="stb:guid" />
     <xs:attribute name="name" type="xs:string" use="required" />
-    <xs:attribute name="idList_node_start" type="xs:positiveInteger" use="required" />
-    <xs:attribute name="idList_node_end" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="id_node_start" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="id_node_end" type="xs:positiveInteger" use="required" />
     <xs:attribute name="rotate" type="stb:angle" default="0" />
-    <xs:attribute name="idList_section" type="xs:positiveInteger" use="required" />
+    <xs:attribute name="id_section" type="xs:positiveInteger" use="required" />
     <xs:attribute name="section_io_start">
       <xs:simpleType>
         <xs:restriction base="xs:string">
@@ -3799,12 +3799,12 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="joint_idList_start" type="xs:positiveInteger" />
-    <xs:attribute name="joint_idList_end" type="xs:positiveInteger" />
+    <xs:attribute name="joint_id_start" type="xs:positiveInteger" />
+    <xs:attribute name="joint_id_end" type="xs:positiveInteger" />
   </xs:attributeGroup>
   <xs:attributeGroup name="SecColumn_RC_Rect">
-      <xs:attribute name="widListth_X" type="stb:length" use="required" />
-      <xs:attribute name="widListth_Y" type="stb:length" use="required" />
+      <xs:attribute name="width_X" type="stb:length" use="required" />
+      <xs:attribute name="width_Y" type="stb:length" use="required" />
   </xs:attributeGroup>
   <xs:attributeGroup name="SecColumn_RC_Circle">
       <xs:attribute name="D" type="stb:length" use="required" />
@@ -4093,7 +4093,7 @@
     <xs:attribute name="offset_T" type="xs:double" />
   </xs:attributeGroup>
   <xs:attributeGroup name="SecBeam_RC_Straight">
-    <xs:attribute name="widListth" type="stb:length" use="required" />
+    <xs:attribute name="width" type="stb:length" use="required" />
     <xs:attribute name="depth" type="stb:length" use="required" />
   </xs:attributeGroup>
   <xs:attributeGroup name="SecBeam_RC_Taper">
@@ -4105,7 +4105,7 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="widListth" type="stb:length" use="required" />
+    <xs:attribute name="width" type="stb:length" use="required" />
     <xs:attribute name="depth" type="stb:length" use="required" />
   </xs:attributeGroup>
   <xs:attributeGroup name="SecBeam_RC_Haunch">
@@ -4118,7 +4118,7 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="widListth" type="stb:length" use="required" />
+    <xs:attribute name="width" type="stb:length" use="required" />
     <xs:attribute name="depth" type="stb:length" use="required" />
   </xs:attributeGroup>
   <xs:attributeGroup name="SecBarBeam_RC_ThreeTypes">
@@ -4336,7 +4336,7 @@
   <xs:simpleType name="positiveIntegerList">
     <xs:list itemType="xs:positiveInteger" />
   </xs:simpleType>
-  <xs:simpleType name="guidList">
+  <xs:simpleType name="guid">
     <xs:restriction base="xs:string">
       <xs:pattern value="[0-9a-f]{32}" />
     </xs:restriction>

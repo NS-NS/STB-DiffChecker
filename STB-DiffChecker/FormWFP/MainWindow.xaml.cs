@@ -98,7 +98,10 @@ namespace STBDiffChecker
         {
             string path = GetPathWithDialog("stbファイル(*.stb)|*.stb");
             if (File.Exists(path))
+            {
                 DirStbA.Text = path;
+                XmlValidate.Validate(path);
+            }
         }
         /// <summary>
         /// STBファイルBの読込み
@@ -109,7 +112,10 @@ namespace STBDiffChecker
         {
             string path = GetPathWithDialog("stbファイル(*.stb)|*.stb");
             if (File.Exists(path))
+            {
                 DirStbB.Text = path;
+                XmlValidate.Validate(path);
+            }
         }
 
         /// <summary>
