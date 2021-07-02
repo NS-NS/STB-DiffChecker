@@ -19,8 +19,12 @@ namespace STBDiffChecker.v201.Records
                 foreach (var a in axesA)
                 {
                     var key = new List<string> { $"group_name={a.group_name}"};
-                    bool hasItem = false;
-                    foreach (var b in axesB.Where(n => n.group_name == a.group_name))
+                    var b = axesB?.SingleOrDefault(n => n.group_name == a.group_name);
+                    if (b == null)
+                    {
+                        CheckObjects.StbParallelAxes.Compare(nameof(StbParallelAxes), null, key, records);
+                    }
+                    else
                     {
                         CheckObjects.StbParallelAxesGroupName.Compare(a.group_name, b.group_name, key, records);
                         CheckObjects.StbParallelAxesX.Compare(a.X, b.X, key, records);
@@ -30,7 +34,7 @@ namespace STBDiffChecker.v201.Records
                         var set2 = new HashSet<StbParallelAxis>(b.StbParallelAxis);
                         foreach (var axisA in a.StbParallelAxis)
                         {
-                            var key2 = new List<string>(key) {$"name={axisA.name}"};
+                            var key2 = new List<string>(key) { $"name={axisA.name}" };
                             bool hasItem2 = false;
                             foreach (var axisB in b.StbParallelAxis)
                             {
@@ -49,7 +53,7 @@ namespace STBDiffChecker.v201.Records
                                         }
                                         else if (axisA.StbNodeIdList == null)
                                         {
-                                            CheckObjects.StbParallelAxisStbNodeIdList.Compare(null, nameof(StbNodeIdList),key2, records);
+                                            CheckObjects.StbParallelAxisStbNodeIdList.Compare(null, nameof(StbNodeIdList), key2, records);
                                         }
                                         else
                                         {
@@ -71,17 +75,11 @@ namespace STBDiffChecker.v201.Records
 
                         foreach (var axisB in set2)
                         {
-                            var key2 = new List<string>(key) { $"name={axisB.name}"};
+                            var key2 = new List<string>(key) { $"name={axisB.name}" };
                             CheckObjects.StbParallelAxis.Compare(null, nameof(StbParallelAxis), key2, records);
                         }
 
                         setB.Remove(b);
-                        hasItem = true;
-                    }
-
-                    if (!hasItem)
-                    {
-                        CheckObjects.StbParallelAxes.Compare(nameof(StbParallelAxes), null, key, records);
                     }
                 }
             }

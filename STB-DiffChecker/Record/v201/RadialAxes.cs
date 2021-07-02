@@ -19,8 +19,12 @@ namespace STBDiffChecker.v201.Records
                 foreach (var a in axesA)
                 {
                     var key = new List<string> { $"group_name={a.group_name}"};
-                    bool hasItem = false;
-                    foreach (var b in axesB.Where(n => n.group_name == a.group_name))
+                    var b = axesB?.SingleOrDefault(n => n.group_name == a.group_name);
+                    if (b == null)
+                    {
+                        CheckObjects.StbRadialAxes.Compare(nameof(StbRadialAxes), null, key, records);
+                    }
+                    else
                     {
                         CheckObjects.StbRadialAxesGroupName.Compare(a.group_name, b.group_name, key, records);
                         CheckObjects.StbRadialAxesX.Compare(a.X, b.X, key, records);
@@ -73,14 +77,8 @@ namespace STBDiffChecker.v201.Records
                             var key2 = new List<string>(key) { $"name={axisB.name}" };
                             CheckObjects.StbRadialAxis.Compare(null, nameof(StbRadialAxis), key2, records);
                         }
-
                         setB.Remove(b);
-                        hasItem = true;
-                    }
 
-                    if (!hasItem)
-                    {
-                        CheckObjects.StbRadialAxes.Compare(nameof(StbRadialAxes), null, key, records);
                     }
                 }
             }

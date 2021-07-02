@@ -412,7 +412,7 @@ namespace STBDiffChecker.v201.Records
             {
                 Summary.Rows.Add(
                     Summary.CollectResult(this.SecPileProductRecord.HeaderName, this.stbridgeA?.StbModel?.StbSections?.StbSecPile_S?.Length ?? 0,
-                        this.stbridgeB?.StbModel?.StbSections?.StbSecPile_S?.Length ?? 0, this.SecPileSRecord.records));
+                        this.stbridgeB?.StbModel?.StbSections?.StbSecPile_S?.Length ?? 0, this.SecPileProductRecord.records));
             }
 
             if (this.SecParapetRcRecord.records != null)

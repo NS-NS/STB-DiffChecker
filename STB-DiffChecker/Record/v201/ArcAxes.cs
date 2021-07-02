@@ -19,8 +19,12 @@ namespace STBDiffChecker.v201.Records
                 foreach (var a in axesA)
                 {
                     var key = new List<string> { $"group_name={a.group_name}"};
-                    bool hasItem = false;
-                    foreach (var b in axesB.Where(n => n.group_name == a.group_name))
+                    var b = axesB?.SingleOrDefault(n => n.group_name == a.group_name);
+                    if (b == null)
+                    {
+                        CheckObjects.StbArcAxes.Compare(nameof(StbArcAxes), null, key, records);
+                    }
+                    else
                     {
                         CheckObjects.StbArcAxesGroupName.Compare(a.group_name, b.group_name, key, records);
                         CheckObjects.StbArcAxesX.Compare(a.X, b.X, key, records);
@@ -31,7 +35,7 @@ namespace STBDiffChecker.v201.Records
                         var set2 = new HashSet<StbArcAxis>(b.StbArcAxis);
                         foreach (var axisA in a.StbArcAxis)
                         {
-                            var key2 = new List<string>(key) { $"name={ axisA.name }"};
+                            var key2 = new List<string>(key) { $"name={ axisA.name }" };
                             bool hasItem2 = false;
                             foreach (var axisB in b.StbArcAxis)
                             {
@@ -77,12 +81,6 @@ namespace STBDiffChecker.v201.Records
                         }
 
                         setB.Remove(b);
-                        hasItem = true;
-                    }
-
-                    if (!hasItem)
-                    {
-                        CheckObjects.StbArcAxes.Compare(nameof(StbArcAxes), null, key, records);
                     }
                 }
             }
