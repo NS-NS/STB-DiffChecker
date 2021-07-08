@@ -52,7 +52,7 @@ namespace STBDiffChecker.v201.Records
             StbSecColumnSName.Compare(secColumnA.name, secColumnB.name, key, records);
             StbSecColumnSFloor.Compare(secColumnA.floor, secColumnB.floor, key, records);
             StbSecColumnSKindColumn.Compare(secColumnA.kind_column.ToString(), secColumnB.kind_column.ToString(), key, records);
-            StbSecColumnSIsReferenceDirection.Compare(secColumnA.isReferenceDirection, secColumnA.isReferenceDirection, key, records);
+            StbSecColumnSIsReferenceDirection.Compare(secColumnA.isReferenceDirection, secColumnB.isReferenceDirection, key, records);
             StbSecSteelFigureColumnSBaseType.Compare(secColumnA.StbSecSteelFigureColumn_S.base_type.ToString(), secColumnB.StbSecSteelFigureColumn_S.base_type.ToString(), key, records);
 
             CompareSecSteelFigureColumnS(stbridgeA, stbridgeB, secColumnA.StbSecSteelFigureColumn_S, secColumnB.StbSecSteelFigureColumn_S, key, records);
