@@ -913,7 +913,7 @@ namespace STBDiffChecker.v201
         internal static DoubleAttribute StbSecColumnSrcSameShapeTOffsetT = new DoubleAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_Same/StbSecColumn_SRC_SameShapeT/@offset_T");
 
         internal static ElementAttribute StbSecSteelColumnSrcNotSame = new ElementAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_NotSame");
-        internal static ElementAttribute StbSecSteelColumnSrcNotSamePos = new ElementAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_NotSame/@pos");
+        internal static StringAttribute StbSecSteelColumnSrcNotSamePos = new StringAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_NotSame/@pos");
         internal static ElementAttribute StbSecColumnSrcNotSameShapeH = new ElementAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_NotSame/StbSecColumn_SRC_NotSameShapeH");
         internal static StringAttribute StbSecColumnSrcNotSameShapeHDirectionType = new StringAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_NotSame/StbSecColumn_SRC_NotSameShapeH/@direction_type");
         internal static ReferenceSteelAttribute StbSecColumnSrcNotSameShapeHShape = new ReferenceSteelAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_NotSame/StbSecColumn_SRC_NotSameShapeH/@shape");
@@ -957,7 +957,7 @@ namespace STBDiffChecker.v201
         internal static DoubleAttribute StbSecColumnSrcNotSameShapeTOffsetT = new DoubleAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_NotSame/StbSecColumn_SRC_NotSameShapeT/@offset_T");
 
         internal static ElementAttribute StbSecSteelColumnSrcThreeTypes = new ElementAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_ThreeTypes");
-        internal static ElementAttribute StbSecSteelColumnSrcThreeTypesPos = new ElementAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_ThreeTypes/@pos");
+        internal static StringAttribute StbSecSteelColumnSrcThreeTypesPos = new StringAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_ThreeTypes/@pos");
         internal static ElementAttribute StbSecColumnSrcThreeTypesShapeH = new ElementAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_ThreeTypes/StbSecColumn_SRC_ThreeTypesShapeH");
         internal static StringAttribute StbSecColumnSrcThreeTypesShapeHDirectionType = new StringAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_ThreeTypes/StbSecColumn_SRC_ThreeTypesShapeH/@direction_type");
         internal static ReferenceSteelAttribute StbSecColumnSrcThreeTypesShapeHShape = new ReferenceSteelAttribute("//StbSecColumn_SRC/StbSecSteelFigureColumn_SRC/StbSecSteelColumn_SRC_ThreeTypes/StbSecColumn_SRC_ThreeTypesShapeH/@shape");
@@ -1069,7 +1069,7 @@ namespace STBDiffChecker.v201
         internal static ReferenceSteelAttribute StbSecSteelColumnCftNotSameShape = new ReferenceSteelAttribute("//StbSecColumn_CFT/StbSecSteelFigureColumn_CFT/StbSecSteelColumnCftNotSame/@shape");
         internal static StringAttribute StbSecSteelColumnCftNotSameStrength = new StringAttribute("//StbSecColumn_CFT/StbSecSteelFigureColumn_CFT/StbSecSteelColumnCftNotSame/@strength");
         internal static ElementAttribute StbSecSteelColumnCftThreeTypes = new ElementAttribute("//StbSecColumn_CFT/StbSecSteelFigureColumn_CFT/StbSecSteelColumnCftThreeTypes");
-        internal static ElementAttribute StbSecSteelColumnCftThreeTypesPos = new ElementAttribute("//StbSecColumn_CFT/StbSecSteelFigureColumn_CFT/StbSecSteelColumnCftThreeTypes/@pos");
+        internal static StringAttribute StbSecSteelColumnCftThreeTypesPos = new StringAttribute("//StbSecColumn_CFT/StbSecSteelFigureColumn_CFT/StbSecSteelColumnCftThreeTypes/@pos");
         internal static ReferenceSteelAttribute StbSecSteelColumnCftThreeTypesShape = new ReferenceSteelAttribute("//StbSecColumn_CFT/StbSecSteelFigureColumn_CFT/StbSecSteelColumnCftThreeTypes/@shape");
         internal static StringAttribute StbSecSteelColumnCftThreeTypesStrength = new StringAttribute("//StbSecColumn_CFT/StbSecSteelFigureColumn_CFT/StbSecSteelColumnCftThreeTypes/@strength");
 

@@ -255,7 +255,7 @@ namespace STBDiffChecker.v201.Records
                         {
                             if (b.pos == a.pos)
                             {
-                                StbSecSteelColumnSrcNotSamePos.Compare(a.pos, b.pos, key2, records);
+                                StbSecSteelColumnSrcNotSamePos.Compare(a.pos.ToString(), b.pos.ToString(), key2, records);
                                 CompareStbSecSteelColumnSrcNotSame(a, stBridgeA, b, stBridgeB, key2, records);
                                 setB.Add(b);
                                 hasItem = true;
@@ -303,7 +303,7 @@ namespace STBDiffChecker.v201.Records
                         {
                             if (b.pos == a.pos)
                             {
-                                StbSecSteelColumnSrcNotSamePos.Compare(a.pos, b.pos, key2, records);
+                                StbSecSteelColumnSrcNotSamePos.Compare(a.pos.ToString(), b.pos.ToString(), key2, records);
                                 CompareStbSecSteelColumnSrcThreeTypes(a, stBridgeA, b, stBridgeB, key2, records);
                                 setB.Add(b);
                                 hasItem = true;
