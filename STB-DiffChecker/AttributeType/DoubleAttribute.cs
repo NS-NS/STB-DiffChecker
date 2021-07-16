@@ -30,11 +30,11 @@ namespace STBDiffChecker.AttributeType
                 return;
             else if (specifiedA == true && specifiedB == false)
             {
-                records.Add(new Record(this.ParentElement(), key, this.Item(), a.ToString(), null, Consistency.Incomparable, this.Importance));
+                records.Add(new Record(this.ParentElement(), key, this.Item(), a.ToString(), "null", Consistency.Incomparable, this.Importance));
             }
             else if (specifiedA == false && specifiedB == true)
             {
-                records.Add(new Record(this.ParentElement(), key, this.Item(), null, b.ToString(), Consistency.Incomparable, this.Importance));
+                records.Add(new Record(this.ParentElement(), key, this.Item(), "null", b.ToString(), Consistency.Incomparable, this.Importance));
             }
             else
             {
