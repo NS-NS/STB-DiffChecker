@@ -9,10 +9,6 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
-		Release_Designer|Any CPU = Release_Designer|Any CPU
-		Release_Designer|x64 = Release_Designer|x64
-		Release_Inspector|Any CPU = Release_Inspector|Any CPU
-		Release_Inspector|x64 = Release_Inspector|x64
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 	EndGlobalSection
@@ -21,18 +17,10 @@ Global
 		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|x64.Build.0 = Debug|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Designer|Any CPU.ActiveCfg = Release_Designer|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Designer|Any CPU.Build.0 = Release_Designer|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Designer|x64.ActiveCfg = Release_Designer|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Designer|x64.Build.0 = Release_Designer|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Inspector|Any CPU.ActiveCfg = Release_Inspector|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Inspector|Any CPU.Build.0 = Release_Inspector|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Inspector|x64.ActiveCfg = Release_Inspector|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release_Inspector|x64.Build.0 = Release_Inspector|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|Any CPU.ActiveCfg = Release_Inspector|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|Any CPU.Build.0 = Release_Inspector|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|x64.ActiveCfg = Release_Inspector|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|x64.Build.0 = Release_Inspector|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|x64.ActiveCfg = Release|Any CPU
+		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
