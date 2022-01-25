@@ -68,11 +68,8 @@ namespace STBDiffChecker.v201.Records
                 return false;
             if (Math.Abs(a.Z - b.Z) > margin)
                 return false;
-            double square = Math.Abs(a.X * a.X + a.Y * a.Y + a.Z * a.Z - b.X * b.X - b.Y * b.Y - b.Z * b.Z);
+            double square = Math.Pow(a.X - b.X, 2.0) + Math.Pow(a.Y - b.Y, 2.0) + Math.Pow(a.Z - b.Z, 2.0);
             if (margin > Utility.Tolerance && square > margin * margin)
-                return false;
-            else
-                if (square > margin)
                 return false;
 
             return true;
