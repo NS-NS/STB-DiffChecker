@@ -175,7 +175,7 @@ namespace STBDiffChecker.v201.Records
                                 {
                                     StbSlabStbOpenIdList.Compare(nameof(StbOpenIdList), null, key, records);
                                 }
-                                else if (b.StbNodeIdOrder == null)
+                                else if (a.StbOpenIdList == null)
                                 {
                                     StbSlabStbOpenIdList.Compare(null, nameof(StbOpenIdList), key, records);
                                 }
