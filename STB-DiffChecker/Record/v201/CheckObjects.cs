@@ -189,7 +189,7 @@ namespace STBDiffChecker.v201
         internal static StringAttribute StbColumnGuid = new StringAttribute("//StbColumns/StbColumn/@guid");
         internal static StringAttribute StbColumnName = new StringAttribute("//StbColumns/StbColumn/@name");
         internal static ReferenceNodeAttribute StbColumnIdNodeBottom = new ReferenceNodeAttribute("//StbColumns/StbColumn/@node_bottom");
-        internal static ReferenceNodeAttribute StbColumnIdNodeTop = new ReferenceNodeAttribute("//StbColumns/StbColumn/@note_top");
+        internal static ReferenceNodeAttribute StbColumnIdNodeTop = new ReferenceNodeAttribute("//StbColumns/StbColumn/@node_top");
         internal static DoubleAttribute StbColumnRotate = new DoubleAttribute("//StbColumns/StbColumn/@rotate");
         internal static ReferenceSectionAttribute StbColumnIdSection = new ReferenceSectionAttribute("//StbColumns/StbColumn/@id_section");
         internal static StringAttribute StbColumnKindStructure = new StringAttribute("//StbColumns/StbColumn/@kind_structure");
@@ -220,7 +220,7 @@ namespace STBDiffChecker.v201
         internal static StringAttribute StbPostGuid = new StringAttribute("//StbPosts/StbPost/@guid");
         internal static StringAttribute StbPostName = new StringAttribute("//StbPosts/StbPost/@name");
         internal static ReferenceNodeAttribute StbPostIdNodeBottom = new ReferenceNodeAttribute("//StbPosts/StbPost/@node_bottom");
-        internal static ReferenceNodeAttribute StbPostIdNodeTop = new ReferenceNodeAttribute("//StbPosts/StbPost/@note_top");
+        internal static ReferenceNodeAttribute StbPostIdNodeTop = new ReferenceNodeAttribute("//StbPosts/StbPost/@node_top");
         internal static DoubleAttribute StbPostRotate = new DoubleAttribute("//StbPosts/StbPost/@rotate");
         internal static ReferenceJointAttribute StbPostIdSection = new ReferenceJointAttribute("//StbPosts/StbPost/@id_section");
         internal static StringAttribute StbPostKindStructure = new StringAttribute("//StbPosts/StbPost/@kind_structure");
