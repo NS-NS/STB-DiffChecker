@@ -52,6 +52,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DiffCheckerLib">
+      <HintPath>..\DiffCheckerLib\bin\Release\DiffCheckerLib.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -113,12 +116,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\STB-DiffCheckerLib\DiffCheckerLib.csproj">
-      <Project>{CF091524-A9F6-4A53-82A5-C055349CB6F9}</Project>
-      <Name>DiffCheckerLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
