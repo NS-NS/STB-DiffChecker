@@ -100,9 +100,60 @@ namespace STBDiffChecker
             if (File.Exists(path))
             {
                 DirStbA.Text = path;
-                XmlValidate.Validate(path);
+                Validate(path);
             }
         }
+
+        private static void Validate(string path)
+        {
+            try
+            {
+                var result = XmlValidate.Validate(path);
+                if (result.Count > 0)
+                {
+                    List<string> header = new List<string>();
+                    header.Add("ST-Bridgeのフォーマットが正しくありません。");
+                    header.Add("実行しても処理が落ちる可能性があります。");
+                    header.Add("ST-Bridgeファイルを出力したソフトウェアの開発元にお問い合わせください。");
+                    header.Add("");
+                    header.Add("■■■■■■エラーメッセージ■■■■■■");
+                    header.AddRange(result);
+                    string errorFile = path.Replace(".stb", "_error.txt");
+                    try
+                    {
+                        File.WriteAllLines(errorFile, header, Encoding.UTF8);
+                        System.Diagnostics.Process p = new System.Diagnostics.Process();
+                        p.StartInfo.FileName = "notepad.exe";
+                        p.StartInfo.Arguments = errorFile;
+                        if (!p.Start())
+                        {
+                            System.Windows.MessageBox.Show(
+                                $"ST-Bridgeのフォーマットが正しくありません。\n詳細は{errorFile}を確認してください。",
+                                "ST-Bridgeのフォーマットエラー",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                        }
+                    }
+                    catch
+                    {
+                        System.Windows.MessageBox.Show(
+                            $"ST-Bridgeのフォーマットが正しくありません。\n詳細を{errorFile}に書き込もうとしましたが失敗しました。",
+                            "ST-Bridgeのフォーマットエラー",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                    }
+                }
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show(
+                    $"ST-Bridgeのバージョンが2.0.1と異なるか、ファイルが正しくありません。\n実行しても処理が落ちる可能性があります。",
+                    "ST-Bridgeのフォーマットエラー",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
         /// <summary>
         /// STBファイルBの読込み
         /// </summary>
@@ -114,7 +165,7 @@ namespace STBDiffChecker
             if (File.Exists(path))
             {
                 DirStbB.Text = path;
-                XmlValidate.Validate(path);
+                Validate(path);
             }
         }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace STBDiffChecker.Properties {
+namespace STB_DiffCheckerLib.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace STBDiffChecker.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("STBDiffChecker.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("STB_DiffCheckerLib.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,22 @@ namespace STBDiffChecker.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+        ///&lt;xs:schema xmlns:stb=&quot;https://www.building-smart.or.jp/dl&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; targetNamespace=&quot;https://www.building-smart.or.jp/dl&quot; elementFormDefault=&quot;qualified&quot;&gt;
+        ///  &lt;xs:element name=&quot;ST_BRIDGE&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element ref=&quot;stb:StbCommon&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot; /&gt;
+        ///        &lt;xs:element ref=&quot;stb:StbModel&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot; /&gt;
+        ///        &lt;xs:element ref=&quot;stb:StbExtensions&quot; minOccurs=&quot;0&quot; maxOc [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string STBridge_v201 {
+            get {
+                return ResourceManager.GetString("STBridge_v201", resourceCulture);
             }
         }
     }

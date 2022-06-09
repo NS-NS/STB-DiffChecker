@@ -57,6 +57,11 @@
     <Compile Include="Enum\EnumExtension.cs" />
     <Compile Include="Enum\Importance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Record\Record.cs" />
     <Compile Include="Record\RecordTab.cs" />
     <Compile Include="Record\Summary.cs" />
@@ -107,11 +112,18 @@
       <DependentUpon>STBridge_v201.xsd</DependentUpon>
     </Compile>
     <Compile Include="Utility.cs" />
+    <Compile Include="XmlValidate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="STBridge\STBridge_v201.xsd">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
