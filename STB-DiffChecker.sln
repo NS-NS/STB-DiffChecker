@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STB-DiffChecker", "STB-DiffChecker\STB-DiffChecker.csproj", "{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CF091524-A9F6-4A53-82A5-C055349CB6F9} = {CF091524-A9F6-4A53-82A5-C055349CB6F9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STB-DiffCheckerLib", "STB-DiffCheckerLib\STB-DiffCheckerLib.csproj", "{CF091524-A9F6-4A53-82A5-C055349CB6F9}"
 EndProject

@@ -1,10 +1,10 @@
 ﻿namespace STBDiffChecker
 {
-    class UserTolerance
+    public class UserTolerance
     {
-        internal string Name;
-        internal double Node;
-        internal double Offset;
+        public string Name;
+        public double Node;
+        public double Offset;
 
         internal UserTolerance(string name)
         {

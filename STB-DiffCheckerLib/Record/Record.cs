@@ -6,17 +6,17 @@ using System.Data;
 
 namespace STBDiffChecker
 {
-    class Record
+    public class Record
     {
 
-        internal const string JapaneseParentElement = "親要素";
-        internal const string JapaneseKey = "比較対象を決定した情報";
-        internal const string JapaneseItem = "要素・属性";
-        internal const string JapaneseA = "ファイルA";
-        internal const string JapaneseB = "ファイルB";
-        internal const string JapaneseConsistency = "比較結果";
-        internal const string JapaneseImportance = "重要度";
-        internal const string JapaneseComment = "コメント";
+        public const string JapaneseParentElement = "親要素";
+        public const string JapaneseKey = "比較対象を決定した情報";
+        public const string JapaneseItem = "要素・属性";
+        public const string JapaneseA = "ファイルA";
+        public const string JapaneseB = "ファイルB";
+        public const string JapaneseConsistency = "比較結果";
+        public const string JapaneseImportance = "重要度";
+        public const string JapaneseComment = "コメント";
         internal string ParentElement { get; }
         internal string Key { get; }
         internal string Item { get; }

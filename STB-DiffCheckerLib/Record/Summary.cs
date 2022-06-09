@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace STBDiffChecker
 {
-    class Summary
+    public class Summary
     {
-        internal DateTime dateTime;
+        public DateTime dateTime;
 
-        internal readonly static string DataGridName = "DataGridSummary";
-        internal readonly static string HeaderName = "概要";
+        public readonly static string DataGridName = "DataGridSummary";
+        public readonly static string HeaderName = "概要";
 
         internal readonly static List<string> HeaderText = new List<string>
             {

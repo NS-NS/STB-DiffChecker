@@ -10,9 +10,9 @@ namespace STBDiffChecker
     /// <summary>
     /// 重要度の読み込み用クラス
     /// </summary>
-    class ImportanceSetting
+    public class ImportanceSetting
     {
-        internal List<AbstractAttribute> importances = new List<AbstractAttribute>()
+        public List<AbstractAttribute> importances = new List<AbstractAttribute>()
         {
             StbridgeVersion,
             StbCommonGuid,
@@ -2098,7 +2098,7 @@ namespace STBDiffChecker
             StbExtPropertyDefDefault,
         };
 
-        internal void ImportCsv(IReadOnlyList<string> csv)
+        public void ImportCsv(IReadOnlyList<string> csv)
         {
             foreach (var line in csv)
             {

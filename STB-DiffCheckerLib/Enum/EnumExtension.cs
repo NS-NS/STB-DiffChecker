@@ -4,7 +4,7 @@ using STBDiffChecker.AttributeType;
 
 namespace STBDiffChecker.Enum
 {
-    internal static class EnumExtension
+    public static class EnumExtension
     {
         private static Dictionary<Consistency, string> ConcistencyDictionary = new Dictionary<Consistency, string>()
         {
@@ -15,7 +15,7 @@ namespace STBDiffChecker.Enum
             {Consistency.ElementIncomparable,"比較対象なし" }
         };
 
-        internal static string ToJapanese(this Consistency consistency) => ConcistencyDictionary[consistency];
+        public static string ToJapanese(this Consistency consistency) => ConcistencyDictionary[consistency];
 
         private static Dictionary<Importance, string> ImportancDictionary = new Dictionary<Importance, string>()
         {
@@ -25,7 +25,7 @@ namespace STBDiffChecker.Enum
             {Importance.NotApplicable, "対象外"},
         };
 
-        internal static string ToJapanese(this Importance importance) => ImportancDictionary[importance];
+        public static string ToJapanese(this Importance importance) => ImportancDictionary[importance];
 
         internal static Importance TranslateJapanese(string japanese)
         {

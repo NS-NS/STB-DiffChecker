@@ -5,14 +5,14 @@ namespace STBDiffChecker
     /// <summary>
     /// 申請側に渡す設定用クラス
     /// </summary>
-    class ResultFormSetting
+    public class ResultFormSetting
     {
-        internal string PathA;
-        internal string PathB;
-        internal DateTime dateTime;
+        public string PathA;
+        public string PathB;
+        public DateTime dateTime;
 
-        internal ToleranceSetting toleranceSetting = new ToleranceSetting();
-        internal ImportanceSetting importanceSetting = new ImportanceSetting();
+        public ToleranceSetting toleranceSetting = new ToleranceSetting();
+        public ImportanceSetting importanceSetting = new ImportanceSetting();
         // TODO:コメント受け渡しも必要
 
         internal void Export(string path)

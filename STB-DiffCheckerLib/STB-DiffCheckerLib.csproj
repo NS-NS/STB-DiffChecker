@@ -53,7 +53,6 @@
     <Compile Include="AttributeType\ReferenceSteelAttribute.cs" />
     <Compile Include="AttributeType\ReferenceStoryAttribute.cs" />
     <Compile Include="AttributeType\StringAttribute.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Enum\Consistency.cs" />
     <Compile Include="Enum\EnumExtension.cs" />
     <Compile Include="Enum\Importance.cs" />

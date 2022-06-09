@@ -17,12 +17,12 @@ namespace STBDiffChecker.AttributeType
             this.Importance = importance;
         }
 
-        internal void SetImportance(Importance importance)
+        public void SetImportance(Importance importance)
         {
             this.Importance = importance;
         }
 
-        internal void SetImportance(string importance)
+        public void SetImportance(string importance)
         {
             this.Importance = EnumExtension.TranslateJapanese(importance);
         }

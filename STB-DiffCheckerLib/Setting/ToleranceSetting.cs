@@ -8,9 +8,9 @@ namespace STBDiffChecker
     /// <summary>
     /// 許容差用クラス
     /// </summary>
-    internal class ToleranceSetting
+    public class ToleranceSetting
     {
-        internal List<UserTolerance> tolerances = new List<UserTolerance>()
+        public List<UserTolerance> tolerances = new List<UserTolerance>()
         {
             new UserTolerance("柱(StbColumn)"),
             new UserTolerance("間柱(StbPost)"),
@@ -22,7 +22,7 @@ namespace STBDiffChecker
             new UserTolerance("開口(StbOpen)")
         };
 
-        internal DataTable CreateTable()
+        public DataTable CreateTable()
         {
             DataTable toleranceTable = new DataTable();
             var name = toleranceTable.Columns.Add("Name", typeof(string));
@@ -37,7 +37,7 @@ namespace STBDiffChecker
             return toleranceTable;
         }
 
-        internal void ImportCsv(List<string> csv)
+        public void ImportCsv(List<string> csv)
         {
             foreach (var line in csv)
             {

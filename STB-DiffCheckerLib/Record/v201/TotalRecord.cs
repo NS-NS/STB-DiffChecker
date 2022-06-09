@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace STBDiffChecker.v201.Records
 {
-    class TotalRecord
+    public class TotalRecord
     {
         internal List<KeyValuePair<string, string>> item = new List<KeyValuePair<string, string>>()
         {
@@ -19,12 +19,12 @@ namespace STBDiffChecker.v201.Records
             new KeyValuePair<string,string>()
         };
 
-        internal List<RecordTab> recordTabs = new List<RecordTab>();
+        public List<RecordTab> recordTabs = new List<RecordTab>();
 
         internal ResultFormSetting resultFormSetting;
         internal ST_BRIDGE stbridgeA;
         internal ST_BRIDGE stbridgeB;
-        internal Summary Summary = new Summary();
+        public Summary Summary = new Summary();
         internal RecordTab CommonRecord = new RecordTab("DataGidCommon", "共通");
         internal RecordTab NodesRecord = new RecordTab("DataGidNodes", "節点");
         internal RecordTab ParallelAxesRecord = new RecordTab("DataGidParallelAxes", "平行軸");
@@ -63,7 +63,7 @@ namespace STBDiffChecker.v201.Records
         internal RecordTab SecPileProductRecord = new RecordTab("DataGidSecPileProductRecord", "杭断面(既成)");
         internal RecordTab SecParapetRcRecord = new RecordTab("DataGidSecParapetRcRecord", "パラペット断面(RC)");
 
-        internal TotalRecord(ResultFormSetting resultFormSetting)
+        public TotalRecord(ResultFormSetting resultFormSetting)
         {
             Summary.dateTime = DateTime.Now;
             this.resultFormSetting = resultFormSetting;

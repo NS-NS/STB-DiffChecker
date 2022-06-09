@@ -1,6 +1,6 @@
 ﻿namespace STBDiffChecker
 {
-    internal enum Consistency
+    public enum Consistency
     {
         Consistent,
         AlmostMatch,
