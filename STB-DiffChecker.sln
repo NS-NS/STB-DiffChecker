@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STB-DiffChecker", "STB-Diff
 		{CF091524-A9F6-4A53-82A5-C055349CB6F9} = {CF091524-A9F6-4A53-82A5-C055349CB6F9}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STB-DiffCheckerLib", "STB-DiffCheckerLib\STB-DiffCheckerLib.csproj", "{CF091524-A9F6-4A53-82A5-C055349CB6F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiffCheckerLib", "STB-DiffCheckerLib\DiffCheckerLib.csproj", "{CF091524-A9F6-4A53-82A5-C055349CB6F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

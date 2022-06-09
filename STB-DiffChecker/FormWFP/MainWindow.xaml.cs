@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using STBDiffChecker.v201.Records;
 //バージョン2.4.1とする(2020.7.28時点で2.5.1はバグあり)
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using STBDiffChecker.v201.Records;
 using DataGrid = System.Windows.Controls.DataGrid;
 
 //バージョン2.4.1とする(2020.7.28時点で2.5.1はバグあり)
@@ -36,7 +36,6 @@ namespace STBDiffChecker
 
         //最初のウィンドウ処理用の引数
         private bool isFirst = true;
-
         /// <summary>
         /// メインウィンドウのコンストラクタ
         /// </summary>

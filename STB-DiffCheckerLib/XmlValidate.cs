@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using STB_DiffCheckerLib.Properties;
+using DiffCheckerLib.Properties;
 
 namespace STBDiffChecker
 {

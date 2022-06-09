@@ -112,7 +112,7 @@
         <TextBox x:Name="TxtKey2" HorizontalAlignment="Left" Height="23" Margin="617,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="UpdateFilter"/>
         <Label x:Name="LblKey2_2" Content="を含む" HorizontalAlignment="Left" Margin="742,60,0,0" VerticalAlignment="Top"/>
         <GroupBox Header="結果" Margin="10,103,10,35" BorderBrush="Black" Foreground="Black"/>
-        <TabControl x:Name="TabCntrlResult" Margin="20,124,20,41" Grid.ColumnSpan="2" SelectionChanged="UpdateFilter">
+        <TabControl x:Name="TabCntrlResult" Margin="20,124,20,41" Grid.ColumnSpan="2" SelectionChanged="UpdateFilter" x:FieldModifier="public">
             <TabItem x:Name="TabItemResultInfo" Header="結果">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
