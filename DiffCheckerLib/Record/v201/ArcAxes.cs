@@ -129,7 +129,8 @@ namespace STBDiffChecker.v201.Records
             {
                 if (!set.ContainsKey(node))
                 {
-                    var key2 = new List<string>(key) { $"節点=({ set[node].X},{set[node].Y},{set[node].Z})"};
+                    var stbNode = stBridgeB.StbModel.StbNodes.First(n => n.id == node.id);
+                    var key2 = new List<string>(key) { $"節点=({ stbNode.X},{stbNode.Y},{stbNode.Z})"};
                     CheckObjects.StbArcAxisStbNodeIdListStbNodeId.Compare(null, nameof(StbNodeId), key2, records);
                 }
             }
