@@ -17,9 +17,16 @@ namespace STBDiffChecker
         static void RunWpf()
         {
             MainWindow mainWindowWPF = new MainWindow();
-            if (mainWindowWPF.ShowDialog() != true)
+            try
             {
-                return;
+                if (mainWindowWPF.ShowDialog() != true)
+                {
+                    return;
+                }
+            }
+            finally
+            {
+                mainWindowWPF.Close();
             }
         }
     }
