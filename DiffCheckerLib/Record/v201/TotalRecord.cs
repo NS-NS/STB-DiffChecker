@@ -223,7 +223,7 @@ namespace STBDiffChecker.v201.Records
             if (this.ColumnsRecord.records != null)
             {
                 Summary.Rows.Add(Summary.CollectResult(this.ColumnsRecord.HeaderName, this.stbridgeA?.StbModel?.StbMembers?.StbColumns?.Length ?? 0,
-                    this.stbridgeB?.StbModel?.StbMembers?.StbColumns?.Length ?? 0, this.CommonRecord.records));
+                    this.stbridgeB?.StbModel?.StbMembers?.StbColumns?.Length ?? 0, this.ColumnsRecord.records));
             }
 
             if (this.PostsRecord.records != null)

@@ -60,6 +60,15 @@ namespace STBDiffChecker.v201.Records
                     {
                         if (Nodes.CheckAnalysisDistance(startA, b.cashNodeStart, analysisMargin) && Nodes.CheckAnalysisDistance(endA, b.cashNodeEnd, analysisMargin))
                         {
+                            if (Nodes.CheckAnalysisDistance(startA, b.cashNodeStart, Utility.Tolerance) &&
+                                Nodes.CheckAnalysisDistance(endA, b.cashNodeEnd, Utility.Tolerance))
+                            {
+                                CheckObjects.StbGirder.AppendConcistentRecord(nameof(CheckObjects.StbGirder), key, records);
+                            }
+                            else
+                            {
+                                CheckObjects.StbGirder.AppendConcistentRecord(nameof(CheckObjects.StbGirder), key, records, true);
+                            }
                             CompareGirder(stBridgeA, stBridgeB, a, b.cashGirder, key, records);
                             setB.Remove(b);
                             hasItem = true;

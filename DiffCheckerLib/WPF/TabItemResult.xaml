@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:STBDiffChecker"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" Width="1000">
     <Grid Background="#FFE5E5E5">
-        <GroupBox Header="フィルタ" Margin="460,10,0,0" Height="88" VerticalAlignment="Top" BorderBrush="Black" Foreground="Black" HorizontalAlignment="Left" Width="337"/>
+        <GroupBox Header="フィルタ" Margin="560,10,0,0" Height="88" VerticalAlignment="Top" BorderBrush="Black" Foreground="Black" HorizontalAlignment="Left" Width="430"/>
 
-        <GroupBox Header="表示選択" Margin="10,10,0,0" Height="88" VerticalAlignment="Top" BorderBrush="Black" Foreground="Black" HorizontalAlignment="Left" Width="445" Grid.ColumnSpan="2"/>
+        <GroupBox Header="表示選択" Margin="10,10,0,0" Height="88" VerticalAlignment="Top" BorderBrush="Black" Foreground="Black" HorizontalAlignment="Left" Width="545" Grid.ColumnSpan="2"/>
         <Label x:Name="LblCompare" Content="比較結果：" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Margin="15,32,0,0" Grid.ColumnSpan="2"/>
         <Label x:Name="LblCompare_Copy" Content="重要度：" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Margin="15,60,0,0" Grid.ColumnSpan="2"/>
-        <CheckBox x:Name="ChkCmpNothing"
-                              Content="比較対象なし"
+        <CheckBox x:Name="ChkCmpAttributeNothing"
+                              Content="比較属性なし"
                               HorizontalAlignment="Left"
                               Height="20"
                               Margin="350,38,0,0"
@@ -104,13 +104,13 @@
                               Margin="95,66,0,0"
                               Width="91"
                               />
-        <Label x:Name="LblKey1_1" Content="に" HorizontalAlignment="Left" Margin="593,32,0,0" VerticalAlignment="Top" />
-        <TextBox x:Name="TxtKey1" HorizontalAlignment="Left" Height="23" Margin="617,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="UpdateFilter"/>
-        <Label x:Name="LblKey1_2" Content="を含む" HorizontalAlignment="Left" Margin="742,32,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="CmbKey2" Margin="468,64,0,0" SelectionChanged="UpdateFilter" HorizontalAlignment="Left" Width="120" Height="22" VerticalAlignment="Top"/>
-        <Label x:Name="LblKey2_1" Content="に" HorizontalAlignment="Left" Margin="593,60,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TxtKey2" HorizontalAlignment="Left" Height="23" Margin="617,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="UpdateFilter"/>
-        <Label x:Name="LblKey2_2" Content="を含む" HorizontalAlignment="Left" Margin="742,60,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="LblKey1_1" Content="に" HorizontalAlignment="Left" Margin="758,32,0,0" VerticalAlignment="Top" />
+        <TextBox x:Name="TxtKey1" HorizontalAlignment="Left" Height="23" Margin="782,35,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" TextChanged="UpdateFilter"/>
+        <Label x:Name="LblKey1_2" Content="を含む" HorizontalAlignment="Left" Margin="939,32,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.593,-0.423"/>
+        <ComboBox x:Name="CmbKey2" Margin="573,64,0,0" SelectionChanged="UpdateFilter" HorizontalAlignment="Left" Width="180" Height="22" VerticalAlignment="Top"/>
+        <Label x:Name="LblKey2_1" Content="に" HorizontalAlignment="Left" Margin="758,60,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TxtKey2" HorizontalAlignment="Left" Height="23" Margin="782,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="152" TextChanged="UpdateFilter"/>
+        <Label x:Name="LblKey2_2" Content="を含む" HorizontalAlignment="Left" Margin="939,60,0,0" VerticalAlignment="Top"/>
         <GroupBox Header="結果" Margin="10,103,10,35" BorderBrush="Black" Foreground="Black"/>
         <TabControl x:Name="TabCntrlResult" Margin="20,124,20,41" Grid.ColumnSpan="2" SelectionChanged="UpdateFilter" x:FieldModifier="public">
             <TabItem x:Name="TabItemResultInfo" Header="結果">
@@ -125,7 +125,18 @@
             </TabItem>
         </TabControl>
         <Button x:Name="BtnExcel" Content="Excel出力" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="100" Click="BtnExcel_Click"/>
-        <ComboBox x:Name="CmbKey1" HorizontalAlignment="Left" Margin="468,36,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="UpdateFilter"/>
+        <ComboBox x:Name="CmbKey1" HorizontalAlignment="Left" Margin="573,35,0,0" VerticalAlignment="Top" Width="180" SelectionChanged="UpdateFilter"/>
+        <CheckBox x:Name="ChkCmpElementNothing"
+            Content="比較要素なし"
+            HorizontalAlignment="Left"
+            Height="20"
+            Margin="447,38,0,0"
+            VerticalAlignment="Top"
+            Width="97"
+            Checked="UpdateFilter"
+            Unchecked="UpdateFilter"
+            IsChecked="True"
+                              />
 
     </Grid>
 </UserControl>

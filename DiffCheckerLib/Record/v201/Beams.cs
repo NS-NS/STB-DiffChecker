@@ -60,6 +60,16 @@ namespace STBDiffChecker.v201.Records
                     {
                         if (Nodes.CheckAnalysisDistance(startA, b.cashNodeStart, analysisMargin) && Nodes.CheckAnalysisDistance(endA, b.cashNodeEnd, analysisMargin))
                         {
+                            if (Nodes.CheckAnalysisDistance(startA, b.cashNodeStart, analysisMargin) &&
+                                Nodes.CheckAnalysisDistance(endA, b.cashNodeEnd, analysisMargin))
+                            {
+                                CheckObjects.StbBeam.AppendConcistentRecord(nameof(StbBeam), key, records);
+                            }
+                            else
+                            {
+                                CheckObjects.StbBeam.AppendConcistentRecord(nameof(StbBeam), key, records, true);
+                            }
+
                             CompareBeam(stBridgeA, stBridgeB, a, b.cashBeam, key, records);
                             setB.Remove(b);
                             hasItem = true;

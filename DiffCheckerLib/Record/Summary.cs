@@ -20,7 +20,9 @@ namespace STBDiffChecker
             Consistency.Consistent.ToJapanese(),
             Consistency.AlmostMatch.ToJapanese(),
             Consistency.Inconsistent.ToJapanese(),
-            Consistency.Incomparable.ToJapanese()};
+            Consistency.Incomparable.ToJapanese(),
+            Consistency.ElementIncomparable.ToJapanese()
+            };
 
         internal List<List<string>> Rows = new List<List<string>>();
 
@@ -33,7 +35,8 @@ namespace STBDiffChecker
                 records.Count(n => n.Consistency == Consistency.Consistent).ToString(),
                 records.Count(n => n.Consistency == Consistency.AlmostMatch).ToString(),
                 records.Count(n => n.Consistency == Consistency.Inconsistent).ToString(),
-                (records.Count(n => n.Consistency == Consistency.Incomparable) + records.Count(n => n.Consistency == Consistency.ElementIncomparable)).ToString(),
+                records.Count(n => n.Consistency == Consistency.Incomparable).ToString(), 
+                records.Count(n => n.Consistency == Consistency.ElementIncomparable).ToString()
             };
         }
     }

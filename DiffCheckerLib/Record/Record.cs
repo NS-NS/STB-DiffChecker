@@ -100,7 +100,7 @@ namespace STBDiffChecker
 
             foreach (var row in summary.Rows)
             {
-                table.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6]);
+                table.Rows.Add(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]);
             }
 
             return table;

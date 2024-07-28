@@ -55,6 +55,15 @@ namespace STBDiffChecker.v201.Records
                     {
                         if (Nodes.CheckAnalysisDistance(nodeA, b.cashNode, analysisMargin))
                         {
+                            if (Nodes.CheckAnalysisDistance(nodeA, b.cashNode, analysisMargin))
+                            {
+                                CheckObjects.StbPile.AppendConcistentRecord(nameof(StbPile), key, records);
+                            }
+                            else
+                            {
+                                CheckObjects.StbPile.AppendConcistentRecord(nameof(StbPile), key, records, true);
+                            }
+
                             ComparePile(stBridgeA, stBridgeB, a, b.cashPile, key, records);
                             setB.Remove(b);
                             hasItem = true;

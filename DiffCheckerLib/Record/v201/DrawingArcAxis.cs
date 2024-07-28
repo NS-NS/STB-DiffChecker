@@ -23,6 +23,7 @@ namespace STBDiffChecker.v201.Records
                     {
                         foreach (var b in lineB.Where(n => n.name == a.name))
                         {
+                            CheckObjects.StbDrawingArcAxis.AppendConcistentRecord(nameof(StbDrawingArcAxis), key, records);
                             CheckObjects.StbDrawingArcAxisGroupName.Compare(a.group_name, b.group_name, key, records);
                             CheckObjects.StbDrawingArcAxisName.Compare(a.name, b.name, key, records);
                             CheckObjects.StbDrawingArcAxisX.Compare(a.X, b.X, key, records);

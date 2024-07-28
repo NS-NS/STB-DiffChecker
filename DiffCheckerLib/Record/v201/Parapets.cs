@@ -39,6 +39,15 @@ namespace STBDiffChecker.v201.Records
                             var endB = stBridgeB?.StbModel?.StbNodes.First(n => n.id == b.id_node_end);
                             if (Nodes.CheckAnalysisDistance(startA, startB, analysisMargin) && Nodes.CheckAnalysisDistance(endA, endB, analysisMargin))
                             {
+                                if (Nodes.CheckAnalysisDistance(startA, startB, Utility.Tolerance) &&
+                                    Nodes.CheckAnalysisDistance(endA, endB, Utility.Tolerance))
+                                {
+                                    CheckObjects.StbParapet.AppendConcistentRecord(nameof(StbParapet), key, records);
+                                }
+                                else
+                                {
+                                    CheckObjects.StbParapet.AppendConcistentRecord(nameof(StbParapet), key, records, true);
+                                }
                                 CompareParapet(stBridgeA, stBridgeB, a, b, key, records);
                                 setB.Remove(b);
                                 hasItem = true;

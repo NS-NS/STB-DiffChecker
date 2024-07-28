@@ -28,6 +28,7 @@ namespace STBDiffChecker.v201.Records
                             Math.Abs(n.Y - a.Y) < Utility.Tolerance &&
                             Math.Abs(n.Z - a.Z) < Utility.Tolerance))
                         {
+                            CheckObjects.StbNode.AppendConcistentRecord(nameof(StbNode), key, records);
                             CheckObjects.StbNodeId.Compare(a.id, b.id, key, records);
                             CheckObjects.StbNodeGuid.Compare(a.guid, b.guid, key, records);
                             CheckObjects.StbNodeX.Compare(a.X, b.X, key, records);

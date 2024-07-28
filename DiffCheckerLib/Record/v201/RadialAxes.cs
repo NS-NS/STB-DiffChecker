@@ -26,6 +26,7 @@ namespace STBDiffChecker.v201.Records
                     }
                     else
                     {
+                        CheckObjects.StbRadialAxes.AppendConcistentRecord(nameof(StbRadialAxes), key, records);
                         CheckObjects.StbRadialAxesGroupName.Compare(a.group_name, b.group_name, key, records);
                         CheckObjects.StbRadialAxesX.Compare(a.X, b.X, key, records);
                         CheckObjects.StbRadialAxesY.Compare(a.Y, b.Y, key, records);
@@ -39,6 +40,7 @@ namespace STBDiffChecker.v201.Records
                             {
                                 if (axisB.name == axisA.name)
                                 {
+                                    CheckObjects.StbRadialAxis.AppendConcistentRecord(nameof(StbRadialAxis), key2, records);
                                     CheckObjects.StbRadialAxisId.Compare(axisA.id, axisB.id, key2, records);
                                     CheckObjects.StbRadialAxisGuid.Compare(axisA.guid, axisB.guid, key2, records);
                                     CheckObjects.StbRadialAxisName.Compare(axisA.name, axisB.name, key2, records);

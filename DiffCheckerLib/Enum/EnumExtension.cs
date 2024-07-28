@@ -10,9 +10,9 @@ namespace STBDiffChecker.Enum
         {
             {Consistency.Consistent, "一致"},
             {Consistency.AlmostMatch, "許容差内" },
-            {Consistency.Incomparable,"比較対象なし" },
             {Consistency.Inconsistent,"不一致" },
-            {Consistency.ElementIncomparable,"比較対象なし" }
+            {Consistency.Incomparable,"比較属性なし" },
+            {Consistency.ElementIncomparable,"比較要素なし" }
         };
 
         public static string ToJapanese(this Consistency consistency) => ConcistencyDictionary[consistency];

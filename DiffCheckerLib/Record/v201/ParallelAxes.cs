@@ -26,6 +26,7 @@ namespace STBDiffChecker.v201.Records
                     }
                     else
                     {
+                        CheckObjects.StbParallelAxes.AppendConcistentRecord(nameof(StbParallelAxes), key, records);
                         CheckObjects.StbParallelAxesGroupName.Compare(a.group_name, b.group_name, key, records);
                         CheckObjects.StbParallelAxesX.Compare(a.X, b.X, key, records);
                         CheckObjects.StbParallelAxesY.Compare(a.Y, b.Y, key, records);
@@ -40,6 +41,7 @@ namespace STBDiffChecker.v201.Records
                             {
                                 if (axisB.name == axisA.name)
                                 {
+                                    CheckObjects.StbParallelAxis.AppendConcistentRecord(nameof(StbParallelAxis), key, records);
                                     CheckObjects.StbParallelAxisId.Compare(axisA.id, axisB.id, key2, records);
                                     CheckObjects.StbParallelAxisGuid.Compare(axisA.guid, axisB.guid, key2, records);
                                     CheckObjects.StbParallelAxisName.Compare(axisA.name, axisB.name, key2, records);

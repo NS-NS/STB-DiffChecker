@@ -60,6 +60,16 @@ namespace STBDiffChecker.v201.Records
                     {
                         if (Nodes.CheckAnalysisDistance(bottomA, b.cashNodeBottom, analysisMargin) && Nodes.CheckAnalysisDistance(topA, b.cashNodeTop, analysisMargin))
                         {
+                            if (Nodes.CheckAnalysisDistance(bottomA, b.cashNodeBottom, Utility.Tolerance) &&
+                                Nodes.CheckAnalysisDistance(topA, b.cashNodeTop, Utility.Tolerance))
+                            {
+                                CheckObjects.StbColumn.AppendConcistentRecord(nameof(StbColumn), key, records);
+                            }
+                            else
+                            {
+                                CheckObjects.StbColumn.AppendConcistentRecord(nameof(StbColumn), key, records, true);
+                            }
+
                             CompareColumn(stBridgeA, stBridgeB, a, b.cashColumn, key, records);
                             setB.Remove(b);
                             hasItem = true;

@@ -25,5 +25,15 @@ namespace STBDiffChecker.AttributeType
             }
         }
 
+
+        internal void AppendConcistentRecord(object a, IReadOnlyList<string> key, List<Record> records, bool isAlomost = false)
+        {
+            if (isAlomost)
+                records.Add(new Record(this.ParentElement(), key, this.Item(), a.ToString(), a.ToString(), Consistency.AlmostMatch, this.Importance));
+            else
+                records.Add(new Record(this.ParentElement(), key, this.Item(), a.ToString(), a.ToString(), Consistency.Consistent, this.Importance));
+
+        }
+
     }
 }

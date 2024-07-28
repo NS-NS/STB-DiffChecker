@@ -38,6 +38,7 @@ namespace STBDiffChecker.v201.Records
                         var b = stBridgeB.StbCommon.StbReinforcementStrengthList.FirstOrDefault(n => n.D == a.D);
                         if (b != null)
                         {
+                            CheckObjects.StbReinforcementStrength.AppendConcistentRecord(nameof(CheckObjects.StbReinforcementStrength), key, records);
                             StbReinforcementStrengthD.Compare(a.D, b.D, key, records);
                             StbReinforcementStrengthStrength.Compare(a.strength, b.strength, key, records);
                             setB.Remove(b);

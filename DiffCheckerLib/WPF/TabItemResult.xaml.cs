@@ -40,17 +40,6 @@ namespace STBDiffChecker
         {
             InitializeComponent();
             SetFilterComboBox();
-
-            // チェックボックス文字変更
-            ChkCmpNothing.Content = Consistency.ElementIncomparable.ToJapanese();
-            ChkCmpInconsistent.Content = Consistency.Inconsistent.ToJapanese();
-            ChkCmpAlmostMatch.Content = Consistency.AlmostMatch.ToJapanese();
-            ChkCmpConsistent.Content = Consistency.Consistent.ToJapanese();
-
-            ChkImpNotApplicapable.Content = Importance.NotApplicable.ToJapanese();
-            ChkImpUnnecessary.Content = Importance.Unnecessary.ToJapanese();
-            ChkImpOptional.Content = Importance.Optional.ToJapanese();
-            ChkImpRequired.Content = Importance.Required.ToJapanese();
         }
 
         private void UpdateFilter(object sender, EventArgs e)
@@ -72,14 +61,21 @@ namespace STBDiffChecker
         {
             string filter = string.Empty;
             List<string> ResultFilter = new List<string>();
-            if (ChkCmpNothing.IsChecked != null && (bool)ChkCmpNothing.IsChecked)
+            if (ChkCmpAttributeNothing.IsChecked != null && (bool)ChkCmpAttributeNothing.IsChecked)
+            {
+                ResultFilter.Add(Record.JapaneseConsistency + @" = '" + Consistency.Incomparable.ToJapanese() + "'");
+            }
+
+            if (ChkCmpElementNothing.IsChecked != null && (bool)ChkCmpElementNothing.IsChecked)
+            {
                 ResultFilter.Add(Record.JapaneseConsistency + @" = '" + Consistency.ElementIncomparable.ToJapanese() + "'");
+            }
 
             if (ChkCmpInconsistent.IsChecked != null && (bool)ChkCmpInconsistent.IsChecked)
                 ResultFilter.Add(Record.JapaneseConsistency + @" = '" + Consistency.Inconsistent.ToJapanese() + "'");
 
             if (ChkCmpAlmostMatch.IsChecked != null && (bool)ChkCmpAlmostMatch.IsChecked)
-                ResultFilter.Add(Record.JapaneseConsistency + @" = '" + Consistency.Incomparable.ToJapanese() + "'");
+                ResultFilter.Add(Record.JapaneseConsistency + @" = '" + Consistency.AlmostMatch.ToJapanese() + "'");
 
             //Consistent
             if (ChkCmpConsistent.IsChecked != null && (bool)ChkCmpConsistent.IsChecked)
