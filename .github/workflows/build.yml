@@ -1,0 +1,38 @@
+name: Build check
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build check
+    strategy:
+      matrix:
+        configuration: [Debug, Release]
+        
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup Nuget
+      uses: Nuget/setup-nuget@v2.0.0
+
+    - name: Restore NuGet Packages
+      run: nuget restore STB-DiffChecker.sln
+    
+    - name: Build app for release
+      run: msbuild STB-DiffChecker.sln -t:rebuild /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
+
+# Uncomment these lines if you want to run tests
+#    - name: Run tests (NET Core)
+#      run: dotnet test --no-build -c debug
+
+#    - name: Run tests (NET Framework)
+#      run: vstest.console.exe YourTestProject.dll
