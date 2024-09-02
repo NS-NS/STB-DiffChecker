@@ -48,25 +48,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.10.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
-      <HintPath>..\packages\Portable.BouncyCastle.1.8.10\lib\net40\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.1.9, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.1.3.1\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI, Version=2.5.2.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NPOI.2.5.2\lib\net45\NPOI.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OOXML, Version=2.5.2.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NPOI.2.5.2\lib\net45\NPOI.OOXML.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXml4Net, Version=2.5.2.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NPOI.2.5.2\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="NPOI.OpenXmlFormats, Version=2.5.2.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NPOI.2.5.2\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -84,75 +69,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeType\AbstractAttribute.cs" />
-    <Compile Include="AttributeType\BooleanAttribute.cs" />
-    <Compile Include="AttributeType\ConcreteStrengthAttribute.cs" />
-    <Compile Include="AttributeType\DoubleAttribute.cs" />
-    <Compile Include="AttributeType\ElementAttribute.cs" />
-    <Compile Include="AttributeType\ReferenceSectionAttribute.cs" />
-    <Compile Include="AttributeType\ReferenceStoryAttribute.cs" />
-    <Compile Include="Enum\EnumExtension.cs" />
-    <Compile Include="Enum\Importance.cs" />
-    <Compile Include="AttributeType\IntegerAttribute.cs" />
-    <Compile Include="AttributeType\ReferenceJointAttribute.cs" />
-    <Compile Include="AttributeType\ReferenceNodeAttribute.cs" />
-    <Compile Include="AttributeType\ReferenceSteelAttribute.cs" />
-    <Compile Include="AttributeType\StringAttribute.cs" />
     <Compile Include="FormWFP\MainWindow.xaml.cs" />
-    <Compile Include="Record\Summary.cs" />
-    <Compile Include="Utility.cs" />
-    <Compile Include="Record\v201\ArcAxes.cs" />
-    <Compile Include="Record\v201\Beams.cs" />
-    <Compile Include="Record\v201\Braces.cs" />
-    <Compile Include="Record\v201\Columns.cs" />
-    <Compile Include="Record\v201\Common.cs" />
-    <Compile Include="Record\v201\DrawingArcAxis.cs" />
-    <Compile Include="Record\v201\DrawingLineAxis.cs" />
-    <Compile Include="Record\v201\Footings.cs" />
-    <Compile Include="Record\v201\FoundationColumns.cs" />
-    <Compile Include="Record\v201\Girders.cs" />
-    <Compile Include="Record\v201\Nodes.cs" />
-    <Compile Include="Record\v201\ParallelAxes.cs" />
-    <Compile Include="Record\v201\Parapets.cs" />
-    <Compile Include="Record\v201\Piles.cs" />
-    <Compile Include="Record\v201\Posts.cs" />
-    <Compile Include="Record\v201\RadialAxes.cs" />
-    <Compile Include="Record\RecordTab.cs" />
-    <Compile Include="Record\v201\SecBeamRc.cs" />
-    <Compile Include="Record\v201\SecBeamS.cs" />
-    <Compile Include="Record\v201\SecBeamSrc.cs" />
-    <Compile Include="Record\v201\SecBraceS.cs" />
-    <Compile Include="Record\v201\SecColumnCft.cs" />
-    <Compile Include="Record\v201\SecColumnRc.cs" />
-    <Compile Include="Record\v201\SecColumnS.cs" />
-    <Compile Include="Enum\Consistency.cs" />
-    <Compile Include="Record\v201\SecColumnSrc.cs" />
-    <Compile Include="Record\v201\SecFoundationRc.cs" />
-    <Compile Include="Record\v201\SecParapetRc.cs" />
-    <Compile Include="Record\v201\SecPileProduct.cs" />
-    <Compile Include="Record\v201\SecPileRc.cs" />
-    <Compile Include="Record\v201\SecPileS.cs" />
-    <Compile Include="Record\v201\SecSlabDeck.cs" />
-    <Compile Include="Record\v201\SecSlabPrecast.cs" />
-    <Compile Include="Record\v201\SecSlabRc.cs" />
-    <Compile Include="Record\v201\SecWallRc.cs" />
-    <Compile Include="Record\v201\Slabs.cs" />
-    <Compile Include="Record\v201\Stories.cs" />
-    <Compile Include="Record\v201\StripFootings.cs" />
-    <Compile Include="Record\v201\Walls.cs" />
-    <Compile Include="Setting\ImportanceSetting.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Record\Record.cs" />
-    <Compile Include="Setting\ResultFormSetting.cs" />
-    <Compile Include="STBridge\STBridge_v201.cs">
-      <DependentUpon>STBridge_v201.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="Setting\ToleranceSetting.cs" />
-    <Compile Include="Record\v201\TotalRecord.cs" />
-    <Compile Include="Record\v201\CheckObjects.cs" />
-    <Compile Include="Setting\UserTolerance.cs" />
-    <Compile Include="XmlValidate.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -163,7 +82,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="packages.config" />
     <None Include="Properties\DataSources\Item.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -174,9 +92,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="STBridge\STBridge_v201.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -199,6 +114,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DiffCheckerLib\DiffCheckerLib.csproj">
+      <Project>{cf091524-a9f6-4a53-82a5-c055349cb6f9}</Project>
+      <Name>DiffCheckerLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
