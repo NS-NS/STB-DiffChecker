@@ -146,8 +146,10 @@ namespace STBDiffChecker.AttributeType
                     }
                 }
             }
-
-            throw new Exception();
+            else
+            {
+                throw new Exception();
+            }
         }
 
         private static object FindJoint(string id, ST_BRIDGE stBridge)
