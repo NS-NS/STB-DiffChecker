@@ -1,24 +1,22 @@
-﻿using System;
+﻿using DiffCheckerLib.Interface;
 
-namespace STBDiffChecker
+namespace DiffCheckerLib.Setting
 {
     /// <summary>
-    /// 申請側に渡す設定用クラス
+    /// 設定をまとめたクラス
     /// </summary>
     public class ResultFormSetting
     {
-        public string PathA;
-        public string PathB;
-        public DateTime dateTime;
+        public IToleranceSetting toleranceSetting;
+        public IImportanceSetting importanceSetting;
 
-        public ToleranceSetting toleranceSetting = new ToleranceSetting();
-        public ImportanceSetting importanceSetting = new ImportanceSetting();
-        // TODO:コメント受け渡しも必要
-
-        internal void Export(string path)
+        /// <summary>
+        /// バージョンごとのToleranceSettingとImportanceSettingを受け取る
+        /// </summary>
+        public ResultFormSetting(IToleranceSetting toleranceSetting, IImportanceSetting importanceSetting)
         {
-            toleranceSetting.Export();
-            importanceSetting.Export();
+            this.toleranceSetting = toleranceSetting;
+            this.importanceSetting = importanceSetting;
         }
     }
 }

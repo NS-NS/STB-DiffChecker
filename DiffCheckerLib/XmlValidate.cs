@@ -1,70 +1,136 @@
-﻿using System;
+﻿using DiffCheckerLib.Interface;
 using System.Collections.Generic;
-using System.Xml.Schema;
 using System.IO;
+using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows;
-using DiffCheckerLib.Properties;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
-namespace STBDiffChecker
+namespace DiffCheckerLib
 {
     public static class XmlValidate
     {
-        private static readonly List<ValidationEventArgs> Errors = new List<ValidationEventArgs>();
+        // エラーメッセージを保持するリスト
+        private static List<string> validationErrors = [];
 
-        public static List<string> Validate(string path)
+        // リソースファイルからスキーマを読み込む
+        public static string GetEmbeddedXsd(Assembly assembly, string resourcePath, Encoding encoding)
         {
-            Errors.Clear();
-            List<string> result = new List<string>();
-            switch (CheckVersion(path))
+            using Stream stream = assembly.GetManifestResourceStream(resourcePath);
+            if (stream == null)
             {
-                case "2.0.1":
-                    using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(Resources.STBridge_v201)))
+                throw new FileNotFoundException("リソースが見つかりません: " + resourcePath);
+            }
+
+            using StreamReader reader = new(stream, encoding);
+            return reader.ReadToEnd(); // XSDファイルの内容を文字列として返す
+        }
+
+        internal static (string, string) CheckVersionAndEncoding(string filePath)
+        {
+            // デフォルトのエンコーディング
+            string encoding = string.Empty;
+            string version = string.Empty;
+            // まずは、ファイルをバイナリで読み込み、BOM (Byte Order Mark) を確認する
+            using FileStream fileStream = new(filePath, FileMode.Open, FileAccess.Read);
+            using StreamReader reader = new(fileStream, detectEncodingFromByteOrderMarks: true);
+            // ファイルの最初の部分を読んで、エンコーディングを検出
+            char[] buffer = new char[1024];
+            int readChars = reader.Read(buffer, 0, buffer.Length);
+
+            // 読み込んだ文字列を検査
+            string xmlSnippet = new(buffer, 0, readChars);
+
+            // XMLの宣言部分をパース
+            using (StringReader stringReader = new(xmlSnippet))
+            {
+                using XmlReader xmlReader = XmlReader.Create(stringReader);
+                while (xmlReader.Read())
+                {
+                    if (xmlReader.NodeType == XmlNodeType.XmlDeclaration)
                     {
-                        ValidationEventHandler eventHandler = new ValidationEventHandler(SettingValidationEventHandler);
-                        XmlSchema schema = XmlSchema.Read(stream, eventHandler);
-                        XmlSchemaSet schemaSet = new XmlSchemaSet();
-                        schemaSet.Add(schema);
-                        System.Xml.Linq.XDocument xdoc = System.Xml.Linq.XDocument.Load(path, System.Xml.Linq.LoadOptions.SetLineInfo);
-                        xdoc.Validate(schemaSet, eventHandler);
+                        version = xmlReader.GetAttribute("version");
+                        encoding = xmlReader.GetAttribute("encoding");
+                        continue;
                     }
 
-                    foreach (var e in Errors)
+                    // 開始要素をチェック（最初の "ST_BRIDGE" などの要素）
+                    if (xmlReader.NodeType == XmlNodeType.Element && xmlReader.HasAttributes)
                     {
-                        if (e.Severity == System.Xml.Schema.XmlSeverityType.Error)
+                        // 属性をループして "version" 属性をチェック
+                        while (xmlReader.MoveToNextAttribute())
                         {
-                            result.Add($"Error:({e.Exception.LineNumber}) {e.Message}");
+                            if (xmlReader.Name == "version")
+                            {
+                                version = xmlReader.Value; // versionの値を取得
+                                break;
+                            }
                         }
-                        else if (e.Severity == System.Xml.Schema.XmlSeverityType.Warning)
+                        if (!string.IsNullOrEmpty(version))
                         {
-                            result.Add($"Warning:({e.Exception.LineNumber}) {e.Message}");
+                            break;
                         }
+
+                        // 属性を元の位置に戻す
+                        _ = xmlReader.MoveToElement();
                     }
 
-                    return result;
+                }
+            }
 
-                default:
-                    throw new NotImplementedException();
+            // BOMや宣言がない場合は、StreamReaderの検出したエンコーディングを使用
+            if (string.IsNullOrEmpty(encoding))
+            {
+                encoding = reader.CurrentEncoding.WebName;
+            }
+
+            return (version, encoding);
+        }
+
+        public static T LoadSTBridgeFile<T>(string filePath, Encoding encoding, string schemaContent, T istBridge, out List<string> errors)
+            where T : IST_BRIDGE
+        {
+            validationErrors.Clear();
+            // XMLリーダー設定（妥当性検証用）
+            XmlReaderSettings settings = new()
+            {
+                ValidationType = ValidationType.Schema
+            };
+            _ = settings.Schemas.Add(null, XmlReader.Create(new StringReader(schemaContent)));
+            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
+
+            // 妥当性検証をしながらファイルを読み込む
+            using XmlReader reader = XmlReader.Create(filePath, settings);
+            XmlSerializer serializer = new(typeof(T)); // STBridgeクラスに合わせる
+
+            T stbData = (T)serializer.Deserialize(reader);
+
+            errors = validationErrors;
+            return stbData;
+        }
+
+        // // 妥当性検証のコールバック
+        private static void ValidationCallback(object sender, ValidationEventArgs e)
+        {
+            // エラーメッセージに行番号と列番号を追加する
+            string locationInfo = "";
+
+            if (e.Exception is XmlSchemaException schemaException)
+            {
+                locationInfo = $" (Line: {schemaException.LineNumber}, Position: {schemaException.LinePosition})";
+            }
+
+            // 警告かエラーかでメッセージを分岐
+            if (e.Severity == XmlSeverityType.Warning)
+            {
+                validationErrors.Add($"Warning: {e.Message}{locationInfo}");
+            }
+            else if (e.Severity == XmlSeverityType.Error)
+            {
+                validationErrors.Add($"Error: {e.Message}{locationInfo}");
             }
         }
 
-        private static void SettingValidationEventHandler(object sender, ValidationEventArgs e)
-        {
-            Errors.Add(e);
-        }
-
-        private static string CheckVersion(string stbPath)
-        {
-            string version;
-            using (StreamReader reader = new StreamReader(stbPath, Encoding.UTF8))
-            {
-                string text = reader.ReadToEnd();
-                Match match2 = Regex.Match(text, "version=\"[0-9]+[.][\\d]+[.][\\d]+");
-                version = match2.Value.Replace("version=\"", string.Empty);
-            }
-
-            return version;
-        }
     }
 }

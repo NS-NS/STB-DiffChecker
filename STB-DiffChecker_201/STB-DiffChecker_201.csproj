@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>STB_DiffChecker_201</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="STBridge\STBridge_v201.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="STBridge\STBridge_v201.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DiffCheckerLib\DiffCheckerLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="STBridge\STBridge_v201.cs">
+      <DependentUpon>STBridge_v201.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

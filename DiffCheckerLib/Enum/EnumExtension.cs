@@ -1,12 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using STBDiffChecker.AttributeType;
 
-namespace STBDiffChecker.Enum
+namespace DiffCheckerLib.Enum
 {
+    /// <summary>
+    ///  Enumの拡張メソッドだったり、日本語のEnum化だったり
+    /// </summary>
     public static class EnumExtension
     {
-        private static Dictionary<Consistency, string> ConcistencyDictionary = new Dictionary<Consistency, string>()
+        /// <summary>
+        /// Consistencyを日本語に変換
+        /// </summary>
+        public static string ToJapanese(this Consistency consistency)
+        {
+            return ConcistencyDictionary[consistency];
+        }
+
+        private static Dictionary<Consistency, string> ConcistencyDictionary = new()
         {
             {Consistency.Consistent, "一致"},
             {Consistency.AlmostMatch, "許容差内" },
@@ -15,9 +25,15 @@ namespace STBDiffChecker.Enum
             {Consistency.ElementIncomparable,"比較要素なし" }
         };
 
-        public static string ToJapanese(this Consistency consistency) => ConcistencyDictionary[consistency];
+        /// <summary>
+        /// Importanceを日本語に変換
+        /// </summary>
+        public static string ToJapanese(this Importance importance)
+        {
+            return ImportancDictionary[importance];
+        }
 
-        private static Dictionary<Importance, string> ImportancDictionary = new Dictionary<Importance, string>()
+        private static Dictionary<Importance, string> ImportancDictionary = new()
         {
             {Importance.Required, "高"},
             {Importance.Optional, "中"},
@@ -25,14 +41,17 @@ namespace STBDiffChecker.Enum
             {Importance.NotApplicable, "対象外"},
         };
 
-        public static string ToJapanese(this Importance importance) => ImportancDictionary[importance];
-
-        internal static Importance TranslateJapanese(string japanese)
+        /// <summary>
+        /// 日本語からConsistencyに変換
+        /// </summary>
+        public static Importance TranslateJapanese(string japanese)
         {
-            foreach(var importance in ImportancDictionary)
+            foreach (KeyValuePair<Importance, string> importance in ImportancDictionary)
             {
                 if (importance.Value == japanese)
+                {
                     return importance.Key;
+                }
             }
             throw new Exception();
         }
