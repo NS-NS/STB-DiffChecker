@@ -1,14 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STB-DiffChecker", "STB-DiffChecker\STB-DiffChecker.csproj", "{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CF091524-A9F6-4A53-82A5-C055349CB6F9} = {CF091524-A9F6-4A53-82A5-C055349CB6F9}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiffCheckerLib", "DiffCheckerLib\DiffCheckerLib.csproj", "{CF091524-A9F6-4A53-82A5-C055349CB6F9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STB-DiffChecker_201", "STB-DiffChecker_201\STB-DiffChecker_201.csproj", "{CAE1C594-2A6A-44C7-8745-1410511C2C56}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STB-DiffChecker_202", "STB-DiffChecker_202\STB-DiffChecker_202.csproj", "{D3074CCC-E0C6-4A03-ADC1-D95A16F22758}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,14 +17,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Debug|x64.Build.0 = Debug|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|x64.ActiveCfg = Release|Any CPU
-		{FAA3D7BA-7A5C-49B3-B3BE-A17C088A5B69}.Release|x64.Build.0 = Release|Any CPU
 		{CF091524-A9F6-4A53-82A5-C055349CB6F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF091524-A9F6-4A53-82A5-C055349CB6F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF091524-A9F6-4A53-82A5-C055349CB6F9}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -34,6 +25,22 @@ Global
 		{CF091524-A9F6-4A53-82A5-C055349CB6F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF091524-A9F6-4A53-82A5-C055349CB6F9}.Release|x64.ActiveCfg = Release|Any CPU
 		{CF091524-A9F6-4A53-82A5-C055349CB6F9}.Release|x64.Build.0 = Release|Any CPU
+		{CAE1C594-2A6A-44C7-8745-1410511C2C56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAE1C594-2A6A-44C7-8745-1410511C2C56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAE1C594-2A6A-44C7-8745-1410511C2C56}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CAE1C594-2A6A-44C7-8745-1410511C2C56}.Debug|x64.Build.0 = Debug|Any CPU
+		{CAE1C594-2A6A-44C7-8745-1410511C2C56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAE1C594-2A6A-44C7-8745-1410511C2C56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAE1C594-2A6A-44C7-8745-1410511C2C56}.Release|x64.ActiveCfg = Release|Any CPU
+		{CAE1C594-2A6A-44C7-8745-1410511C2C56}.Release|x64.Build.0 = Release|Any CPU
+		{D3074CCC-E0C6-4A03-ADC1-D95A16F22758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3074CCC-E0C6-4A03-ADC1-D95A16F22758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3074CCC-E0C6-4A03-ADC1-D95A16F22758}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D3074CCC-E0C6-4A03-ADC1-D95A16F22758}.Debug|x64.Build.0 = Debug|Any CPU
+		{D3074CCC-E0C6-4A03-ADC1-D95A16F22758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3074CCC-E0C6-4A03-ADC1-D95A16F22758}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3074CCC-E0C6-4A03-ADC1-D95A16F22758}.Release|x64.ActiveCfg = Release|Any CPU
+		{D3074CCC-E0C6-4A03-ADC1-D95A16F22758}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

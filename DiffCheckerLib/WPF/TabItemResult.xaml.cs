@@ -1,66 +1,62 @@
-﻿using System;
+﻿using DiffCheckerLib.Enum;
+using Microsoft.Win32;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Win32;
-using NPOI.HSSF.Record;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using STBDiffChecker.AttributeType;
-using STBDiffChecker.Enum;
 using DataGrid = System.Windows.Controls.DataGrid;
 using Path = System.IO.Path;
 using UserControl = System.Windows.Controls.UserControl;
 
-namespace STBDiffChecker
+namespace DiffCheckerLib.WPF
 {
-
     /// <summary>
-    /// TabItemResult.xaml の相互作用ロジック
+    /// 結果表示用のユーザーコントロール
     /// </summary>
     public partial class TabItemResult : UserControl
     {
-        private const string RegistoryKey = @"Software\StbCompare";
-        private const string Key = "Path";
         public TabItemResult()
         {
             InitializeComponent();
             SetFilterComboBox();
         }
 
+        /// <summary>
+        /// 結果フィルターの更新
+        /// </summary>
         private void UpdateFilter(object sender, EventArgs e)
         {
             if (TabCntrlResult?.SelectedItem is TabItem item)
             {
                 if (item.Content is DataGrid dataGrid)
                 {
-                    if (dataGrid.Name == Summary.DataGridName)
+                    if (dataGrid.Name == Summary.Header)
+                    {
                         return;
-                    BindingSource sorce = dataGrid.DataContext as BindingSource;
-                    sorce.Filter = MakeFilterText();
+                    }
+
+                    if (dataGrid.ItemsSource is DataView dataView)
+                    {
+                        dataView.RowFilter = MakeFilterText();
+                    }
                 }
 
             }
         }
 
+
+        /// <summary>
+        /// フィルターのテキストを作成
+        /// 何も選択していない場合は全選択
+        /// </summary>
         private string MakeFilterText()
         {
             string filter = string.Empty;
-            List<string> ResultFilter = new List<string>();
+            List<string> ResultFilter = [];
             if (ChkCmpAttributeNothing.IsChecked != null && (bool)ChkCmpAttributeNothing.IsChecked)
             {
                 ResultFilter.Add(Record.JapaneseConsistency + @" = '" + Consistency.Incomparable.ToJapanese() + "'");
@@ -72,14 +68,20 @@ namespace STBDiffChecker
             }
 
             if (ChkCmpInconsistent.IsChecked != null && (bool)ChkCmpInconsistent.IsChecked)
+            {
                 ResultFilter.Add(Record.JapaneseConsistency + @" = '" + Consistency.Inconsistent.ToJapanese() + "'");
+            }
 
             if (ChkCmpAlmostMatch.IsChecked != null && (bool)ChkCmpAlmostMatch.IsChecked)
+            {
                 ResultFilter.Add(Record.JapaneseConsistency + @" = '" + Consistency.AlmostMatch.ToJapanese() + "'");
+            }
 
             //Consistent
             if (ChkCmpConsistent.IsChecked != null && (bool)ChkCmpConsistent.IsChecked)
+            {
                 ResultFilter.Add(Record.JapaneseConsistency + @" = '" + Consistency.Consistent.ToJapanese() + "'");
+            }
 
             if (ResultFilter.Count != 0)
             {
@@ -87,18 +89,26 @@ namespace STBDiffChecker
             }
 
 
-            List<string> ImportanceFilter = new List<string>();
+            List<string> ImportanceFilter = [];
             if (ChkImpNotApplicapable.IsChecked != null && (bool)ChkImpNotApplicapable.IsChecked)
+            {
                 ImportanceFilter.Add(Record.JapaneseImportance + @" = '" + Importance.NotApplicable.ToJapanese() + "'");
+            }
 
             if (ChkImpUnnecessary.IsChecked != null && (bool)ChkImpUnnecessary.IsChecked)
+            {
                 ImportanceFilter.Add(Record.JapaneseImportance + @" = '" + Importance.Unnecessary.ToJapanese() + "'");
+            }
 
             if (ChkImpOptional.IsChecked != null && (bool)ChkImpOptional.IsChecked)
+            {
                 ImportanceFilter.Add(Record.JapaneseImportance + @" = '" + Importance.Optional.ToJapanese() + "'");
+            }
 
             if (ChkImpRequired.IsChecked != null && (bool)ChkImpRequired.IsChecked)
+            {
                 ImportanceFilter.Add(Record.JapaneseImportance + @" = '" + Importance.Required.ToJapanese() + "'");
+            }
 
             if (ImportanceFilter.Count != 0)
             {
@@ -142,7 +152,7 @@ namespace STBDiffChecker
         private void BtnExcel_Click(object sender, RoutedEventArgs e)
         {
             string path = GetSavePathWithDialog("xlsx ファイル(.xlsx)|*.xlsx|All Files (*.*)|*.*");
-            if (String.IsNullOrWhiteSpace(path) == false)
+            if (string.IsNullOrWhiteSpace(path) == false)
             {
                 //以下Excel処理
                 XSSFWorkbook wb;
@@ -154,12 +164,12 @@ namespace STBDiffChecker
                     }
 
                     wb = new XSSFWorkbook();
-                    wb.CreateSheet("dummy");
+                    _ = wb.CreateSheet("dummy");
 
                 }
                 catch
                 {
-                    System.Windows.Forms.MessageBox.Show("ファイル作成に失敗しました。");
+                    _ = MessageBox.Show("ファイル作成に失敗しました。", "エラー", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
@@ -171,15 +181,15 @@ namespace STBDiffChecker
 
                 try
                 {
-                    using (FileStream fs = new FileStream(path, FileMode.Create))
+                    using (FileStream fs = new(path, FileMode.Create))
                     {
                         wb.Write(fs);
                     }
-                    System.Windows.Forms.MessageBox.Show("Excelファイルの作成完了。");
+                    _ = MessageBox.Show("Excelファイルの作成完了。", "情報", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch
                 {
-                    System.Windows.Forms.MessageBox.Show("Excelファイル保存時にエラー発生。");
+                    _ = MessageBox.Show("Excelファイル保存時にエラー発生。", "エラー", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
@@ -191,15 +201,16 @@ namespace STBDiffChecker
         /// <returns></returns>
         private string GetSavePathWithDialog(string kind)
         {
-            Microsoft.Win32.SaveFileDialog dialog = new Microsoft.Win32.SaveFileDialog();
-
-            dialog.InitialDirectory = ReadPass(RegistoryKey);
-            dialog.Filter = kind;  //[ファイルの種類]
-            dialog.FilterIndex = 1;    //[ファイルの種類]でFilterセットのデータ形式を選択
-            dialog.Title = "出力先とファイル名を設定して下さい";  //タイトル設定
-            dialog.RestoreDirectory = true;    //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
-            dialog.CheckFileExists = false;     //存在しないファイルの名前が指定されたとき警告を表示する
-            dialog.CheckPathExists = true;     //存在しないパスが指定されたとき警告を表示する(デフォルトでTrueなので指定する必要はない)
+            Microsoft.Win32.SaveFileDialog dialog = new()
+            {
+                InitialDirectory = ReadPass(AbstractMainWindow.RegistoryKey),
+                Filter = kind,  //[ファイルの種類]
+                FilterIndex = 1,    //[ファイルの種類]でFilterセットのデータ形式を選択
+                Title = "出力先とファイル名を設定して下さい",  //タイトル設定
+                RestoreDirectory = true,    //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+                CheckFileExists = false,     //存在しないファイルの名前が指定されたとき警告を表示する
+                CheckPathExists = true     //存在しないパスが指定されたとき警告を表示する(デフォルトでTrueなので指定する必要はない)
+            };
 
             bool? result = dialog.ShowDialog();
             if (result == true)
@@ -227,7 +238,7 @@ namespace STBDiffChecker
                 }
                 else
                 {
-                    return (string)rk.GetValue(Key);
+                    return (string)rk.GetValue(AbstractMainWindow.Key);
                 }
             }
             catch (Exception)
@@ -243,8 +254,8 @@ namespace STBDiffChecker
         /// <param name="path"></param>
         public void SetPass(string path)
         {
-            RegistryKey rk = Registry.CurrentUser.OpenSubKey(RegistoryKey, true);
-            rk?.SetValue(Key, path);
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey(AbstractMainWindow.RegistoryKey, true);
+            rk?.SetValue(AbstractMainWindow.Key, path);
         }
 
         /// <summary>
@@ -252,14 +263,10 @@ namespace STBDiffChecker
         /// </summary>
         private void ReadDataGrid(XSSFWorkbook wb)
         {
-            foreach (var item in TabCntrlResult.Items)
+            foreach (object item in TabCntrlResult.Items)
             {
-                TabItem tabItem = item as TabItem;
-                DataGrid dataGrid = tabItem.Content as DataGrid;
-                BindingSource source = dataGrid.DataContext as BindingSource;
-                source.Filter = "";
-                DataTable table = ((DataView)source.List).ToTable();
-                WriteExcelSheet(wb, tabItem.Header.ToString(), table);
+                RecordTab tabItem = item as RecordTab;
+                WriteExcelSheet(wb, tabItem.Header.ToString(), tabItem.dataTable);
             }
 
         }
@@ -297,10 +304,12 @@ namespace STBDiffChecker
         /// <param name="value"></param>
         static void writeCellValue(ISheet sheet, int idxColumn, int idxRow, object obj)
         {
-            var row = sheet.GetRow(idxRow) ?? sheet.CreateRow(idxRow); //指定した行を取得できない時はエラーとならないよう新規作成している
-            var cell = row.GetCell(idxColumn) ?? row.CreateCell(idxColumn); //一行上の処理の列版
+            IRow row = sheet.GetRow(idxRow) ?? sheet.CreateRow(idxRow); //指定した行を取得できない時はエラーとならないよう新規作成している
+            ICell cell = row.GetCell(idxColumn) ?? row.CreateCell(idxColumn); //一行上の処理の列版
             if (obj == null)
+            {
                 cell.SetCellValue(string.Empty);
+            }
 
             string value = obj.ToString();
             /*
@@ -320,19 +329,19 @@ namespace STBDiffChecker
         /// </summary>
         private void SetFilterComboBox()
         {
-            var combo = new List<string>()
-            {
+            List<string> combo =
+            [
                 Record.JapaneseParentElement,
                 Record.JapaneseKey,
                 Record.JapaneseItem,
                 Record.JapaneseA,
                 Record.JapaneseB,
                 Record.JapaneseComment
-            };
-            foreach (var item in combo)
+            ];
+            foreach (string item in combo)
             {
-                CmbKey1.Items.Add(item);
-                CmbKey2.Items.Add(item);
+                _ = CmbKey1.Items.Add(item);
+                _ = CmbKey2.Items.Add(item);
             }
 
             CmbKey1.SelectedIndex = 0;
