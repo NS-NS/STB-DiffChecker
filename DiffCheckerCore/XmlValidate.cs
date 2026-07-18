@@ -14,6 +14,19 @@ namespace DiffCheckerLib
         // エラーメッセージを保持するリスト
         private static List<string> validationErrors = [];
 
+        /// <summary>
+        /// XXE対策済みのXmlReaderSettingsを作成する
+        /// (DTD禁止・外部リソース解決なし。既定値と同じだが明示しておく)
+        /// </summary>
+        private static XmlReaderSettings SecureReaderSettings()
+        {
+            return new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Prohibit,
+                XmlResolver = null,
+            };
+        }
+
         // リソースファイルからスキーマを読み込む
         public static string GetEmbeddedXsd(Assembly assembly, string resourcePath, Encoding encoding)
         {
@@ -45,7 +58,7 @@ namespace DiffCheckerLib
             // XMLの宣言部分をパース
             using (StringReader stringReader = new(xmlSnippet))
             {
-                using XmlReader xmlReader = XmlReader.Create(stringReader);
+                using XmlReader xmlReader = XmlReader.Create(stringReader, SecureReaderSettings());
                 while (xmlReader.Read())
                 {
                     if (xmlReader.NodeType == XmlNodeType.XmlDeclaration)
@@ -95,10 +108,8 @@ namespace DiffCheckerLib
             where T : IST_BRIDGE
         {
             validationErrors.Clear();
-            XmlReaderSettings settings = new()
-            {
-                ValidationType = ValidationType.Schema
-            };
+            XmlReaderSettings settings = SecureReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
             _ = settings.Schemas.Add(null, XmlReader.Create(new StringReader(schemaContent)));
             settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
 
@@ -116,10 +127,8 @@ namespace DiffCheckerLib
         {
             validationErrors.Clear();
             // XMLリーダー設定（妥当性検証用）
-            XmlReaderSettings settings = new()
-            {
-                ValidationType = ValidationType.Schema
-            };
+            XmlReaderSettings settings = SecureReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
             _ = settings.Schemas.Add(null, XmlReader.Create(new StringReader(schemaContent)));
             settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
 

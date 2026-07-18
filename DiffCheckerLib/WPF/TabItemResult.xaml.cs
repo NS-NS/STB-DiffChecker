@@ -222,40 +222,19 @@ namespace DiffCheckerLib.WPF
         }
 
         /// <summary>
-        /// レジストリキーからパスを取得
+        /// 最後に使用したフォルダを取得
         /// </summary>
-        /// <param name="RgstKeyPass"></param>
-        /// <returns></returns>
-        public string ReadPass(string RgstKeyPass)
+        public string ReadPass(string _)
         {
-            //初期パスは最後に開いたフォルダとする
-            try
-            {
-                RegistryKey rk = Registry.CurrentUser.CreateSubKey(RgstKeyPass);  //using Microsoft.Win32;が必要
-                if (rk == null)
-                {
-                    return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);    //デスクトップ
-                }
-                else
-                {
-                    return (string)rk.GetValue(AbstractMainWindow.Key);
-                }
-            }
-            catch (Exception)
-            {
-            }
-
-            return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            return UserSettings.GetLastDirectory();
         }
 
         /// <summary>
-        /// レジストリキーにパスを設定
+        /// 最後に使用したフォルダを保存
         /// </summary>
-        /// <param name="path"></param>
         public void SetPass(string path)
         {
-            RegistryKey rk = Registry.CurrentUser.OpenSubKey(AbstractMainWindow.RegistoryKey, true);
-            rk?.SetValue(AbstractMainWindow.Key, path);
+            UserSettings.SetLastDirectory(path);
         }
 
         /// <summary>
