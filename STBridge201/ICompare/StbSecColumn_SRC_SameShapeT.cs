@@ -1,13 +1,12 @@
-﻿using DiffCheckerLib.Enum;
-using DiffCheckerLib.Interface;
-using DiffCheckerLib.Setting;
+﻿using DiffCheckerLib.Interface;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Windows.Shapes;
+using DiffCheckerLib.Enum;
+using DiffCheckerLib.Setting;
 
-namespace ST_BRIDGE202
+namespace ST_BRIDGE201
 {
-    public partial class StbSecColumn_SRC_ThreeTypesShapeT : IProperty
+    public partial class StbSecColumn_SRC_SameShapeT : IProperty
     {
         public bool IsSpecial(PropertyInfo info)
         {

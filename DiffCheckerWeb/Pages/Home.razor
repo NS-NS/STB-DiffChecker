@@ -5,15 +5,14 @@
 @using DiffCheckerLib.Enum
 @using DiffCheckerLib.Interface
 @using DiffCheckerLib.Setting
-@using STB_DiffChecker_210
 @inject IJSRuntime JS
 
 <PageTitle>STB-DiffChecker Web</PageTitle>
 
-<h3>STB-DiffChecker Web <small class="text-muted fs-6">(ST-Bridge 2.1)</small></h3>
+<h3>STB-DiffChecker Web <small class="text-muted fs-6">(ST-Bridge 2.0.1 / 2.0.2 / 2.1)</small></h3>
 <p class="text-muted">
-    2つのST-Bridge(2.1)ファイルをブラウザ内で比較します。ファイルはサーバーに送信されません。
-    2.0.1 / 2.0.2 のファイルは<a href="https://github.com/NS-NS/STB-DiffChecker/releases" target="_blank">デスクトップ版</a>をご利用ください。
+    2つのST-Bridgeファイルをブラウザ内で比較します。ファイルはサーバーに送信されません。
+    バージョンはファイルから自動判別します（A・Bは同一バージョンである必要があります）。
 </p>
 
 <div class="row g-3 mb-3">
@@ -22,7 +21,7 @@
         <InputFile class="form-control" OnChange="@(e => OnFileSelected(e, true))" accept=".stb,.xml" />
         @if (fileNameA != null)
         {
-            <div class="small mt-1">@fileNameA @(stbA != null ? "✓ 読込済" : "")</div>
+            <div class="small mt-1">@fileNameA @(stbA != null ? $"✓ 読込済 ({versionA})" : "")</div>
         }
         @if (loadErrorsA.Count > 0)
         {
@@ -36,7 +35,7 @@
         <InputFile class="form-control" OnChange="@(e => OnFileSelected(e, false))" accept=".stb,.xml" />
         @if (fileNameB != null)
         {
-            <div class="small mt-1">@fileNameB @(stbB != null ? "✓ 読込済" : "")</div>
+            <div class="small mt-1">@fileNameB @(stbB != null ? $"✓ 読込済 ({versionB})" : "")</div>
         }
         @if (loadErrorsB.Count > 0)
         {
@@ -54,7 +53,7 @@
             <table class="table table-sm w-auto mt-2">
                 <thead><tr><th>対象</th><th>基準点</th><th>オフセット</th></tr></thead>
                 <tbody>
-                    @foreach (UserTolerance tol in toleranceSetting.Tolerances())
+                    @foreach (UserTolerance tol in engine.Tolerance.Tolerances())
                     {
                         <tr>
                             <td>@tol.Name</td>
@@ -93,7 +92,7 @@
 @if (results != null)
 {
     <hr />
-    <h5>概要</h5>
+    <h5>概要 <small class="text-muted fs-6">(ST-Bridge @engine.Version)</small></h5>
     <table class="table table-sm table-bordered w-auto">
         <thead>
             <tr><th>タブ</th><th>要素数A</th><th>要素数B</th><th>一致</th><th>許容差内</th><th>不一致</th><th>比較対象なし</th></tr>
@@ -106,8 +105,8 @@
                     string tabRoot = root;
                     <tr>
                         <td><a href="" @onclick="() => selectedTab = tabRoot" @onclick:preventDefault>@header</a></td>
-                        <td>@StbElementCounter.CountElements(stbA, root)</td>
-                        <td>@StbElementCounter.CountElements(stbB, root)</td>
+                        <td>@VersionEngine.CountElements(stbA, root)</td>
+                        <td>@VersionEngine.CountElements(stbB, root)</td>
                         <td>@tabRecords.Count(r => r.Consistency == Consistency.Consistent)</td>
                         <td>@tabRecords.Count(r => r.Consistency == Consistency.AlmostMatch)</td>
                         <td>@tabRecords.Count(r => r.Consistency == Consistency.Inconsistent)</td>
@@ -200,13 +199,14 @@
     private const long MaxFileSize = 512L * 1024 * 1024;
     private const int MaxDisplayRows = 3000;
 
-    private ToleranceSetting toleranceSetting = new();
-    private ImportanceSetting importanceSetting = new();
+    private VersionEngine engine = VersionEngine.Create("2.1.0")!;
 
     private string? fileNameA;
     private string? fileNameB;
-    private ST_BRIDGE210.ST_BRIDGE? stbA;
-    private ST_BRIDGE210.ST_BRIDGE? stbB;
+    private string? versionA;
+    private string? versionB;
+    private IST_BRIDGE? stbA;
+    private IST_BRIDGE? stbB;
     private List<string> loadErrorsA = [];
     private List<string> loadErrorsB = [];
 
@@ -232,7 +232,7 @@
 
     protected override void OnInitialized()
     {
-        tabs = importanceSetting.GetTabs();
+        tabs = engine.Importance.GetTabs();
     }
 
     private async Task OnFileSelected(InputFileChangeEventArgs e, bool isA)
@@ -248,23 +248,38 @@
             string head = Encoding.UTF8.GetString(bytes, 0, Math.Min(bytes.Length, 2000));
             Match m = Regex.Match(head, @"<ST_BRIDGE[^>]*\sversion=""([^""]+)""");
             string version = m.Success ? m.Groups[1].Value : "不明";
-            if (version != "2.1.0")
+            if (!VersionEngine.SupportedVersions.Contains(version))
             {
-                errorMessage = $"{e.File.Name} のバージョンは {version} です。このWeb版はST-Bridge 2.1.0のみ対応しています。";
+                errorMessage = $"{e.File.Name} のバージョン ({version}) は未対応です。対応バージョン: {string.Join(" / ", VersionEngine.SupportedVersions)}";
                 return;
             }
 
+            // A・Bでバージョンが異なる場合はエラー
+            string? otherVersion = isA ? versionB : versionA;
+            if (otherVersion != null && otherVersion != version)
+            {
+                errorMessage = $"ファイルA ({(isA ? version : otherVersion)}) とファイルB ({(isA ? otherVersion : version)}) のバージョンが一致していません。";
+                return;
+            }
+
+            // バージョンに応じたエンジンに切り替え
+            if (engine.Version != version)
+            {
+                engine = VersionEngine.Create(version)!;
+                tabs = engine.Importance.GetTabs();
+                settingMessage = null;
+            }
+
             using MemoryStream readMs = new(bytes);
-            ST_BRIDGE210.ST_BRIDGE stb = XmlValidate.LoadSTBridgeFile(
-                readMs, importanceSetting.GetSchemaContent(), new ST_BRIDGE210.ST_BRIDGE(), out List<string> errors);
+            (IST_BRIDGE stb, List<string> errors) = engine.LoadFile(readMs);
 
             if (isA)
             {
-                fileNameA = e.File.Name; stbA = stb; loadErrorsA = errors;
+                fileNameA = e.File.Name; versionA = version; stbA = stb; loadErrorsA = errors;
             }
             else
             {
-                fileNameB = e.File.Name; stbB = stb; loadErrorsB = errors;
+                fileNameB = e.File.Name; versionB = version; stbB = stb; loadErrorsB = errors;
             }
         }
         catch (Exception ex)
@@ -295,8 +310,8 @@
                 else if (flag == 2) { csvImportance.Add(line); }
             }
 
-            ((IToleranceSetting)toleranceSetting).ImportCsv(csvTolerance);
-            List<string> unknown = ((IImportanceSetting)importanceSetting).ImportCsv(csvImportance);
+            engine.Tolerance.ImportCsv(csvTolerance);
+            List<string> unknown = engine.Importance.ImportCsv(csvImportance);
             settingMessage = $"読込み完了（許容差 {csvTolerance.Count} 行、重要度 {csvImportance.Count} 行"
                 + (unknown.Count > 0 ? $"、未対応パス {unknown.Count} 件" : "") + "）";
         }
@@ -330,7 +345,7 @@
         {
             List<string> targetNames = tabs.Select(n => n.Item1).ToList();
             results = ObjectComparer.CompareSTBridgeFiles(
-                stbA, stbB, targetNames, importanceSetting.UserImportance(), toleranceSetting);
+                stbA, stbB, targetNames, engine.Importance.UserImportance(), engine.Tolerance);
             selectedTab = results.Keys.FirstOrDefault();
         }
         catch (Exception ex)

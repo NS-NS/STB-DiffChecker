@@ -3,9 +3,8 @@ using DiffCheckerLib.Enum;
 using DiffCheckerLib.Interface;
 using System.Reflection;
 using System.Text;
-using System.Windows;
 
-namespace STB_DiffChecker_202
+namespace STB_DiffChecker_201
 {
     /// <summary>
     /// 重要度の読み込み用クラス
@@ -17,7 +16,7 @@ namespace STB_DiffChecker_202
         /// </summary>
         public string GetSchemaContent()
         {
-            return XmlValidate.GetEmbeddedXsd(Assembly.GetExecutingAssembly(), @"STB_DiffChecker_202.STBridge.STBridge_v202.xsd", Encoding.UTF8);
+            return XmlValidate.GetEmbeddedXsd(Assembly.GetExecutingAssembly(), @"STB_DiffChecker_201.STBridge.STBridge_v201.xsd", Encoding.UTF8);
         }
 
         public IReadOnlyList<(string, string)> GetTabs()
@@ -79,12 +78,7 @@ namespace STB_DiffChecker_202
             List<string> elements = XmlTree.GetElementPaths(GetSchemaContent(), ["ST_BRIDGE", .. ReferenceElements], out List<string> errors);
             if (errors.Count > 0)
             {
-                _ = MessageBox.Show(
-                    "XMLスキーマの読み込みに失敗しました。",
-                    "エラー",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-                return [];
+                throw new InvalidOperationException("XMLスキーマの読み込みに失敗しました。: " + string.Join(", ", errors));
             }
 
             List<string> ordered = [];

@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DiffCheckerCore\DiffCheckerCore.csproj" />
+    <ProjectReference Include="..\STBridge201\STBridge201.csproj" />
+    <ProjectReference Include="..\STBridge202\STBridge202.csproj" />
     <ProjectReference Include="..\STBridge210\STBridge210.csproj" />
   </ItemGroup>
 

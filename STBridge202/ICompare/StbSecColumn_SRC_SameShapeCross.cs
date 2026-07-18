@@ -3,11 +3,10 @@ using DiffCheckerLib.Interface;
 using DiffCheckerLib.Setting;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Windows.Shapes;
 
-namespace ST_BRIDGE201
+namespace ST_BRIDGE202
 {
-    public partial class StbSecColumn_SRC_NotSameShapeCross : IProperty
+    public partial class StbSecColumn_SRC_SameShapeCross : IProperty
     {
         public bool IsSpecial(PropertyInfo info)
         {
@@ -20,7 +19,7 @@ namespace ST_BRIDGE201
             {
                 // @shape=>/StbSecSteel
                 parentElement += "=>/StbSecSteel";
-                List<string> newKey = (info.Name == "shape_X") ? new List<string>(key) { $"shape={shape_X}"} : new List<string>(key) {$"shape={shape_Y}"};
+                List<string> newKey = (info.Name == "shape_X") ? new List<string>(key) { $"shape={shape_X}" } : new List<string>(key) { $"shape={shape_Y}" };
                 StbSecSteelColumn_S_NotSame.CompareSteelShape(parentElement, info, this, istbA, objB, istbB, newKey, records, importanceDict, toleranceSetting);
             }
         }

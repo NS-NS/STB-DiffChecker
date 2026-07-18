@@ -10,23 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="STBridge\STBridge_v201.xsd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="STBridge\STBridge_v201.xsd">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DiffCheckerLib\DiffCheckerLib.csproj" />
+    <ProjectReference Include="..\STBridge201\STBridge201.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="STBridge\STBridge_v201.cs">
-      <DependentUpon>STBridge_v201.xsd</DependentUpon>
-    </Compile>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

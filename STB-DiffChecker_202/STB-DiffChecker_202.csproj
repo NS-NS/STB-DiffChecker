@@ -10,15 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="STBridge\STBridge_v202.xsd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="STBridge\STBridge_v202.xsd" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DiffCheckerLib\DiffCheckerLib.csproj" />
+    <ProjectReference Include="..\STBridge202\STBridge202.csproj" />
   </ItemGroup>
 
   <ItemGroup>

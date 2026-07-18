@@ -3,7 +3,7 @@
 
 ## ダウンロード・Web版
 * デスクトップ版(Windows)：[Releases](https://github.com/NS-NS/STB-DiffChecker/releases)からzipをダウンロード（.NETランタイム同梱のため追加インストール不要）
-* Web版(ST-Bridge 2.1のみ)：[GitHub Pages](https://ns-ns.github.io/STB-DiffChecker/)でブラウザ内で比較可能（ファイルはサーバーに送信されません）
+* Web版(ST-Bridge 2.0.1 / 2.0.2 / 2.1)：[GitHub Pages](https://ns-ns.github.io/STB-DiffChecker/)でブラウザ内で比較可能（ファイルはサーバーに送信されません、バージョンは自動判別）
 
 * 使用例
     * 設計の進捗に合わせて、解析モデルやBIMモデルからstbファイルを出力して変更箇所を確認する
@@ -50,8 +50,8 @@
 ## 対応バージョン
 | ST-Bridge | アプリ |
 |---|---|
-| 2.0.1 | STB-DiffChecker_201 (デスクトップ) |
-| 2.0.2 | STB-DiffChecker_202 (デスクトップ) |
+| 2.0.1 | STB-DiffChecker_201 (デスクトップ) / Web版 |
+| 2.0.2 | STB-DiffChecker_202 (デスクトップ) / Web版 |
 | 2.1.0 | STB-DiffChecker_210 (デスクトップ) / Web版 |
 
 ## 開発者向け
@@ -59,7 +59,7 @@
 * プロジェクト構成
     * DiffCheckerCore：比較エンジン（WPF非依存）
     * DiffCheckerLib：WPF共通UI・Excel出力
-    * STBridge210：ST-Bridge 2.1のスキーマ生成クラスと比較定義
+    * STBridge201/202/210：各バージョンのスキーマ生成クラスと比較定義
     * STB-DiffChecker_201/202/210：各バージョンのデスクトップアプリ
     * DiffCheckerWeb：Blazor WebAssembly版（GitHub Pagesへ自動デプロイ）
  

@@ -3,9 +3,8 @@ using DiffCheckerLib.Interface;
 using DiffCheckerLib.Setting;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Windows.Shapes;
 
-namespace ST_BRIDGE201
+namespace ST_BRIDGE202
 {
     public partial class StbSecColumn_SRC_ThreeTypesShapeT : IProperty
     {
