@@ -26,7 +26,7 @@ jobs:
             9.0.x
 
       - name: Install wasm-tools workload
-        run: dotnet workload restore DiffCheckerWeb/DiffCheckerWeb.csproj
+        run: dotnet workload install wasm-tools
 
       - name: Publish Blazor WebAssembly (AOT)
         run: dotnet publish DiffCheckerWeb/DiffCheckerWeb.csproj -c Release -o publish -p:RunAOTCompilation=true
