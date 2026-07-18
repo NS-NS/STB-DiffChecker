@@ -64,6 +64,9 @@ dlldata.c
 *.scc
 *.html
 
+# Blazor WebAssembly の静的ファイルは *.html ルールの例外とする
+!DiffCheckerWeb/wwwroot/**/*.html
+
 # Chutzpah Test files
 _Chutzpah*
 
