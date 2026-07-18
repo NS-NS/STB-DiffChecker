@@ -34,8 +34,8 @@ jobs:
 
       - name: Zip artifacts
         shell: pwsh
-        # pdb(デバッグシンボル)は配布不要のためexeのみ同梱
-        run: Compress-Archive -Path publish/STB-DiffChecker/*.exe -DestinationPath STB-DiffChecker_win-x64.zip
+        # pdb(デバッグシンボル)は配布不要のためexeのみ同梱。ライセンス表記ファイルを同梱
+        run: Compress-Archive -Path publish/STB-DiffChecker/*.exe, LICENSE, THIRD-PARTY-NOTICES.md -DestinationPath STB-DiffChecker_win-x64.zip
 
       - name: Create GitHub Release
         # サプライチェーン対策としてコミットSHAで固定 (v2.6.2)

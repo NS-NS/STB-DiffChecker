@@ -17,7 +17,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="NPOI" Version="2.8.0" />
+    <!-- 2.8.0はバイナリ利用に保守料EULA(OSMFEULA)、2.7.5以降はLGPL-3.0のNSax依存が付くため、
+         どちらも含まない2.7.4に固定。古い推移的依存は下のPackageReferenceで明示的に更新 -->
+    <PackageReference Include="NPOI" Version="2.7.4" />
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.6.2" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.11" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.10" />
   </ItemGroup>

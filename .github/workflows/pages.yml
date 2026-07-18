@@ -34,6 +34,9 @@ jobs:
       - name: Rewrite base href for project pages
         run: sed -i 's|<base href="/" />|<base href="/STB-DiffChecker/" />|' publish/wwwroot/index.html
 
+      - name: Include license notices
+        run: cp LICENSE THIRD-PARTY-NOTICES.md publish/wwwroot/
+
       - name: Disable Jekyll
         run: touch publish/wwwroot/.nojekyll
 
