@@ -401,7 +401,11 @@ namespace DiffCheckerLib.WPF
             #endregion
 
             resultFormSetting.toleranceSetting.ImportCsv(csvTolerance);
-            resultFormSetting.importanceSetting.ImportCsv(csvImportance);
+            List<string> unknownPaths = resultFormSetting.importanceSetting.ImportCsv(csvImportance);
+            foreach (string unknownPath in unknownPaths)
+            {
+                _ = MessageBox.Show($"未対応の{unknownPath}があります。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>

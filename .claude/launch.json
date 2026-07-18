@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "diffchecker-web",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "DiffCheckerWeb", "--urls", "http://localhost:5210"],
+      "port": 5210
+    }
+  ]
+}

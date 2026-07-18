@@ -27,7 +27,7 @@ namespace DiffCheckerLib
             return reader.ReadToEnd(); // XSDファイルの内容を文字列として返す
         }
 
-        internal static (string, string) CheckVersionAndEncoding(string filePath)
+        public static (string, string) CheckVersionAndEncoding(string filePath)
         {
             // デフォルトのエンコーディング
             string encoding = string.Empty;
@@ -88,6 +88,29 @@ namespace DiffCheckerLib
             return (version, encoding);
         }
 
+        /// <summary>
+        /// Streamから読み込むオーバーロード（Blazor WebAssemblyなどファイルパスを使えない環境用）
+        /// </summary>
+        public static T LoadSTBridgeFile<T>(Stream stream, string schemaContent, T istBridge, out List<string> errors)
+            where T : IST_BRIDGE
+        {
+            validationErrors.Clear();
+            XmlReaderSettings settings = new()
+            {
+                ValidationType = ValidationType.Schema
+            };
+            _ = settings.Schemas.Add(null, XmlReader.Create(new StringReader(schemaContent)));
+            settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallback);
+
+            using XmlReader reader = XmlReader.Create(stream, settings);
+            XmlSerializer serializer = new(typeof(T));
+
+            T stbData = (T)serializer.Deserialize(reader);
+
+            errors = new List<string>(validationErrors);
+            return stbData;
+        }
+
         public static T LoadSTBridgeFile<T>(string filePath, Encoding encoding, string schemaContent, T istBridge, out List<string> errors)
             where T : IST_BRIDGE
         {
@@ -106,7 +129,8 @@ namespace DiffCheckerLib
 
             T stbData = (T)serializer.Deserialize(reader);
 
-            errors = validationErrors;
+            // 静的リストをそのまま返すと次回読み込み時のClearで内容が消えるためコピーを返す
+            errors = new List<string>(validationErrors);
             return stbData;
         }
 

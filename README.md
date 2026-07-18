@@ -1,5 +1,10 @@
 # STB-DiffChecker
 二つのST-Bridgeファイル(stbファイル)を、重要度による優先順位をつけて比較するツール   
+
+## ダウンロード・Web版
+* デスクトップ版(Windows)：[Releases](https://github.com/NS-NS/STB-DiffChecker/releases)からzipをダウンロード（.NETランタイム同梱のため追加インストール不要）
+* Web版(ST-Bridge 2.1のみ)：[GitHub Pages](https://ns-ns.github.io/STB-DiffChecker/)でブラウザ内で比較可能（ファイルはサーバーに送信されません）
+
 * 使用例
     * 設計の進捗に合わせて、解析モデルやBIMモデルからstbファイルを出力して変更箇所を確認する
     * 解析ファイルから出力したstbファイルとBIMから出力したstbファイルを比較して、整合性を確認する
@@ -42,10 +47,21 @@
 * 比較結果はフィルタリングでき、相違点を素早くチェックできる  
 * 比較結果に対してコメント書き込みでき、Excelに出力できる  
 
-## 要件
-"STB-DiffChecker"の実行には以下のライブラリが必要
-* NPOI(2.4.1)
-* PDFsharp-MigraDoc-gdi(1.50.5147)
+## 対応バージョン
+| ST-Bridge | アプリ |
+|---|---|
+| 2.0.1 | STB-DiffChecker_201 (デスクトップ) |
+| 2.0.2 | STB-DiffChecker_202 (デスクトップ) |
+| 2.1.0 | STB-DiffChecker_210 (デスクトップ) / Web版 |
+
+## 開発者向け
+* .NET 8 SDK（デスクトップ）/ .NET 9 SDK（Web版）でビルド
+* プロジェクト構成
+    * DiffCheckerCore：比較エンジン（WPF非依存）
+    * DiffCheckerLib：WPF共通UI・Excel出力
+    * STBridge210：ST-Bridge 2.1のスキーマ生成クラスと比較定義
+    * STB-DiffChecker_201/202/210：各バージョンのデスクトップアプリ
+    * DiffCheckerWeb：Blazor WebAssembly版（GitHub Pagesへ自動デプロイ）
  
 ## 使用方法 
 1. "STB-DiffChecker"を起動し、「入力・設定」タブ上で比較したいstbファイルをそれぞれ選択する
@@ -57,7 +73,7 @@
 7. (必要に応じて）Excelに出力して確認する
 
 ## 備考 
-* ST-Bridgeのバージョンは2.0.1を対象とする
+* ST-Bridgeのバージョンは2.0.1 / 2.0.2 / 2.1.0を対象とする
 * 比較
     * StbNode：節点座標で比較する
     * StbMember：許容差を考慮した部材節点座標で比較する

@@ -13,6 +13,9 @@
     <Page Remove="ST_BRIDGE201\**" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DiffCheckerCore\DiffCheckerCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="NPOI" Version="2.7.1" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />

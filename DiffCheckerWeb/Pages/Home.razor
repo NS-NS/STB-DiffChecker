@@ -1,0 +1,406 @@
+@page "/"
+@using System.Text
+@using System.Text.RegularExpressions
+@using DiffCheckerLib
+@using DiffCheckerLib.Enum
+@using DiffCheckerLib.Interface
+@using DiffCheckerLib.Setting
+@using STB_DiffChecker_210
+@inject IJSRuntime JS
+
+<PageTitle>STB-DiffChecker Web</PageTitle>
+
+<h3>STB-DiffChecker Web <small class="text-muted fs-6">(ST-Bridge 2.1)</small></h3>
+<p class="text-muted">
+    2つのST-Bridge(2.1)ファイルをブラウザ内で比較します。ファイルはサーバーに送信されません。
+    2.0.1 / 2.0.2 のファイルは<a href="https://github.com/NS-NS/STB-DiffChecker/releases" target="_blank">デスクトップ版</a>をご利用ください。
+</p>
+
+<div class="row g-3 mb-3">
+    <div class="col-md-6">
+        <label class="form-label fw-bold">ファイルA (.stb)</label>
+        <InputFile class="form-control" OnChange="@(e => OnFileSelected(e, true))" accept=".stb,.xml" />
+        @if (fileNameA != null)
+        {
+            <div class="small mt-1">@fileNameA @(stbA != null ? "✓ 読込済" : "")</div>
+        }
+        @if (loadErrorsA.Count > 0)
+        {
+            <details class="small text-danger"><summary>検証メッセージ @loadErrorsA.Count 件</summary>
+                <ul>@foreach (string err in loadErrorsA.Take(50)) { <li>@err</li> }</ul>
+            </details>
+        }
+    </div>
+    <div class="col-md-6">
+        <label class="form-label fw-bold">ファイルB (.stb)</label>
+        <InputFile class="form-control" OnChange="@(e => OnFileSelected(e, false))" accept=".stb,.xml" />
+        @if (fileNameB != null)
+        {
+            <div class="small mt-1">@fileNameB @(stbB != null ? "✓ 読込済" : "")</div>
+        }
+        @if (loadErrorsB.Count > 0)
+        {
+            <details class="small text-danger"><summary>検証メッセージ @loadErrorsB.Count 件</summary>
+                <ul>@foreach (string err in loadErrorsB.Take(50)) { <li>@err</li> }</ul>
+            </details>
+        }
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-md-6">
+        <details>
+            <summary class="fw-bold">許容差設定</summary>
+            <table class="table table-sm w-auto mt-2">
+                <thead><tr><th>対象</th><th>基準点</th><th>オフセット</th></tr></thead>
+                <tbody>
+                    @foreach (UserTolerance tol in toleranceSetting.Tolerances())
+                    {
+                        <tr>
+                            <td>@tol.Name</td>
+                            <td><input type="number" class="form-control form-control-sm" style="width:8em" @bind="tol.Node" /></td>
+                            <td><input type="number" class="form-control form-control-sm" style="width:8em" @bind="tol.Offset" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </details>
+    </div>
+    <div class="col-md-6">
+        <details>
+            <summary class="fw-bold">設定ファイル(csv)読込み（許容差・重要度）</summary>
+            <InputFile class="form-control mt-2" OnChange="OnSettingCsvSelected" accept=".csv" />
+            @if (settingMessage != null)
+            {
+                <div class="small mt-1">@settingMessage</div>
+            }
+        </details>
+    </div>
+</div>
+
+<div class="mb-3">
+    <button class="btn btn-primary" disabled="@(stbA == null || stbB == null || running)" @onclick="RunCompare">実行</button>
+    @if (running)
+    {
+        <span class="ms-2 spinner-border spinner-border-sm"></span> <span>比較中...</span>
+    }
+    @if (errorMessage != null)
+    {
+        <div class="alert alert-danger mt-2">@errorMessage</div>
+    }
+</div>
+
+@if (results != null)
+{
+    <hr />
+    <h5>概要</h5>
+    <table class="table table-sm table-bordered w-auto">
+        <thead>
+            <tr><th>タブ</th><th>要素数A</th><th>要素数B</th><th>一致</th><th>許容差内</th><th>不一致</th><th>比較対象なし</th></tr>
+        </thead>
+        <tbody>
+            @foreach ((string root, string header) in tabs)
+            {
+                if (results.TryGetValue(root, out List<Record>? tabRecords))
+                {
+                    string tabRoot = root;
+                    <tr>
+                        <td><a href="" @onclick="() => selectedTab = tabRoot" @onclick:preventDefault>@header</a></td>
+                        <td>@StbElementCounter.CountElements(stbA, root)</td>
+                        <td>@StbElementCounter.CountElements(stbB, root)</td>
+                        <td>@tabRecords.Count(r => r.Consistency == Consistency.Consistent)</td>
+                        <td>@tabRecords.Count(r => r.Consistency == Consistency.AlmostMatch)</td>
+                        <td>@tabRecords.Count(r => r.Consistency == Consistency.Inconsistent)</td>
+                        <td>@tabRecords.Count(r => r.Consistency is Consistency.Incomparable or Consistency.ElementIncomparable)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <button class="btn btn-outline-secondary btn-sm mb-3" @onclick="ExportCsv">結果をCSV出力</button>
+
+    <h5>結果詳細</h5>
+    <div class="mb-2">
+        <select class="form-select w-auto d-inline-block" @bind="selectedTab">
+            @foreach ((string root, string header) in tabs)
+            {
+                if (results.ContainsKey(root))
+                {
+                    <option value="@root">@header</option>
+                }
+            }
+        </select>
+        <span class="ms-3">
+            @foreach (Consistency c in allConsistencies)
+            {
+                Consistency consistency = c;
+                <label class="me-2">
+                    <input type="checkbox" checked="@filterConsistency.Contains(consistency)"
+                           @onchange="e => ToggleConsistency(consistency, (bool)e.Value!)" /> @consistency.ToJapanese()
+                </label>
+            }
+        </span>
+        <span class="ms-3">
+            重要度:
+            <select class="form-select form-select-sm w-auto d-inline-block" @bind="filterImportance">
+                <option value="">すべて</option>
+                <option value="高">高</option>
+                <option value="中">中</option>
+                <option value="低">低</option>
+                <option value="対象外">対象外</option>
+            </select>
+        </span>
+        <input class="form-control form-control-sm w-auto d-inline-block ms-3" placeholder="検索(XMLパス・キー)" @bind="searchText" @bind:event="oninput" />
+    </div>
+
+    @if (selectedTab != null && results.TryGetValue(selectedTab, out List<Record>? records))
+    {
+        List<Record> filtered = Filtered(records);
+        <div class="small text-muted mb-1">
+            @filtered.Count / @records.Count 件
+            @if (filtered.Count > MaxDisplayRows)
+            {
+                <span class="text-warning">（表示は先頭 @MaxDisplayRows 件まで。フィルタで絞り込むかCSV出力をご利用ください）</span>
+            }
+        </div>
+        <div style="height: 60vh; overflow-y: auto;">
+            <table class="table table-sm table-bordered table-hover" style="table-layout:fixed; word-break:break-all;">
+                <thead class="sticky-top bg-white">
+                    <tr>
+                        <th style="width:24%">XMLパス</th>
+                        <th style="width:22%">比較対象を決定した情報</th>
+                        <th style="width:14%">要素・属性</th>
+                        <th style="width:12%">ファイルA</th>
+                        <th style="width:12%">ファイルB</th>
+                        <th style="width:8%">比較結果</th>
+                        <th style="width:6%">重要度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Record record in filtered.Take(MaxDisplayRows))
+                    {
+                        <tr class="@RowClass(record)">
+                            <td class="small">@record.XmlPath</td>
+                            <td class="small">@record.Key</td>
+                            <td class="small">@record.Item</td>
+                            <td class="small">@record.A</td>
+                            <td class="small">@record.B</td>
+                            <td class="small">@record.Consistency.ToJapanese()</td>
+                            <td class="small">@record.Importance.ToJapanese()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}
+
+@code {
+    private const long MaxFileSize = 512L * 1024 * 1024;
+    private const int MaxDisplayRows = 3000;
+
+    private ToleranceSetting toleranceSetting = new();
+    private ImportanceSetting importanceSetting = new();
+
+    private string? fileNameA;
+    private string? fileNameB;
+    private ST_BRIDGE210.ST_BRIDGE? stbA;
+    private ST_BRIDGE210.ST_BRIDGE? stbB;
+    private List<string> loadErrorsA = [];
+    private List<string> loadErrorsB = [];
+
+    private string? settingMessage;
+    private string? errorMessage;
+    private bool running;
+
+    private Dictionary<string, List<Record>>? results;
+    private IReadOnlyList<(string, string)> tabs = [];
+    private string? selectedTab;
+
+    private static readonly Consistency[] allConsistencies =
+    [
+        Consistency.Consistent,
+        Consistency.AlmostMatch,
+        Consistency.Inconsistent,
+        Consistency.Incomparable,
+        Consistency.ElementIncomparable,
+    ];
+    private HashSet<Consistency> filterConsistency = [.. allConsistencies];
+    private string filterImportance = "";
+    private string searchText = "";
+
+    protected override void OnInitialized()
+    {
+        tabs = importanceSetting.GetTabs();
+    }
+
+    private async Task OnFileSelected(InputFileChangeEventArgs e, bool isA)
+    {
+        errorMessage = null;
+        results = null;
+        try
+        {
+            using MemoryStream ms = new();
+            await e.File.OpenReadStream(MaxFileSize).CopyToAsync(ms);
+            byte[] bytes = ms.ToArray();
+
+            string head = Encoding.UTF8.GetString(bytes, 0, Math.Min(bytes.Length, 2000));
+            Match m = Regex.Match(head, @"<ST_BRIDGE[^>]*\sversion=""([^""]+)""");
+            string version = m.Success ? m.Groups[1].Value : "不明";
+            if (version != "2.1.0")
+            {
+                errorMessage = $"{e.File.Name} のバージョンは {version} です。このWeb版はST-Bridge 2.1.0のみ対応しています。";
+                return;
+            }
+
+            using MemoryStream readMs = new(bytes);
+            ST_BRIDGE210.ST_BRIDGE stb = XmlValidate.LoadSTBridgeFile(
+                readMs, importanceSetting.GetSchemaContent(), new ST_BRIDGE210.ST_BRIDGE(), out List<string> errors);
+
+            if (isA)
+            {
+                fileNameA = e.File.Name; stbA = stb; loadErrorsA = errors;
+            }
+            else
+            {
+                fileNameB = e.File.Name; stbB = stb; loadErrorsB = errors;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"{e.File.Name} の読み込みに失敗しました: {ex.Message}";
+        }
+    }
+
+    private async Task OnSettingCsvSelected(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            using MemoryStream ms = new();
+            await e.File.OpenReadStream(MaxFileSize).CopyToAsync(ms);
+            string text = DecodeText(ms.ToArray());
+            string[] lines = text.Replace("\r\n", "\n").Split('\n');
+
+            List<string> csvTolerance = [];
+            List<string> csvImportance = [];
+            int flag = 0;
+            foreach (string line in lines)
+            {
+                if (string.IsNullOrWhiteSpace(line)) { continue; }
+                string headWord = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[0].Trim();
+                if (headWord == "<Tolerance>") { flag = 1; continue; }
+                if (headWord == "<Importance>") { flag = 2; continue; }
+                if (flag == 1) { csvTolerance.Add(line); }
+                else if (flag == 2) { csvImportance.Add(line); }
+            }
+
+            ((IToleranceSetting)toleranceSetting).ImportCsv(csvTolerance);
+            List<string> unknown = ((IImportanceSetting)importanceSetting).ImportCsv(csvImportance);
+            settingMessage = $"読込み完了（許容差 {csvTolerance.Count} 行、重要度 {csvImportance.Count} 行"
+                + (unknown.Count > 0 ? $"、未対応パス {unknown.Count} 件" : "") + "）";
+        }
+        catch (Exception ex)
+        {
+            settingMessage = $"設定ファイルの読み込みに失敗しました: {ex.Message}";
+        }
+    }
+
+    private static string DecodeText(byte[] bytes)
+    {
+        try
+        {
+            return new UTF8Encoding(false, throwOnInvalidBytes: true).GetString(bytes);
+        }
+        catch (DecoderFallbackException)
+        {
+            return Encoding.GetEncoding("shift_jis").GetString(bytes);
+        }
+    }
+
+    private async Task RunCompare()
+    {
+        if (stbA == null || stbB == null) { return; }
+        running = true;
+        errorMessage = null;
+        StateHasChanged();
+        await Task.Delay(30); // スピナー描画のため一度UIに制御を返す
+
+        try
+        {
+            List<string> targetNames = tabs.Select(n => n.Item1).ToList();
+            results = ObjectComparer.CompareSTBridgeFiles(
+                stbA, stbB, targetNames, importanceSetting.UserImportance(), toleranceSetting);
+            selectedTab = results.Keys.FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"比較中にエラーが発生しました: {ex.Message}";
+            results = null;
+        }
+        finally
+        {
+            running = false;
+        }
+    }
+
+    private List<Record> Filtered(List<Record> records)
+    {
+        IEnumerable<Record> query = records.Where(r => filterConsistency.Contains(r.Consistency));
+        if (!string.IsNullOrEmpty(filterImportance))
+        {
+            query = query.Where(r => r.Importance.ToJapanese() == filterImportance);
+        }
+        if (!string.IsNullOrWhiteSpace(searchText))
+        {
+            query = query.Where(r =>
+                (r.XmlPath?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (r.Key?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (r.Item?.Contains(searchText, StringComparison.OrdinalIgnoreCase) ?? false));
+        }
+        return query.ToList();
+    }
+
+    private void ToggleConsistency(Consistency c, bool enabled)
+    {
+        if (enabled) { filterConsistency.Add(c); } else { filterConsistency.Remove(c); }
+    }
+
+    private static string RowClass(Record record)
+    {
+        return record.Consistency switch
+        {
+            Consistency.Inconsistent => "table-danger",
+            Consistency.AlmostMatch => "table-warning",
+            Consistency.Incomparable or Consistency.ElementIncomparable => "table-secondary",
+            _ => "",
+        };
+    }
+
+    private async Task ExportCsv()
+    {
+        if (results == null) { return; }
+        StringBuilder sb = new();
+        sb.AppendLine("タブ,XMLパス,比較対象を決定した情報,要素・属性,ファイルA,ファイルB,比較結果,重要度");
+        foreach ((string root, string header) in tabs)
+        {
+            if (!results.TryGetValue(root, out List<Record>? records)) { continue; }
+            foreach (Record r in records)
+            {
+                sb.AppendLine(string.Join(",",
+                    Csv(header), Csv(r.XmlPath), Csv(r.Key), Csv(r.Item), Csv(r.A), Csv(r.B),
+                    Csv(r.Consistency.ToJapanese()), Csv(r.Importance.ToJapanese())));
+            }
+        }
+        string name = $"STB-DiffChecker_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+        await JS.InvokeVoidAsync("downloadFileFromText", name, sb.ToString());
+    }
+
+    private static string Csv(string? value)
+    {
+        if (value == null) { return string.Empty; }
+        return value.Contains(',') || value.Contains('"') || value.Contains('\n')
+            ? "\"" + value.Replace("\"", "\"\"") + "\""
+            : value;
+    }
+}

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows;
 
 namespace DiffCheckerLib.Interface
 {
@@ -50,8 +49,10 @@ namespace DiffCheckerLib.Interface
         /// <summary>
         /// csvを読み込む
         /// </summary>
-        public void ImportCsv(IReadOnlyList<string> csv)
+        /// <returns>未対応だったXMLパスの一覧</returns>
+        public List<string> ImportCsv(IReadOnlyList<string> csv)
         {
+            List<string> unknownPaths = new();
             foreach (string line in csv)
             {
                 string[] split = line.Split(',');
@@ -80,13 +81,14 @@ namespace DiffCheckerLib.Interface
                             continue;
                         }
                     }
-                    _ = MessageBox.Show($"未対応の{split[0]}があります。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                    unknownPaths.Add(split[0]);
                 }
                 catch
                 {
                     throw new InvalidOperationException();
                 }
             }
+            return unknownPaths;
         }
 
     }
