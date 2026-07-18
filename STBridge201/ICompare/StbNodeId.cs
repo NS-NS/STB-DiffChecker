@@ -18,8 +18,8 @@ namespace ST_BRIDGE201
                 return false;
             }
 
-            StbNode nodeA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id);
-            StbNode nodeB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id);
+            StbNode nodeA = stbA.FindNode(id);
+            StbNode nodeB = stbB.FindNode(other.id);
 
             if (nodeA == null || nodeB == null)
             {
@@ -32,7 +32,7 @@ namespace ST_BRIDGE201
         public IEnumerable<string> GetKey(IST_BRIDGE istb)
         {
             ST_BRIDGE stb = istb as ST_BRIDGE;
-            StbNode node = stb.StbModel.StbNodes.FirstOrDefault(n => n.id == id);
+            StbNode node = stb.FindNode(id);
             return new List<string> { $"({node.X},{node.Y},{node.Z})" };
         }
     }

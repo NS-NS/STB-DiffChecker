@@ -81,7 +81,7 @@
     <button class="btn btn-primary" disabled="@(stbA == null || stbB == null || running)" @onclick="RunCompare">実行</button>
     @if (running)
     {
-        <span class="ms-2 spinner-border spinner-border-sm"></span> <span>比較中...</span>
+        <span class="ms-2 spinner-border spinner-border-sm"></span> <span>@(progressText ?? "比較中...")</span>
     }
     @if (errorMessage != null)
     {
@@ -212,6 +212,7 @@
 
     private string? settingMessage;
     private string? errorMessage;
+    private string? progressText;
     private bool running;
 
     private Dictionary<string, List<Record>>? results;
@@ -338,14 +339,31 @@
         if (stbA == null || stbB == null) { return; }
         running = true;
         errorMessage = null;
+        progressText = "比較中...";
         StateHasChanged();
         await Task.Delay(30); // スピナー描画のため一度UIに制御を返す
 
         try
         {
-            List<string> targetNames = tabs.Select(n => n.Item1).ToList();
-            results = ObjectComparer.CompareSTBridgeFiles(
-                stbA, stbB, targetNames, engine.Importance.UserImportance(), engine.Tolerance);
+            // タブ単位で比較し、進捗を表示しながらUIに制御を返す
+            Dictionary<string, Importance> importanceDict = engine.Importance.UserImportance();
+            Dictionary<string, List<Record>> merged = [];
+            for (int i = 0; i < tabs.Count; i++)
+            {
+                (string root, string header) = tabs[i];
+                progressText = $"比較中... {header} ({i + 1}/{tabs.Count})";
+                StateHasChanged();
+                await Task.Delay(1);
+
+                Dictionary<string, List<Record>> partial = ObjectComparer.CompareSTBridgeFiles(
+                    stbA, stbB, [root], importanceDict, engine.Tolerance);
+                foreach (KeyValuePair<string, List<Record>> kv in partial)
+                {
+                    merged[kv.Key] = kv.Value;
+                }
+            }
+
+            results = merged;
             selectedTab = results.Keys.FirstOrDefault();
         }
         catch (Exception ex)
@@ -356,6 +374,7 @@
         finally
         {
             running = false;
+            progressText = null;
         }
     }
 

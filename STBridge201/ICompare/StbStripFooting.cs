@@ -16,10 +16,10 @@ namespace ST_BRIDGE201
             {
                 return false;
             }
-            StbNode startA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_start);
-            StbNode endA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_end);
-            StbNode startB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_start);
-            StbNode endB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_end);
+            StbNode startA = stbA.FindNode(id_node_start);
+            StbNode endA = stbA.FindNode(id_node_end);
+            StbNode startB = stbB.FindNode(other.id_node_start);
+            StbNode endB = stbB.FindNode(other.id_node_end);
 
             if (startA == null || endA == null || startB == null || endB == null)
             {
@@ -37,8 +37,8 @@ namespace ST_BRIDGE201
         public IEnumerable<string> GetKey(IST_BRIDGE istb)
         {
             ST_BRIDGE? stb = istb as ST_BRIDGE;
-            StbNode bottom = stb.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_start);
-            StbNode top = stb.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_end);
+            StbNode bottom = stb.FindNode(id_node_start);
+            StbNode top = stb.FindNode(id_node_end);
             return [$"start=({bottom.X},{bottom.Y},{bottom.Z})", $"end=({top.X},{top.Y},{top.Z})"];
         }
 

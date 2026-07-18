@@ -20,14 +20,14 @@ namespace ST_BRIDGE201
             List<StbNode> nodeA = [];
             foreach (string id in this.StbNodeIdOrder.Split(' '))
             {
-                StbNode node = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id);
+                StbNode node = stbA.FindNode(id);
                 nodeA.Add(node);
             }
 
             List<StbNode> nodeB = [];
             foreach (string id in other.StbNodeIdOrder.Split(' '))
             {
-                StbNode node = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == id);
+                StbNode node = stbB.FindNode(id);
                 nodeB.Add(node);
             }
 
@@ -69,14 +69,14 @@ namespace ST_BRIDGE201
             List<StbNode> nodeA = [];
             foreach (string id in this.StbNodeIdOrder.Split(' '))
             {
-                StbNode node = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id);
+                StbNode node = stbA.FindNode(id);
                 nodeA.Add(node);
             }
 
             List<StbNode> nodeB = [];
             foreach (string id in other.StbNodeIdOrder.Split(' '))
             {
-                StbNode node = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == id);
+                StbNode node = stbB.FindNode(id);
                 nodeB.Add(node);
             }
 
@@ -111,7 +111,7 @@ namespace ST_BRIDGE201
             string[] ids = this.StbNodeIdOrder.Split(' ');
             for (int i = 0; i < ids.Count(); i++)
             {
-                StbNode node = stb.StbModel.StbNodes.FirstOrDefault(n => n.id == ids.ElementAt(i));
+                StbNode node = stb.FindNode(ids.ElementAt(i));
                 key.Add($"節点{i + 1}=({node.X},{node.Y},{node.Z})");
             }
             return key;

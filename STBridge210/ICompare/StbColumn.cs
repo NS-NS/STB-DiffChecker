@@ -17,10 +17,10 @@ namespace ST_BRIDGE210
             {
                 return false;
             }
-            StbNode bottomA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_bottom);
-            StbNode topA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_top);
-            StbNode bottomB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_bottom);
-            StbNode topB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_top);
+            StbNode bottomA = stbA.FindNode(id_node_bottom);
+            StbNode topA = stbA.FindNode(id_node_top);
+            StbNode bottomB = stbB.FindNode(other.id_node_bottom);
+            StbNode topB = stbB.FindNode(other.id_node_top);
 
             if (bottomA == null || topA == null || bottomB == null || topB == null)
             {
@@ -45,10 +45,10 @@ namespace ST_BRIDGE210
             ST_BRIDGE? stbA = istbA as ST_BRIDGE;
             ST_BRIDGE? stbB = istbB as ST_BRIDGE;
 
-            StbNode bottomA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_bottom);
-            StbNode topA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_top);
-            StbNode bottomB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_bottom);
-            StbNode topB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_top);
+            StbNode bottomA = stbA.FindNode(id_node_bottom);
+            StbNode topA = stbA.FindNode(id_node_top);
+            StbNode bottomB = stbB.FindNode(other.id_node_bottom);
+            StbNode topB = stbB.FindNode(other.id_node_top);
 
             if (bottomA == null || topA == null || bottomB == null || topB == null)
             {
@@ -66,8 +66,8 @@ namespace ST_BRIDGE210
         public IEnumerable<string> GetKey(IST_BRIDGE istb)
         {
             ST_BRIDGE? stb = istb as ST_BRIDGE;
-            StbNode bottom = stb.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_bottom);
-            StbNode top = stb.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_top);
+            StbNode bottom = stb.FindNode(id_node_bottom);
+            StbNode top = stb.FindNode(id_node_top);
             return [$"bottom=({bottom.X},{bottom.Y},{bottom.Z})", $"top=({top.X},{top.Y},{top.Z})"];
         }
 

@@ -16,8 +16,8 @@ namespace ST_BRIDGE202
                 return false;
             }
 
-            StbNode nodeA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node);
-            StbNode nodeB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node);
+            StbNode nodeA = stbA.FindNode(id_node);
+            StbNode nodeB = stbB.FindNode(other.id_node);
 
             if (nodeA == null || nodeB == null)
             {
@@ -39,8 +39,8 @@ namespace ST_BRIDGE202
             ST_BRIDGE? stbA = istbA as ST_BRIDGE;
             ST_BRIDGE? stbB = istbB as ST_BRIDGE;
 
-            StbNode nodeA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node);
-            StbNode nodeB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node);
+            StbNode nodeA = stbA.FindNode(id_node);
+            StbNode nodeB = stbB.FindNode(other.id_node);
 
             if (nodeA == null || nodeB == null)
             {
@@ -55,7 +55,7 @@ namespace ST_BRIDGE202
         public IEnumerable<string> GetKey(IST_BRIDGE istb)
         {
             ST_BRIDGE? stb = istb as ST_BRIDGE;
-            StbNode node = stb.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node);
+            StbNode node = stb.FindNode(id_node);
             return [$"offset=({node.X},{node.Y},{node.Z})"];
         }
     }

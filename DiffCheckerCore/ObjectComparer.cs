@@ -1,6 +1,7 @@
 ﻿using DiffCheckerLib.Enum;
 using DiffCheckerLib.Interface;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,44 @@ namespace DiffCheckerLib
     /// </summary>
     public static class ObjectComparer
     {
+        /// <summary>
+        /// 型ごとのリフレクション情報キャッシュ
+        /// GetProperties/GetCustomAttributesは高コストなため型単位で1回だけ解決する
+        /// </summary>
+        private sealed class TypeShape
+        {
+            public required PropertyInfo[] AllProperties { get; init; }
+            public required PropertyInfo[] AttributeProperties { get; init; }
+            public required PropertyInfo[] ElementProperties { get; init; }
+            public required Dictionary<string, PropertyInfo> SpecifiedProperties { get; init; }
+        }
+
+        private static readonly ConcurrentDictionary<Type, TypeShape> typeShapeCache = new();
+
+        private static TypeShape GetShape(Type type)
+        {
+            return typeShapeCache.GetOrAdd(type, t =>
+            {
+                PropertyInfo[] all = t.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                Dictionary<string, PropertyInfo> specified = [];
+                foreach (PropertyInfo p in all)
+                {
+                    if (p.Name.EndsWith("Specified"))
+                    {
+                        specified[p.Name[..^"Specified".Length]] = p;
+                    }
+                }
+
+                return new TypeShape
+                {
+                    AllProperties = all,
+                    AttributeProperties = all.Where(p => p.GetCustomAttributes(typeof(XmlAttributeAttribute), true).Any()).ToArray(),
+                    ElementProperties = all.Where(p => !p.GetCustomAttributes(typeof(XmlAttributeAttribute), true).Any()).ToArray(),
+                    SpecifiedProperties = specified,
+                };
+            });
+        }
+
         /// <summary>
         /// UserImportanceで設定した重要度を取得する
         /// XMLパスが一致するものを取得するが、参照先を比較しているものについては末尾が一致しているかを確認する
@@ -149,17 +188,12 @@ namespace DiffCheckerLib
                 return;
             }
 
-            // プロパティの比較
-            PropertyInfo[] properties = objA.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            // プロパティの比較（型ごとのキャッシュを利用）
+            TypeShape shape = GetShape(objA.GetType());
 
             // 属性→要素の順に比較
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in shape.AttributeProperties)
             {
-                if (!property.GetCustomAttributes(typeof(XmlAttributeAttribute), true).Any())
-                {
-                    continue;
-                }
-
                 object valueA = property.GetValue(objA);
                 object valueB = property.GetValue(objB);
                 if (valueA == null && valueB == null)
@@ -177,9 +211,8 @@ namespace DiffCheckerLib
                     continue;
                 }
 
-                if (properties.Any(p => p.Name == $"{property.Name}Specified"))
+                if (shape.SpecifiedProperties.TryGetValue(property.Name, out PropertyInfo specifiedProp))
                 {
-                    PropertyInfo specifiedProp = properties.First(p => p.Name == $"{property.Name}Specified");
                     bool specifiedA = (bool)specifiedProp.GetValue(objA, null);
                     bool specifiedB = (bool)specifiedProp.GetValue(objB, null);
                     if (specifiedA == false && specifiedB == false)
@@ -219,13 +252,8 @@ namespace DiffCheckerLib
             }
 
 
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in shape.ElementProperties)
             {
-                if (property.GetCustomAttributes(typeof(XmlAttributeAttribute), true).Any())
-                {
-                    continue;
-                }
-
                 object valueA = property.GetValue(objA);
                 object valueB = property.GetValue(objB);
 
@@ -320,10 +348,6 @@ namespace DiffCheckerLib
             {
                 Array arrayA = (Array)valueA;
                 Array arrayB = (Array)valueB;
-                if (propertyName == "Items")
-                {
-                    _ = valueA.GetType().Name;
-                }
 
                 // Nullableによって場合分け
                 if (property.GetCustomAttributes(typeof(XmlArrayItemAttribute), false).FirstOrDefault() is XmlArrayItemAttribute xmlArrayItemAttribute && xmlArrayItemAttribute.IsNullable == false)
@@ -370,7 +394,7 @@ namespace DiffCheckerLib
             }
 
             // 直下のプロパティに見つからなかった場合、さらに再帰的に探索
-            foreach (PropertyInfo property in objType.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            foreach (PropertyInfo property in GetShape(objType).AllProperties)
             {
                 // プロパティの値を取得（nullの場合はスキップ）
                 object propertyValue = property.GetValue(obj);
@@ -432,6 +456,19 @@ namespace DiffCheckerLib
                 }
             }
 
+            // 型ごとのバケットに分けて探索量を減らす
+            // (CompareToは型不一致で必ずfalseを返すため、同型のみの探索で結果は変わらない)
+            Dictionary<Type, List<object>> bucketsB = [];
+            foreach (object itemB in unmatchedInB)
+            {
+                if (!bucketsB.TryGetValue(itemB.GetType(), out List<object> bucket))
+                {
+                    bucket = [];
+                    bucketsB[itemB.GetType()] = bucket;
+                }
+                bucket.Add(itemB);
+            }
+
             // 比較済みを除外するためのリスト
             if (arrayA != null)
             {
@@ -439,39 +476,51 @@ namespace DiffCheckerLib
                 {
                     IEnumerable<string> key2 = [];
                     Consistency consistent = Consistency.Inconsistent;
-                    object matchedItemB = unmatchedInB.FirstOrDefault(itemB =>
+                    object matchedItemB = null;
+
+                    if (bucketsB.TryGetValue(itemA.GetType(), out List<object> candidates) && candidates.Count > 0)
                     {
-                        if (itemA is ICompare compareA && itemB is ICompare compareB)
+                        if (itemA is ICompare compareA)
                         {
+                            // GetKeyは要素Aにつき1回だけ計算する
                             key2 = compareA.GetKey(stbA);
-                            if (compareA.CompareTo(compareB, stbA, stbB))
+                            foreach (object itemB in candidates)
                             {
-                                consistent = Consistency.Consistent;
-                                return true;
+                                if (itemB is ICompare compareB)
+                                {
+                                    if (compareA.CompareTo(compareB, stbA, stbB))
+                                    {
+                                        consistent = Consistency.Consistent;
+                                        matchedItemB = itemB;
+                                        break;
+                                    }
+                                    if (compareA.AlmostCompareTo(compareB, stbA, stbB, toleranceSetting))
+                                    {
+                                        consistent = Consistency.AlmostMatch;
+                                        matchedItemB = itemB;
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    // 同型でICompareでない場合は型一致でマッチ(従来動作)
+                                    consistent = Consistency.Consistent;
+                                    matchedItemB = itemB;
+                                    break;
+                                }
                             }
-                            else if (compareA.AlmostCompareTo(compareB, stbA, stbB, toleranceSetting))
-                            {
-                                consistent = Consistency.AlmostMatch;
-                                return true;
-                            }
-                            return false;
                         }
                         else
                         {
-                            Type typeA = itemA.GetType();
-                            Type typeB = itemB.GetType();
-
-                            if (typeA == typeB)
-                            {
-                                consistent = Consistency.Consistent;
-                            }
-
-                            return typeA == typeB;
+                            // ICompareを持たない要素は型一致でマッチ(従来動作)
+                            consistent = Consistency.Consistent;
+                            matchedItemB = candidates[0];
                         }
-                    });
+                    }
 
                     if (matchedItemB != null)
                     {
+                        _ = bucketsB[matchedItemB.GetType()].Remove(matchedItemB);
                         // 一致するものがあれば再帰的に比較
                         string elementOnlyKey = $"{itemA.GetType().Name}";
 
