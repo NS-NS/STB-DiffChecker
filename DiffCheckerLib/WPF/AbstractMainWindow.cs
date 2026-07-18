@@ -44,9 +44,11 @@ namespace DiffCheckerLib.WPF
         protected IST_BRIDGE istBridgeB;
 
         /// <summary>
-        /// バージョンを指定(例:2.0.1)
+        /// 読み込むファイルのバージョンを受け入れられるか確認する
+        /// 必要に応じて内部状態(設定・スキーマ)をそのバージョンへ切り替える
+        /// 受け入れられない場合は実装側でエラーダイアログを表示してfalseを返す
         /// </summary>
-        protected abstract string GetVersion();
+        protected abstract bool PrepareForVersion(string version);
 
         /// <summary>
         /// 各バージョンのST_BRIDGEを取得
@@ -61,13 +63,9 @@ namespace DiffCheckerLib.WPF
             // Encodingとversionチェック
             (string, string) encodingAndVersion = XmlValidate.CheckVersionAndEncoding(path);
 
-            if (encodingAndVersion.Item1 != GetVersion())
+            // バージョンの受け入れ確認(エラーダイアログは実装側が表示する)
+            if (!PrepareForVersion(encodingAndVersion.Item1))
             {
-                _ = MessageBox.Show(
-                                     $"ST-Bridgeのバージョンが" + GetVersion() + "と異なります。",
-                                     "ST-Bridgeのバージョンエラー",
-                                     MessageBoxButton.OK,
-                                     MessageBoxImage.Error);
                 return null;
             }
 

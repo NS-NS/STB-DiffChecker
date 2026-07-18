@@ -1,8 +1,6 @@
-﻿using System.Configuration;
-using System.Data;
 using System.Windows;
 
-namespace STB_DiffChecker_202
+namespace STB_DiffChecker
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -10,5 +8,4 @@ namespace STB_DiffChecker_202
     public partial class App : Application
     {
     }
-
 }

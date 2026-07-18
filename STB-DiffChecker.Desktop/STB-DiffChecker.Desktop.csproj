@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <RootNamespace>STB_DiffChecker_202</RootNamespace>
+    <AssemblyName>STB-DiffChecker</AssemblyName>
+    <RootNamespace>STB_DiffChecker</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -11,13 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DiffCheckerLib\DiffCheckerLib.csproj" />
+    <ProjectReference Include="..\STBridge201\STBridge201.csproj" />
     <ProjectReference Include="..\STBridge202\STBridge202.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
+    <ProjectReference Include="..\STBridge210\STBridge210.csproj" />
   </ItemGroup>
 
 </Project>
