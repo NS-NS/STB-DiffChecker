@@ -147,7 +147,7 @@
                 <option value="対象外">対象外</option>
             </select>
         </span>
-        <input class="form-control form-control-sm w-auto d-inline-block ms-3" placeholder="検索(XMLパス・キー)" value="@searchText" @oninput="OnSearchInput" />
+        <input class="form-control form-control-sm w-auto d-inline-block ms-3" placeholder="検索(XMLパス・キー) Enterで実行" @bind="SearchTextBound" />
     </div>
 
     @if (selectedTab != null)
@@ -224,7 +224,6 @@
     // フィルタ適用済みレコードのキャッシュ（フィルタ条件が変わった時だけ再計算する）
     private List<Record> filteredRecords = [];
     private int currentTabTotal;
-    private CancellationTokenSource? searchDebounce;
 
     private string? SelectedTabBound
     {
@@ -245,23 +244,12 @@
     }
 
     /// <summary>
-    /// 検索入力はデバウンスし、入力が止まってからフィルタを実行する
+    /// 検索はEnter確定(またはフォーカスアウト)時のみ実行する。入力中は何も処理しない
     /// </summary>
-    private async Task OnSearchInput(ChangeEventArgs e)
+    private string SearchTextBound
     {
-        searchText = e.Value?.ToString() ?? "";
-        searchDebounce?.Cancel();
-        searchDebounce = new CancellationTokenSource();
-        try
-        {
-            await Task.Delay(300, searchDebounce.Token);
-        }
-        catch (TaskCanceledException)
-        {
-            return;
-        }
-        RefreshFiltered();
-        StateHasChanged();
+        get => searchText;
+        set { searchText = value; RefreshFiltered(); }
     }
 
     private void RefreshFiltered()
