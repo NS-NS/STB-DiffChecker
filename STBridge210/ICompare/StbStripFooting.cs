@@ -21,6 +21,11 @@ namespace ST_BRIDGE210
             StbNode startB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_start);
             StbNode endB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_end);
 
+            if (startA == null || endA == null || startB == null || endB == null)
+            {
+                return false;
+            }
+
             return Math.Abs(startA.X - startB.X) < Utility.Tolerance &&
                    Math.Abs(startA.Y - startB.Y) < Utility.Tolerance &&
                    Math.Abs(startA.Z - startB.Z) < Utility.Tolerance &&
@@ -65,8 +70,8 @@ namespace ST_BRIDGE210
         }
         private string FindFoundationName(string id, ST_BRIDGE stbridge)
         {
-            StbSecFoundation_RC footing = stbridge?.StbModel?.StbSections?.StbSecFoundation_RC.FirstOrDefault(n => n.id == id);
-            return footing.name;
+            StbSecFoundation_RC footing = stbridge?.StbModel?.StbSections?.StbSecFoundation_RC?.FirstOrDefault(n => n.id == id);
+            return footing?.name;
         }
     }
 }

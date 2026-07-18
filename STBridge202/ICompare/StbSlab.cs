@@ -40,6 +40,11 @@ namespace ST_BRIDGE202
                 return false;
             }
 
+            if (nodeA.Contains(null) || nodeB.Contains(null))
+            {
+                return false;
+            }
+
             // startが同じと仮定
             for (int i = 0; i < nodeA.Count; i++)
             {
@@ -80,6 +85,11 @@ namespace ST_BRIDGE202
             }
 
             if (nodeA.Count != nodeB.Count)
+            {
+                return false;
+            }
+
+            if (nodeA.Contains(null) || nodeB.Contains(null))
             {
                 return false;
             }
@@ -167,18 +177,18 @@ namespace ST_BRIDGE202
         {
             if (kind == "RC")
             {
-                StbSecSlab_RC slab = stbridge?.StbModel?.StbSections?.StbSecSlab_RC.FirstOrDefault(n => n.id == id);
-                return slab.name;
+                StbSecSlab_RC slab = stbridge?.StbModel?.StbSections?.StbSecSlab_RC?.FirstOrDefault(n => n.id == id);
+                return slab?.name;
             }
             else if (kind == "DECK")
             {
-                StbSecSlabDeck slab = stbridge?.StbModel?.StbSections?.StbSecSlabDeck.FirstOrDefault(n => n.id == id);
-                return slab.name;
+                StbSecSlabDeck slab = stbridge?.StbModel?.StbSections?.StbSecSlabDeck?.FirstOrDefault(n => n.id == id);
+                return slab?.name;
             }
             else if (kind == "PRECAST")
             {
-                StbSecSlabPrecast slab = stbridge?.StbModel?.StbSections?.StbSecSlabPrecast.FirstOrDefault(n => n.id == id);
-                return slab.name;
+                StbSecSlabPrecast slab = stbridge?.StbModel?.StbSections?.StbSecSlabPrecast?.FirstOrDefault(n => n.id == id);
+                return slab?.name;
             }
             else
             {

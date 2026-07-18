@@ -22,8 +22,13 @@ namespace ST_BRIDGE202
             }
 
             StbNode nodeA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node);
-            StbNode nodeB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node);
+            StbNode nodeB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node);
 
+
+            if (nodeA == null || nodeB == null)
+            {
+                return false;
+            }
 
             return Math.Abs(nodeA.X - nodeB.X) <= Utility.Tolerance &&
                    Math.Abs(nodeA.Y - nodeB.Y) <= Utility.Tolerance &&
@@ -69,8 +74,8 @@ namespace ST_BRIDGE202
         }
         private string FindColumnName(string id, ST_BRIDGE stbridge)
         {
-            StbSecColumn_RC footing = stbridge?.StbModel?.StbSections?.StbSecColumn_RC.FirstOrDefault(n => n.id == id);
-            return footing.floor + "/" + footing.name;
+            StbSecColumn_RC footing = stbridge?.StbModel?.StbSections?.StbSecColumn_RC?.FirstOrDefault(n => n.id == id);
+            return footing == null ? null : footing.floor + "/" + footing.name;
         }
     }
 }

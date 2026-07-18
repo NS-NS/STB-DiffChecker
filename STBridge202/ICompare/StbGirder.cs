@@ -22,6 +22,11 @@ namespace ST_BRIDGE202
             StbNode startB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_start);
             StbNode endB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_end);
 
+            if (startA == null || endA == null || startB == null || endB == null)
+            {
+                return false;
+            }
+
             return Math.Abs(startA.X - startB.X) < Utility.Tolerance &&
                    Math.Abs(startA.Y - startB.Y) < Utility.Tolerance &&
                    Math.Abs(startA.Z - startB.Z) < Utility.Tolerance &&
@@ -32,7 +37,7 @@ namespace ST_BRIDGE202
 
         public bool AlmostCompareTo(object obj, IST_BRIDGE istbA, IST_BRIDGE istbB, IToleranceSetting itoleranceSetting)
         {
-            if (obj is not StbColumn other)
+            if (obj is not StbGirder other)
             {
                 return false;
             }
@@ -42,8 +47,13 @@ namespace ST_BRIDGE202
 
             StbNode startA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_start);
             StbNode endA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_end);
-            StbNode startB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_bottom);
-            StbNode endB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_top);
+            StbNode startB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_start);
+            StbNode endB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_end);
+
+            if (startA == null || endA == null || startB == null || endB == null)
+            {
+                return false;
+            }
 
             return Math.Abs(startA.X - startB.X) < toleranceSetting.GirderTolerance.Node &&
                    Math.Abs(startA.Y - startB.Y) < toleranceSetting.GirderTolerance.Node &&
@@ -119,15 +129,15 @@ namespace ST_BRIDGE202
             else if (info.Name is "joint_id_start" or "joint_id_end")
             {
                 string jointA = string.Empty;
-                if (stbA.StbModel.StbJoints.StbJointBeamShapeH.Any(n => n.id == valueA.ToString()))
+                if (stbA.StbModel?.StbJoints?.StbJointBeamShapeH?.Any(n => n.id == valueA.ToString()) == true)
                 {
                     jointA = stbA.StbModel.StbJoints.StbJointBeamShapeH.First(n => n.id == valueA.ToString()).joint_mark;
                 }
 
                 string jointB = string.Empty;
-                if (stbB.StbModel.StbJoints.StbJointBeamShapeH.Any(n => n.id == valueA.ToString()))
+                if (stbB.StbModel?.StbJoints?.StbJointBeamShapeH?.Any(n => n.id == valueB.ToString()) == true)
                 {
-                    jointB = stbB.StbModel.StbJoints.StbJointBeamShapeH.First(n => n.id == valueA.ToString()).joint_mark;
+                    jointB = stbB.StbModel.StbJoints.StbJointBeamShapeH.First(n => n.id == valueB.ToString()).joint_mark;
                 }
 
                 records.Add(new Record(
@@ -146,18 +156,18 @@ namespace ST_BRIDGE202
         {
             if (kind == "RC")
             {
-                StbSecBeam_RC beam = stbridge?.StbModel?.StbSections?.StbSecBeam_RC.FirstOrDefault(n => n.id == id);
-                return beam.floor + "/" + beam.name;
+                StbSecBeam_RC beam = stbridge?.StbModel?.StbSections?.StbSecBeam_RC?.FirstOrDefault(n => n.id == id);
+                return beam == null ? null : beam.floor + "/" + beam.name;
             }
             else if (kind == "S")
             {
-                StbSecBeam_S beam = stbridge?.StbModel?.StbSections?.StbSecBeam_S.FirstOrDefault(n => n.id == id);
-                return beam.floor + "/" + beam.name;
+                StbSecBeam_S beam = stbridge?.StbModel?.StbSections?.StbSecBeam_S?.FirstOrDefault(n => n.id == id);
+                return beam == null ? null : beam.floor + "/" + beam.name;
             }
             else if (kind == "SRC")
             {
-                StbSecBeam_SRC beam = stbridge?.StbModel?.StbSections?.StbSecBeam_SRC.FirstOrDefault(n => n.id == id);
-                return beam.floor + "/" + beam.name;
+                StbSecBeam_SRC beam = stbridge?.StbModel?.StbSections?.StbSecBeam_SRC?.FirstOrDefault(n => n.id == id);
+                return beam == null ? null : beam.floor + "/" + beam.name;
             }
             else
             {

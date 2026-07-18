@@ -25,6 +25,11 @@ namespace ST_BRIDGE202
             StbNode startB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_start);
             StbNode endB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_end);
 
+            if (startA == null || endA == null || startB == null || endB == null)
+            {
+                return false;
+            }
+
             return Math.Abs(startA.X - startB.X) < Utility.Tolerance &&
                    Math.Abs(startA.Y - startB.Y) < Utility.Tolerance &&
                    Math.Abs(startA.Z - startB.Z) < Utility.Tolerance &&
@@ -78,8 +83,8 @@ namespace ST_BRIDGE202
         {
             if (kind == "RC")
             {
-                StbSecParapet_RC parapet = stbridge?.StbModel?.StbSections?.StbSecParapet_RC.FirstOrDefault(n => n.id == id);
-                return parapet.name;
+                StbSecParapet_RC parapet = stbridge?.StbModel?.StbSections?.StbSecParapet_RC?.FirstOrDefault(n => n.id == id);
+                return parapet?.name;
             }
             else
             {

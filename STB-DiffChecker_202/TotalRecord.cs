@@ -74,7 +74,7 @@ namespace STB_DiffChecker_202
                         case 32: numberA = stbridgeA?.StbModel?.StbSections?.StbSecFoundation_RC?.Length ?? 0; numberB = stbridgeB?.StbModel?.StbSections?.StbSecFoundation_RC?.Length ?? 0; break;
                         case 33: numberA = stbridgeA?.StbModel?.StbSections?.StbSecPile_RC?.Length ?? 0; numberB = stbridgeB?.StbModel?.StbSections?.StbSecPile_RC?.Length ?? 0; break;
                         case 34: numberA = stbridgeA?.StbModel?.StbSections?.StbSecPile_S?.Length ?? 0; numberB = stbridgeB?.StbModel?.StbSections?.StbSecPile_S?.Length ?? 0; break;
-                        case 35: numberA = stbridgeA?.StbModel?.StbSections?.StbSecPile_S?.Length ?? 0; numberB = stbridgeB?.StbModel?.StbSections?.StbSecPile_S?.Length ?? 0; break;
+                        case 35: numberA = stbridgeA?.StbModel?.StbSections?.StbSecPileProduct?.Length ?? 0; numberB = stbridgeB?.StbModel?.StbSections?.StbSecPileProduct?.Length ?? 0; break;
                         case 36: numberA = stbridgeA?.StbModel?.StbSections?.StbSecParapet_RC?.Length ?? 0; numberB = stbridgeB?.StbModel?.StbSections?.StbSecParapet_RC?.Length ?? 0; break;
                         case 37:
                             numberA = stbridgeA?.StbModel?.StbJoints?.StbJointColumnShapeH?.Length ?? 0

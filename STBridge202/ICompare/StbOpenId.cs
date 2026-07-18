@@ -20,7 +20,12 @@ namespace ST_BRIDGE202
             }
 
             StbOpen openA = stbA.StbModel.StbMembers.StbOpens.FirstOrDefault(n => n.id == id);
-            StbOpen openB = stbB.StbModel.StbMembers.StbOpens.FirstOrDefault(n => n.id == id);
+            StbOpen openB = stbB.StbModel.StbMembers.StbOpens.FirstOrDefault(n => n.id == other.id);
+
+            if (openA == null || openB == null)
+            {
+                return false;
+            }
 
             return Math.Abs(openA.position_X - openB.position_X) <= Utility.Tolerance &&
                 Math.Abs(openA.position_Y - openB.position_Y) <= Utility.Tolerance &&

@@ -26,6 +26,11 @@ namespace ST_BRIDGE210
             StbNode nodeB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node);
 
 
+            if (nodeA == null || nodeB == null)
+            {
+                return false;
+            }
+
             return Math.Abs(nodeA.X - nodeB.X) <= Utility.Tolerance &&
                    Math.Abs(nodeA.Y - nodeB.Y) <= Utility.Tolerance &&
                    Math.Abs(nodeA.Z - nodeB.Z) <= Utility.Tolerance &&
@@ -80,17 +85,17 @@ namespace ST_BRIDGE210
             if (kind == "RC")
             {
                 StbSecPile_RC pile = stbridge?.StbModel?.StbSections?.StbSecPile_RC?.FirstOrDefault(n => n.id == id_section);
-                return pile.name;
+                return pile?.name;
             }
             else if (kind == "S")
             {
-                StbSecPile_S pile = stbridge?.StbModel?.StbSections?.StbSecPile_S.FirstOrDefault(n => n.id == id_section);
-                return pile.name;
+                StbSecPile_S pile = stbridge?.StbModel?.StbSections?.StbSecPile_S?.FirstOrDefault(n => n.id == id_section);
+                return pile?.name;
             }
             else if (kind == "PC")
             {
-                StbSecPilePrecast pile = stbridge?.StbModel?.StbSections?.StbSecPilePrecast.FirstOrDefault(n => n.id == id_section);
-                return pile.name;
+                StbSecPilePrecast pile = stbridge?.StbModel?.StbSections?.StbSecPilePrecast?.FirstOrDefault(n => n.id == id_section);
+                return pile?.name;
             }
             return null;
         }

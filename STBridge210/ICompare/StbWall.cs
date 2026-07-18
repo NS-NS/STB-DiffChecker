@@ -36,6 +36,11 @@ namespace ST_BRIDGE210
                 return false;
             }
 
+            if (nodeA.Contains(null) || nodeB.Contains(null))
+            {
+                return false;
+            }
+
             // startが同じと仮定
             for (int i = 0; i < nodeA.Count; i++)
             {
@@ -76,6 +81,11 @@ namespace ST_BRIDGE210
             }
 
             if (nodeA.Count != nodeB.Count)
+            {
+                return false;
+            }
+
+            if (nodeA.Contains(null) || nodeB.Contains(null))
             {
                 return false;
             }
@@ -162,8 +172,8 @@ namespace ST_BRIDGE210
         {
             if (kind == "RC")
             {
-                StbSecWall_RC wall = stbridge?.StbModel?.StbSections?.StbSecWall_RC.FirstOrDefault(n => n.id == id);
-                return wall.name;
+                StbSecWall_RC wall = stbridge?.StbModel?.StbSections?.StbSecWall_RC?.FirstOrDefault(n => n.id == id);
+                return wall?.name;
             }
             else
             {

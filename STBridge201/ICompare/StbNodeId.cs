@@ -21,6 +21,11 @@ namespace ST_BRIDGE201
             StbNode nodeA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id);
             StbNode nodeB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id);
 
+            if (nodeA == null || nodeB == null)
+            {
+                return false;
+            }
+
             return Math.Abs(nodeA.X - nodeB.X) < 0.00001 && Math.Abs(nodeA.Y - nodeB.Y) < 0.00001 && Math.Abs(nodeA.Z - nodeB.Z) < 0.00001;
         }
 

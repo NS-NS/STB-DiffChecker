@@ -26,31 +26,31 @@ namespace ST_BRIDGE210
             if (info.Name == "joint_id_top" || info.Name == "joint_id_bottom")
             {
                 string jointA = string.Empty;
-                if (stbA.StbModel.StbJoints.StbJointColumnShapeH.Any(n => n.id == valueA.ToString()))
+                if (stbA.StbModel?.StbJoints?.StbJointColumnShapeH?.Any(n => n.id == valueA.ToString()) == true)
                 {
                     jointA = stbA.StbModel.StbJoints.StbJointColumnShapeH.First(n => n.id == valueA.ToString()).joint_mark;
                 }
-                else if (stbA.StbModel.StbJoints.StbJointColumnShapeT.Any(n => n.id == valueA.ToString()))
+                else if (stbA.StbModel?.StbJoints?.StbJointColumnShapeT?.Any(n => n.id == valueA.ToString()) == true)
                 {
                     jointA = stbA.StbModel.StbJoints.StbJointColumnShapeT.First(n => n.id == valueA.ToString()).joint_mark;
                 }
-                else if (stbA.StbModel.StbJoints.StbJointColumnShapeCross.Any(n => n.id == valueA.ToString()))
+                else if (stbA.StbModel?.StbJoints?.StbJointColumnShapeCross?.Any(n => n.id == valueA.ToString()) == true)
                 {
                     jointA = stbA.StbModel.StbJoints.StbJointColumnShapeCross.First(n => n.id == valueA.ToString()).joint_mark;
                 }
 
                 string jointB = string.Empty;
-                if (stbB.StbModel.StbJoints.StbJointColumnShapeH.Any(n => n.id == valueA.ToString()))
+                if (stbB.StbModel?.StbJoints?.StbJointColumnShapeH?.Any(n => n.id == valueB.ToString()) == true)
                 {
-                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeH.First(n => n.id == valueA.ToString()).joint_mark;
+                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeH.First(n => n.id == valueB.ToString()).joint_mark;
                 }
-                else if (stbB.StbModel.StbJoints.StbJointColumnShapeT.Any(n => n.id == valueA.ToString()))
+                else if (stbB.StbModel?.StbJoints?.StbJointColumnShapeT?.Any(n => n.id == valueB.ToString()) == true)
                 {
-                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeT.First(n => n.id == valueA.ToString()).joint_mark;
+                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeT.First(n => n.id == valueB.ToString()).joint_mark;
                 }
-                else if (stbB.StbModel.StbJoints.StbJointColumnShapeCross.Any(n => n.id == valueA.ToString()))
+                else if (stbB.StbModel?.StbJoints?.StbJointColumnShapeCross?.Any(n => n.id == valueB.ToString()) == true)
                 {
-                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeCross.First(n => n.id == valueA.ToString()).joint_mark;
+                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeCross.First(n => n.id == valueB.ToString()).joint_mark;
                 }
 
                 records.Add(new Record(

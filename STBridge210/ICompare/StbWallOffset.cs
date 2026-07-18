@@ -19,6 +19,11 @@ namespace ST_BRIDGE210
             StbNode nodeA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node);
             StbNode nodeB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node);
 
+            if (nodeA == null || nodeB == null)
+            {
+                return false;
+            }
+
             return Math.Abs(nodeA.X - nodeB.X) <= Utility.Tolerance &&
                 Math.Abs(nodeA.Y - nodeB.Y) <= Utility.Tolerance &&
                 Math.Abs(nodeA.Z - nodeB.Z) <= Utility.Tolerance;
@@ -36,6 +41,11 @@ namespace ST_BRIDGE210
 
             StbNode nodeA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node);
             StbNode nodeB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node);
+
+            if (nodeA == null || nodeB == null)
+            {
+                return false;
+            }
 
             return Math.Abs(nodeA.X - nodeB.X) <= toleranceSetting.WallTolerance.Offset &&
                 Math.Abs(nodeA.Y - nodeB.Y) <= toleranceSetting.WallTolerance.Offset &&

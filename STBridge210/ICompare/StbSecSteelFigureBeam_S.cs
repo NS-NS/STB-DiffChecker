@@ -23,15 +23,15 @@ namespace ST_BRIDGE210
             if (info.Name is "joint_id_start" or "joint_id_end")
             {
                 string jointA = string.Empty;
-                if (stbA.StbModel.StbJoints.StbJointBeamShapeH.Any(n => n.id == valueA.ToString()))
+                if (stbA.StbModel?.StbJoints?.StbJointBeamShapeH?.Any(n => n.id == valueA.ToString()) == true)
                 {
                     jointA = stbA.StbModel.StbJoints.StbJointBeamShapeH.First(n => n.id == valueA.ToString()).joint_mark;
                 }
 
                 string jointB = string.Empty;
-                if (stbB.StbModel.StbJoints.StbJointBeamShapeH.Any(n => n.id == valueA.ToString()))
+                if (stbB.StbModel?.StbJoints?.StbJointBeamShapeH?.Any(n => n.id == valueB.ToString()) == true)
                 {
-                    jointB = stbB.StbModel.StbJoints.StbJointBeamShapeH.First(n => n.id == valueA.ToString()).joint_mark;
+                    jointB = stbB.StbModel.StbJoints.StbJointBeamShapeH.First(n => n.id == valueB.ToString()).joint_mark;
                 }
 
                 records.Add(new Record(

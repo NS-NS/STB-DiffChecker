@@ -22,6 +22,11 @@ namespace ST_BRIDGE201
             StbNode bottomB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_bottom);
             StbNode topB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_top);
 
+            if (bottomA == null || topA == null || bottomB == null || topB == null)
+            {
+                return false;
+            }
+
             return Math.Abs(bottomA.X - bottomB.X) < Utility.Tolerance &&
                    Math.Abs(bottomA.Y - bottomB.Y) < Utility.Tolerance &&
                    Math.Abs(bottomA.Z - bottomB.Z) < Utility.Tolerance &&
@@ -44,6 +49,11 @@ namespace ST_BRIDGE201
             StbNode topA = stbA.StbModel.StbNodes.FirstOrDefault(n => n.id == id_node_top);
             StbNode bottomB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_bottom);
             StbNode topB = stbB.StbModel.StbNodes.FirstOrDefault(n => n.id == other.id_node_top);
+
+            if (bottomA == null || topA == null || bottomB == null || topB == null)
+            {
+                return false;
+            }
 
             return Math.Abs(bottomA.X - bottomB.X) < toleranceSetting.ColumnTolerance.Node &&
                    Math.Abs(bottomA.Y - bottomB.Y) < toleranceSetting.ColumnTolerance.Node &&
@@ -119,31 +129,31 @@ namespace ST_BRIDGE201
             else if (info.Name is "joint_id_top" or "joint_id_bottom")
             {
                 string jointA = string.Empty;
-                if (stbA.StbModel.StbJoints.StbJointColumnShapeH.Any(n => n.id == valueA.ToString()))
+                if (stbA.StbModel?.StbJoints?.StbJointColumnShapeH?.Any(n => n.id == valueA.ToString()) == true)
                 {
                     jointA = stbA.StbModel.StbJoints.StbJointColumnShapeH.First(n => n.id == valueA.ToString()).joint_mark;
                 }
-                else if (stbA.StbModel.StbJoints.StbJointColumnShapeT.Any(n => n.id == valueA.ToString()))
+                else if (stbA.StbModel?.StbJoints?.StbJointColumnShapeT?.Any(n => n.id == valueA.ToString()) == true)
                 {
                     jointA = stbA.StbModel.StbJoints.StbJointColumnShapeT.First(n => n.id == valueA.ToString()).joint_mark;
                 }
-                else if (stbA.StbModel.StbJoints.StbJointColumnShapeCross.Any(n => n.id == valueA.ToString()))
+                else if (stbA.StbModel?.StbJoints?.StbJointColumnShapeCross?.Any(n => n.id == valueA.ToString()) == true)
                 {
                     jointA = stbA.StbModel.StbJoints.StbJointColumnShapeCross.First(n => n.id == valueA.ToString()).joint_mark;
                 }
 
                 string jointB = string.Empty;
-                if (stbB.StbModel.StbJoints.StbJointColumnShapeH.Any(n => n.id == valueA.ToString()))
+                if (stbB.StbModel?.StbJoints?.StbJointColumnShapeH?.Any(n => n.id == valueB.ToString()) == true)
                 {
-                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeH.First(n => n.id == valueA.ToString()).joint_mark;
+                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeH.First(n => n.id == valueB.ToString()).joint_mark;
                 }
-                else if (stbB.StbModel.StbJoints.StbJointColumnShapeT.Any(n => n.id == valueA.ToString()))
+                else if (stbB.StbModel?.StbJoints?.StbJointColumnShapeT?.Any(n => n.id == valueB.ToString()) == true)
                 {
-                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeT.First(n => n.id == valueA.ToString()).joint_mark;
+                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeT.First(n => n.id == valueB.ToString()).joint_mark;
                 }
-                else if (stbB.StbModel.StbJoints.StbJointColumnShapeCross.Any(n => n.id == valueA.ToString()))
+                else if (stbB.StbModel?.StbJoints?.StbJointColumnShapeCross?.Any(n => n.id == valueB.ToString()) == true)
                 {
-                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeCross.First(n => n.id == valueA.ToString()).joint_mark;
+                    jointB = stbB.StbModel.StbJoints.StbJointColumnShapeCross.First(n => n.id == valueB.ToString()).joint_mark;
                 }
 
                 records.Add(new Record(
@@ -162,23 +172,23 @@ namespace ST_BRIDGE201
         {
             if (kind == "RC")
             {
-                StbSecColumn_RC column = stbridge?.StbModel?.StbSections?.StbSecColumn_RC.FirstOrDefault(n => n.id == id);
-                return column.floor + "/" + column.name;
+                StbSecColumn_RC column = stbridge?.StbModel?.StbSections?.StbSecColumn_RC?.FirstOrDefault(n => n.id == id);
+                return column == null ? null : column.floor + "/" + column.name;
             }
             else if (kind == "S")
             {
-                StbSecColumn_S column = stbridge?.StbModel?.StbSections?.StbSecColumn_S.FirstOrDefault(n => n.id == id);
-                return column.floor + "/" + column.name;
+                StbSecColumn_S column = stbridge?.StbModel?.StbSections?.StbSecColumn_S?.FirstOrDefault(n => n.id == id);
+                return column == null ? null : column.floor + "/" + column.name;
             }
             else if (kind == "SRC")
             {
-                StbSecColumn_SRC column = stbridge?.StbModel?.StbSections?.StbSecColumn_SRC.FirstOrDefault(n => n.id == id);
-                return column.floor + "/" + column.name;
+                StbSecColumn_SRC column = stbridge?.StbModel?.StbSections?.StbSecColumn_SRC?.FirstOrDefault(n => n.id == id);
+                return column == null ? null : column.floor + "/" + column.name;
             }
             else if (kind == "CFT")
             {
-                StbSecColumn_CFT column = stbridge?.StbModel?.StbSections?.StbSecColumn_CFT.FirstOrDefault(n => n.id == id);
-                return column.floor + "/" + column.name;
+                StbSecColumn_CFT column = stbridge?.StbModel?.StbSections?.StbSecColumn_CFT?.FirstOrDefault(n => n.id == id);
+                return column == null ? null : column.floor + "/" + column.name;
             }
             else
             {
