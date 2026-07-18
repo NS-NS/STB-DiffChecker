@@ -4,9 +4,21 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!-- リフレクション比較とXmlSerializerを使用するためトリミング無効 -->
+    <!-- リフレクション比較とXmlSerializerを使用するため通常publishはトリミング無効。
+         AOT publish時(CIで-p:PublishTrimmed=true指定)は下のTrimmerRootAssemblyで必要アセンブリを保護する -->
     <PublishTrimmed>false</PublishTrimmed>
+    <TrimMode>partial</TrimMode>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- リフレクション・XmlSerializerで使うアセンブリはトリミングしない -->
+    <TrimmerRootAssembly Include="DiffCheckerCore" />
+    <TrimmerRootAssembly Include="STBridge201" />
+    <TrimmerRootAssembly Include="STBridge202" />
+    <TrimmerRootAssembly Include="STBridge210" />
+    <TrimmerRootAssembly Include="System.Private.Xml" />
+    <TrimmerRootAssembly Include="System.Text.Encoding.CodePages" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />

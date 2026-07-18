@@ -29,7 +29,7 @@ jobs:
         run: dotnet workload install wasm-tools
 
       - name: Publish Blazor WebAssembly (AOT)
-        run: dotnet publish DiffCheckerWeb/DiffCheckerWeb.csproj -c Release -o publish -p:RunAOTCompilation=true
+        run: dotnet publish DiffCheckerWeb/DiffCheckerWeb.csproj -c Release -o publish -p:RunAOTCompilation=true -p:PublishTrimmed=true
 
       - name: Rewrite base href for project pages
         run: sed -i 's|<base href="/" />|<base href="/STB-DiffChecker/" />|' publish/wwwroot/index.html
