@@ -98,21 +98,18 @@
             <tr><th>タブ</th><th>要素数A</th><th>要素数B</th><th>一致</th><th>許容差内</th><th>不一致</th><th>比較対象なし</th></tr>
         </thead>
         <tbody>
-            @foreach ((string root, string header) in tabs)
+            @foreach (SummaryRow row in summaryRows)
             {
-                if (results.TryGetValue(root, out List<Record>? tabRecords))
-                {
-                    string tabRoot = root;
-                    <tr>
-                        <td><a href="" @onclick="() => selectedTab = tabRoot" @onclick:preventDefault>@header</a></td>
-                        <td>@VersionEngine.CountElements(stbA, root)</td>
-                        <td>@VersionEngine.CountElements(stbB, root)</td>
-                        <td>@tabRecords.Count(r => r.Consistency == Consistency.Consistent)</td>
-                        <td>@tabRecords.Count(r => r.Consistency == Consistency.AlmostMatch)</td>
-                        <td>@tabRecords.Count(r => r.Consistency == Consistency.Inconsistent)</td>
-                        <td>@tabRecords.Count(r => r.Consistency is Consistency.Incomparable or Consistency.ElementIncomparable)</td>
-                    </tr>
-                }
+                SummaryRow current = row;
+                <tr>
+                    <td><a href="" @onclick="() => SelectTab(current.Root)" @onclick:preventDefault>@current.Header</a></td>
+                    <td>@current.CountA</td>
+                    <td>@current.CountB</td>
+                    <td>@current.Consistent</td>
+                    <td>@current.AlmostMatch</td>
+                    <td>@current.Inconsistent</td>
+                    <td>@current.NotComparable</td>
+                </tr>
             }
         </tbody>
     </table>
@@ -121,7 +118,7 @@
 
     <h5>結果詳細</h5>
     <div class="mb-2">
-        <select class="form-select w-auto d-inline-block" @bind="selectedTab">
+        <select class="form-select w-auto d-inline-block" @bind="SelectedTabBound">
             @foreach ((string root, string header) in tabs)
             {
                 if (results.ContainsKey(root))
@@ -142,7 +139,7 @@
         </span>
         <span class="ms-3">
             重要度:
-            <select class="form-select form-select-sm w-auto d-inline-block" @bind="filterImportance">
+            <select class="form-select form-select-sm w-auto d-inline-block" @bind="FilterImportanceBound">
                 <option value="">すべて</option>
                 <option value="高">高</option>
                 <option value="中">中</option>
@@ -150,15 +147,14 @@
                 <option value="対象外">対象外</option>
             </select>
         </span>
-        <input class="form-control form-control-sm w-auto d-inline-block ms-3" placeholder="検索(XMLパス・キー)" @bind="searchText" @bind:event="oninput" />
+        <input class="form-control form-control-sm w-auto d-inline-block ms-3" placeholder="検索(XMLパス・キー)" value="@searchText" @oninput="OnSearchInput" />
     </div>
 
-    @if (selectedTab != null && results.TryGetValue(selectedTab, out List<Record>? records))
+    @if (selectedTab != null)
     {
-        List<Record> filtered = Filtered(records);
         <div class="small text-muted mb-1">
-            @filtered.Count / @records.Count 件
-            @if (filtered.Count > MaxDisplayRows)
+            @filteredRecords.Count / @currentTabTotal 件
+            @if (filteredRecords.Count > MaxDisplayRows)
             {
                 <span class="text-warning">（表示は先頭 @MaxDisplayRows 件まで。フィルタで絞り込むかCSV出力をご利用ください）</span>
             }
@@ -177,7 +173,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (Record record in filtered.Take(MaxDisplayRows))
+                    @foreach (Record record in filteredRecords.Take(MaxDisplayRows))
                     {
                         <tr class="@RowClass(record)">
                             <td class="small">@record.XmlPath</td>
@@ -218,6 +214,102 @@
     private Dictionary<string, List<Record>>? results;
     private IReadOnlyList<(string, string)> tabs = [];
     private string? selectedTab;
+
+    /// <summary>概要テーブルの1行（比較完了時に1回だけ集計してキャッシュ）</summary>
+    private sealed record SummaryRow(string Root, string Header, int CountA, int CountB,
+        int Consistent, int AlmostMatch, int Inconsistent, int NotComparable);
+
+    private List<SummaryRow> summaryRows = [];
+
+    // フィルタ適用済みレコードのキャッシュ（フィルタ条件が変わった時だけ再計算する）
+    private List<Record> filteredRecords = [];
+    private int currentTabTotal;
+    private CancellationTokenSource? searchDebounce;
+
+    private string? SelectedTabBound
+    {
+        get => selectedTab;
+        set { selectedTab = value; RefreshFiltered(); }
+    }
+
+    private string FilterImportanceBound
+    {
+        get => filterImportance;
+        set { filterImportance = value; RefreshFiltered(); }
+    }
+
+    private void SelectTab(string root)
+    {
+        selectedTab = root;
+        RefreshFiltered();
+    }
+
+    /// <summary>
+    /// 検索入力はデバウンスし、入力が止まってからフィルタを実行する
+    /// </summary>
+    private async Task OnSearchInput(ChangeEventArgs e)
+    {
+        searchText = e.Value?.ToString() ?? "";
+        searchDebounce?.Cancel();
+        searchDebounce = new CancellationTokenSource();
+        try
+        {
+            await Task.Delay(300, searchDebounce.Token);
+        }
+        catch (TaskCanceledException)
+        {
+            return;
+        }
+        RefreshFiltered();
+        StateHasChanged();
+    }
+
+    private void RefreshFiltered()
+    {
+        if (results != null && selectedTab != null && results.TryGetValue(selectedTab, out List<Record>? records))
+        {
+            currentTabTotal = records.Count;
+            filteredRecords = Filtered(records);
+        }
+        else
+        {
+            currentTabTotal = 0;
+            filteredRecords = [];
+        }
+    }
+
+    private void BuildSummary()
+    {
+        summaryRows = [];
+        if (results == null)
+        {
+            return;
+        }
+
+        foreach ((string root, string header) in tabs)
+        {
+            if (!results.TryGetValue(root, out List<Record>? records))
+            {
+                continue;
+            }
+
+            int consistent = 0, almost = 0, inconsistent = 0, notComparable = 0;
+            foreach (Record r in records)
+            {
+                switch (r.Consistency)
+                {
+                    case Consistency.Consistent: consistent++; break;
+                    case Consistency.AlmostMatch: almost++; break;
+                    case Consistency.Inconsistent: inconsistent++; break;
+                    default: notComparable++; break;
+                }
+            }
+
+            summaryRows.Add(new SummaryRow(root, header,
+                VersionEngine.CountElements(stbA, root), VersionEngine.CountElements(stbB, root),
+                consistent, almost, inconsistent, notComparable));
+        }
+    }
 
     private static readonly Consistency[] allConsistencies =
     [
@@ -365,6 +457,8 @@
 
             results = merged;
             selectedTab = results.Keys.FirstOrDefault();
+            BuildSummary();
+            RefreshFiltered();
         }
         catch (Exception ex)
         {
@@ -397,7 +491,8 @@
 
     private void ToggleConsistency(Consistency c, bool enabled)
     {
-        if (enabled) { filterConsistency.Add(c); } else { filterConsistency.Remove(c); }
+        if (enabled) { _ = filterConsistency.Add(c); } else { _ = filterConsistency.Remove(c); }
+        RefreshFiltered();
     }
 
     private static string RowClass(Record record)
