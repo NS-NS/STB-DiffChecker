@@ -51,6 +51,7 @@
 デスクトップ版・Web版ともST-Bridge 2.0.1 / 2.0.2 / 2.1.0に対応（ファイルのversion属性から自動判別）
 
 ## 開発者向け
+* 保守・運用の詳細（CI/CD、リリース手順、バージョン追加手順）は[docs/MAINTENANCE.md](docs/MAINTENANCE.md)を参照
 * .NET 8 SDK（デスクトップ）/ .NET 9 SDK（Web版）でビルド
 * プロジェクト構成
     * DiffCheckerCore：比較エンジン（WPF非依存）
