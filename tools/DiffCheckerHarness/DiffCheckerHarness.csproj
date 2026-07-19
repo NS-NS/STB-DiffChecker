@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\STBridge201\STBridge201.csproj" />
+    <ProjectReference Include="..\..\STBridge202\STBridge202.csproj" />
+    <ProjectReference Include="..\..\STBridge210\STBridge210.csproj" />
+  </ItemGroup>
+
+</Project>

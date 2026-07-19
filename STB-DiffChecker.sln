@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STBridge202", "STBridge202\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STB-DiffChecker.Desktop", "STB-DiffChecker.Desktop\STB-DiffChecker.Desktop.csproj", "{675C652D-6B62-4D91-B814-0A7871A4F31A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{07C2787E-EAC7-C090-1BA3-A61EC2A24D84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiffCheckerHarness", "tools\DiffCheckerHarness\DiffCheckerHarness.csproj", "{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,9 +115,24 @@ Global
 		{675C652D-6B62-4D91-B814-0A7871A4F31A}.Release|x64.Build.0 = Release|Any CPU
 		{675C652D-6B62-4D91-B814-0A7871A4F31A}.Release|x86.ActiveCfg = Release|Any CPU
 		{675C652D-6B62-4D91-B814-0A7871A4F31A}.Release|x86.Build.0 = Release|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Debug|x64.Build.0 = Debug|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Debug|x86.Build.0 = Debug|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Release|x64.ActiveCfg = Release|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Release|x64.Build.0 = Release|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Release|x86.ActiveCfg = Release|Any CPU
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A37F64EB-99B2-4EEE-BDB5-05DF5CAEC0B0} = {07C2787E-EAC7-C090-1BA3-A61EC2A24D84}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A29DC16E-3FDA-444F-B830-AE6F0DAD576F}

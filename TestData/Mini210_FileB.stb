@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ST_BRIDGE version="2.1.0" xmlns="https://www.building-smart.or.jp/dl">
+  <StbCommon guid="a2222222222242228222222222222222" project_name="TestProject" app_name="TestAppB" app_version="1.0" />
+  <StbModel>
+    <StbNodes>
+      <StbNode id="1" X="0" Y="0" Z="0" kind="ON_GRID" />
+      <StbNode id="2" X="6005" Y="0" Z="0" kind="ON_GRID" />
+    </StbNodes>
+    <StbStories>
+      <StbStory id="101" name="1FL" height="0" kind="GENERAL">
+        <StbNodeIdList>
+          <StbNodeId id="1" />
+          <StbNodeId id="2" />
+        </StbNodeIdList>
+      </StbStory>
+    </StbStories>
+    <StbMembers>
+      <StbGirders>
+        <StbGirder id="201" name="G1" id_node_start="1" id_node_end="2" rotate="0" id_section="301" kind_structure="RC" isFoundation="false" />
+      </StbGirders>
+    </StbMembers>
+    <StbSections>
+      <StbSecBeam_RC id="301" name="G1" floor="1F" kind_beam="GIRDER" strength_concrete="Fc21">
+        <StbSecFigureBeam_RC order="1">
+          <StbSecBeamStraight width="400" depth="750" />
+        </StbSecFigureBeam_RC>
+        <StbSecBarArrangementBeam_RC order="1">
+          <StbSecBarBeamSimple depth_cover_top="50" depth_cover_bottom="50" D_stirrup="D13" N_stirrup="2" strength_stirrup="SD295" pitch_stirrup="200">
+            <StbSecBarBeamSimpleMain pos="TOP" step="1" D="D25" N="4" strength="SD345" />
+            <StbSecBarBeamSimpleMain pos="BOTTOM" step="1" D="D25" N="4" strength="SD345" />
+          </StbSecBarBeamSimple>
+        </StbSecBarArrangementBeam_RC>
+      </StbSecBeam_RC>
+    </StbSections>
+  </StbModel>
+</ST_BRIDGE>

@@ -1,0 +1,63 @@
+StbCommon	/ST_BRIDGE/StbCommon/@guid		@guid	a1111111111141118111111111111111	a2222222222242228222222222222222	Inconsistent	Required
+StbCommon	/ST_BRIDGE/StbCommon/@project_name		@project_name	TestProject	TestProject	Consistent	Required
+StbCommon	/ST_BRIDGE/StbCommon/@app_name		@app_name	TestAppA	TestAppB	Inconsistent	Required
+StbCommon	/ST_BRIDGE/StbCommon/@app_version		@app_version	1.0	1.0	Consistent	Required
+StbGirders	/ST_BRIDGE/StbModel/StbMembers/StbGirders/StbGirder	start=(0,0,0),  end=(6000,0,0)	StbGirder	StbGirder	StbGirder	AlmostMatch	Required
+StbGirders	/ST_BRIDGE/StbModel/StbMembers/StbGirders/StbGirder/@id	start=(0,0,0),  end=(6000,0,0)	@id	201	201	Consistent	Required
+StbGirders	/ST_BRIDGE/StbModel/StbMembers/StbGirders/StbGirder/@name	start=(0,0,0),  end=(6000,0,0)	@name	G1	G1	Consistent	Required
+StbGirders	/ST_BRIDGE/StbModel/StbMembers/StbGirders/StbGirder/@id_node_start	start=(0,0,0),  end=(6000,0,0)	@id_node_start	1	1	Consistent	Required
+StbGirders	/ST_BRIDGE/StbModel/StbMembers/StbGirders/StbGirder/@id_node_end	start=(0,0,0),  end=(6000,0,0)	@id_node_end	2	2	Consistent	Required
+StbGirders	/ST_BRIDGE/StbModel/StbMembers/StbGirders/StbGirder/@rotate	start=(0,0,0),  end=(6000,0,0)	@rotate	0	0	Consistent	Required
+StbGirders	/ST_BRIDGE/StbModel/StbMembers/StbGirders/StbGirder/@id_section	start=(0,0,0),  end=(6000,0,0)	@id_section	1F/G1	1F/G1	Consistent	Required
+StbGirders	/ST_BRIDGE/StbModel/StbMembers/StbGirders/StbGirder/@kind_structure	start=(0,0,0),  end=(6000,0,0)	@kind_structure	RC	RC	Consistent	Required
+StbGirders	/ST_BRIDGE/StbModel/StbMembers/StbGirders/StbGirder/@isFoundation	start=(0,0,0),  end=(6000,0,0)	@isFoundation	False	False	Consistent	Required
+StbNodes	/ST_BRIDGE/StbModel/StbNodes/StbNode	(0,0,0)	StbNode	StbNode	StbNode	Consistent	Required
+StbNodes	/ST_BRIDGE/StbModel/StbNodes/StbNode/@id	(0,0,0)	@id	1	1	Consistent	Required
+StbNodes	/ST_BRIDGE/StbModel/StbNodes/StbNode/@X	(0,0,0)	@X	0	0	Consistent	Required
+StbNodes	/ST_BRIDGE/StbModel/StbNodes/StbNode/@Y	(0,0,0)	@Y	0	0	Consistent	Required
+StbNodes	/ST_BRIDGE/StbModel/StbNodes/StbNode/@Z	(0,0,0)	@Z	0	0	Consistent	Required
+StbNodes	/ST_BRIDGE/StbModel/StbNodes/StbNode/@kind	(0,0,0)	@kind	ON_GRID	ON_GRID	Consistent	Required
+StbNodes	/ST_BRIDGE/StbModel/StbNodes/StbNode	(6000,0,0)	StbNode	有	無	ElementIncomparable	Required
+StbNodes	/ST_BRIDGE/StbModel/StbNodes/StbNode	(6005,0,0)	StbNode	無	有	ElementIncomparable	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC	name=G1,floor=1F	StbSecBeam_RC	StbSecBeam_RC	StbSecBeam_RC	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/@id	name=G1,floor=1F	@id	301	301	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/@name	name=G1,floor=1F	@name	G1	G1	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/@floor	name=G1,floor=1F	@floor	1F	1F	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/@kind_beam	name=G1,floor=1F	@kind_beam	GIRDER	GIRDER	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/@isFoundation	name=G1,floor=1F	@isFoundation	False	False	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/@isCanti	name=G1,floor=1F	@isCanti	False	False	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/@isOutin	name=G1,floor=1F	@isOutin	False	False	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/@strength_concrete	name=G1,floor=1F	@strength_concrete	Fc21	Fc21	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecFigureBeam_RC	name=G1,floor=1F,  order=1	StbSecFigureBeam_RC	StbSecFigureBeam_RC	StbSecFigureBeam_RC	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecFigureBeam_RC/@order	name=G1,floor=1F,  order=1	@order	1	1	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecFigureBeam_RC/StbSecBeamStraight/@width	name=G1,floor=1F,  order=1	@width	400	400	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecFigureBeam_RC/StbSecBeamStraight/@depth	name=G1,floor=1F,  order=1	@depth	700	750	Inconsistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC	name=G1,floor=1F,  order=1	StbSecBarArrangementBeam_RC	StbSecBarArrangementBeam_RC	StbSecBarArrangementBeam_RC	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/@order	name=G1,floor=1F,  order=1	@order	1	1	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/@depth_cover_top	name=G1,floor=1F,  order=1	@depth_cover_top	50	50	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/@depth_cover_bottom	name=G1,floor=1F,  order=1	@depth_cover_bottom	50	50	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/@D_stirrup	name=G1,floor=1F,  order=1	@D_stirrup	D13	D13	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/@N_stirrup	name=G1,floor=1F,  order=1	@N_stirrup	2	2	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/@strength_stirrup	name=G1,floor=1F,  order=1	@strength_stirrup	SD295	SD295	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/@pitch_stirrup	name=G1,floor=1F,  order=1	@pitch_stirrup	200	200	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain	name=G1,floor=1F,  order=1,  pos=TOP	StbSecBarBeamSimpleMain	StbSecBarBeamSimpleMain	StbSecBarBeamSimpleMain	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@pos	name=G1,floor=1F,  order=1,  pos=TOP	@pos	TOP	TOP	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@step	name=G1,floor=1F,  order=1,  pos=TOP	@step	1	1	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@D	name=G1,floor=1F,  order=1,  pos=TOP	@D	D25	D25	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@strength	name=G1,floor=1F,  order=1,  pos=TOP	@strength	SD345	SD345	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@N	name=G1,floor=1F,  order=1,  pos=TOP	@N	4	4	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain	name=G1,floor=1F,  order=1,  pos=BOTTOM	StbSecBarBeamSimpleMain	StbSecBarBeamSimpleMain	StbSecBarBeamSimpleMain	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@pos	name=G1,floor=1F,  order=1,  pos=BOTTOM	@pos	BOTTOM	BOTTOM	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@step	name=G1,floor=1F,  order=1,  pos=BOTTOM	@step	1	1	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@D	name=G1,floor=1F,  order=1,  pos=BOTTOM	@D	D25	D25	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@strength	name=G1,floor=1F,  order=1,  pos=BOTTOM	@strength	SD345	SD345	Consistent	Required
+StbSecBeam_RC	/ST_BRIDGE/StbModel/StbSections/StbSecBeam_RC/StbSecBarArrangementBeam_RC/StbSecBarBeamSimple/StbSecBarBeamSimpleMain/@N	name=G1,floor=1F,  order=1,  pos=BOTTOM	@N	3	4	Inconsistent	Required
+StbStories	/ST_BRIDGE/StbModel/StbStories/StbStory	name=1FL	StbStory	StbStory	StbStory	Consistent	Required
+StbStories	/ST_BRIDGE/StbModel/StbStories/StbStory/@id	name=1FL	@id	101	101	Consistent	Required
+StbStories	/ST_BRIDGE/StbModel/StbStories/StbStory/@name	name=1FL	@name	1FL	1FL	Consistent	Required
+StbStories	/ST_BRIDGE/StbModel/StbStories/StbStory/@height	name=1FL	@height	0	0	Consistent	Required
+StbStories	/ST_BRIDGE/StbModel/StbStories/StbStory/@kind	name=1FL	@kind	GENERAL	GENERAL	Consistent	Required
+StbStories	/ST_BRIDGE/StbModel/StbStories/StbStory/StbNodeIdList/StbNodeId	name=1FL,  (0,0,0)	StbNodeId	StbNodeId	StbNodeId	Consistent	Required
+StbStories	/ST_BRIDGE/StbModel/StbStories/StbStory/StbNodeIdList/StbNodeId/@id	name=1FL,  (0,0,0)	@id	1	1	Consistent	Required
+StbStories	/ST_BRIDGE/StbModel/StbStories/StbStory/StbNodeIdList/StbNodeId	name=1FL,  (6000,0,0)	StbNodeId	有	無	ElementIncomparable	Required
+StbStories	/ST_BRIDGE/StbModel/StbStories/StbStory/StbNodeIdList/StbNodeId	name=1FL,  (6005,0,0)	StbNodeId	無	有	ElementIncomparable	Required
