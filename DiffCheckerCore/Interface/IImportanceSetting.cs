@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
+#nullable enable annotations
+
 namespace DiffCheckerLib.Interface
 {
     /// <summary>
@@ -10,7 +12,18 @@ namespace DiffCheckerLib.Interface
     /// </summary>
     public interface IImportanceSetting
     {
+        /// <summary>
+        /// 同梱している重要度プリセット(設計段階プロファイル)の名前一覧
+        /// </summary>
+        public static readonly IReadOnlyList<string> PresetNames = ["S2", "S4"];
+
         public string GetSchemaContent();
+
+        /// <summary>
+        /// 同梱プリセットCSV(設定ファイルと同形式)の内容を取得する
+        /// </summary>
+        /// <returns>プリセットCSVの全文。該当バージョンに同梱が無ければnull</returns>
+        public string? GetPresetCsv(string name);
 
         /// <summary>
         /// タブにまとめる情報を取得する

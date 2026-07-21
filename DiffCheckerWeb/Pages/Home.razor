@@ -68,6 +68,14 @@
     <div class="col-md-6">
         <details>
             <summary class="fw-bold">設定ファイル(csv)読込み（許容差・重要度）</summary>
+            <div class="mt-2">
+                <span class="me-2">重要度プリセット:</span>
+                @foreach (string preset in IImportanceSetting.PresetNames)
+                {
+                    string current = preset;
+                    <button class="btn btn-outline-secondary btn-sm me-2" @onclick="() => ApplyImportancePreset(current)">@current を適用</button>
+                }
+            </div>
             <InputFile class="form-control mt-2" OnChange="OnSettingCsvSelected" accept=".csv" />
             @if (settingMessage != null)
             {
@@ -400,6 +408,31 @@
         {
             settingMessage = $"設定ファイルの読み込みに失敗しました: {ex.Message}";
         }
+    }
+
+    private void ApplyImportancePreset(string name)
+    {
+        string? csv = engine.Importance.GetPresetCsv(name);
+        if (csv == null)
+        {
+            settingMessage = $"このバージョン({engine.Version})には{name}プリセットがありません。";
+            return;
+        }
+
+        List<string> csvImportance = [];
+        int flag = 0;
+        foreach (string line in csv.Replace("\r\n", "\n").Split('\n'))
+        {
+            if (string.IsNullOrWhiteSpace(line)) { continue; }
+            string headWord = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[0].Trim();
+            if (headWord == "<Tolerance>") { flag = 1; continue; }
+            if (headWord == "<Importance>") { flag = 2; continue; }
+            if (flag == 2) { csvImportance.Add(line); }
+        }
+
+        List<string> unknown = engine.Importance.ImportCsv(csvImportance);
+        settingMessage = $"重要度プリセット {name} を適用しました（{csvImportance.Count} 行"
+            + (unknown.Count > 0 ? $"、未対応パス {unknown.Count} 件" : "") + "）";
     }
 
     private static string DecodeText(byte[] bytes)

@@ -11,10 +11,14 @@
 
   <ItemGroup>
     <None Remove="STBridge\STBridge_v202.xsd" />
+    <None Remove="Presets\S2.csv" />
+    <None Remove="Presets\S4.csv" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="STBridge\STBridge_v202.xsd" />
+    <EmbeddedResource Include="Presets\S2.csv" />
+    <EmbeddedResource Include="Presets\S4.csv" />
   </ItemGroup>
 
   <ItemGroup>

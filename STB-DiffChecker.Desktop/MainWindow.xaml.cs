@@ -3,6 +3,7 @@ using DiffCheckerLib.Enum;
 using DiffCheckerLib.Interface;
 using DiffCheckerLib.Setting;
 using DiffCheckerLib.WPF;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -34,6 +35,36 @@ namespace STB_DiffChecker
         private string? versionA;
         private string? versionB;
 
+        /// <summary>
+        /// 重要度の設計段階プロファイル
+        /// </summary>
+        private enum ImportanceProfile
+        {
+            S2,
+            S4,
+            Custom,
+        }
+
+        /// <summary>
+        /// 現在選択中のプロファイル(既定はS2)
+        /// </summary>
+        private ImportanceProfile currentProfile = ImportanceProfile.S2;
+
+        /// <summary>
+        /// プロファイル適用後にユーザーがセルを編集したか
+        /// </summary>
+        private bool importanceModified;
+
+        /// <summary>
+        /// STB読込によりバージョンが確定したか(確定まで重要度タブは編集不可)
+        /// </summary>
+        private bool versionConfirmed;
+
+        /// <summary>
+        /// ラジオボタンをコードから設定する際のCheckedイベント抑制フラグ
+        /// </summary>
+        private bool suppressProfileEvents;
+
         public MainWindow()
         {
             resultFormSetting = new(engine.Tolerance, engine.Importance);
@@ -53,6 +84,9 @@ namespace STB_DiffChecker
                     dgrdTolerance.CanUserSortColumns = false;
                     dgrdImportance.CanUserAddRows = false;
                     dgrdImportance.CanUserSortColumns = false;
+
+                    SetProfileRadio(currentProfile);
+                    UpdateImportanceGate();
 
                     // 実行前は結果タブを非表示
                     ((TabItem)TabControl.Items[1]).IsEnabled = false;
@@ -92,6 +126,12 @@ namespace STB_DiffChecker
                 engine = DesktopVersionEngine.Create(version)!;
                 resultFormSetting = new(engine.Tolerance, engine.Importance);
                 RefreshSettingTables();
+
+                if (versionConfirmed)
+                {
+                    // 別バージョン読込時はS2/S4を再適用(編集破棄)。カスタムは持ち越せないためS2へ戻す
+                    ApplyProfileForCurrentVersion();
+                }
             }
 
             this.Title = baseTitle + "  [ST-Bridge " + version + "]";
@@ -114,7 +154,165 @@ namespace STB_DiffChecker
             dgrdTolerance.DataContext = toleranceTable;
 
             importanceTable = resultFormSetting.importanceSetting.CreateTable();
+            // プロファイル編集用に重要度列を編集可能化し、着色基準を取り直す(DataContext代入前に行う)
+            importanceTable.Columns["Importance"]!.ReadOnly = false;
+            RebuildImportanceBaseline();
+            importanceModified = false;
+            importanceTable.ColumnChanged += OnImportanceTableChanged;
             dgrdImportance.DataContext = importanceTable;
+            UpdateProfileUI();
+        }
+
+        /// <summary>
+        /// 重要度セルの編集を検知して編集済み表示(S2*等)を更新する
+        /// </summary>
+        private void OnImportanceTableChanged(object sender, DataColumnChangeEventArgs e)
+        {
+            if (e.Column?.ColumnName != "Importance")
+            {
+                return;
+            }
+
+            importanceModified = HasImportanceEdits();
+            UpdateProfileUI();
+        }
+
+        /// <summary>
+        /// プロファイル適用時の基準値から変更されたセルがあるか
+        /// </summary>
+        private bool HasImportanceEdits()
+        {
+            foreach (DataRow row in importanceTable.Rows)
+            {
+                if (importanceBaseline.TryGetValue(row[0].ToString()!, out string? baseValue)
+                    && baseValue != row[1].ToString())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// バージョン確定前は重要度タブを編集不可にし、案内を表示する
+        /// </summary>
+        private void UpdateImportanceGate()
+        {
+            pnlImportanceProfile.IsEnabled = versionConfirmed;
+            dgrdImportance.IsEnabled = versionConfirmed;
+            txtImportanceGuide.Visibility = versionConfirmed ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        /// <summary>
+        /// 最初のSTB読込成功でバージョンを確定し、既定プロファイル(S2)を適用する
+        /// </summary>
+        private void ConfirmVersionIfFirst()
+        {
+            if (versionConfirmed)
+            {
+                return;
+            }
+
+            versionConfirmed = true;
+            ApplyProfileForCurrentVersion();
+            UpdateImportanceGate();
+        }
+
+        /// <summary>
+        /// 現在のプロファイルを現在バージョンへ適用する(カスタムはS2へ戻す)
+        /// </summary>
+        private void ApplyProfileForCurrentVersion()
+        {
+            if (currentProfile == ImportanceProfile.Custom)
+            {
+                currentProfile = ImportanceProfile.S2;
+            }
+            SetProfileRadio(currentProfile);
+            _ = ApplyPresetProfile(currentProfile);
+        }
+
+        /// <summary>
+        /// プリセット(S2/S4)を読み込んで現在の設定へ適用する
+        /// </summary>
+        /// <returns>適用できたか(プリセット未同梱ならfalse)</returns>
+        private bool ApplyPresetProfile(ImportanceProfile profile)
+        {
+            string? csv = resultFormSetting.importanceSetting.GetPresetCsv(profile.ToString());
+            if (csv == null)
+            {
+                _ = MessageBox.Show(
+                    $"このバージョン(ST-Bridge {engine.Version})には{profile}プリセットがありません。",
+                    "情報",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                SetProfileRadio(currentProfile);
+                return false;
+            }
+
+            ApplyCsvLines(csv.Replace("\r\n", "\n").Split('\n'));
+            currentProfile = profile;
+            RefreshSettingTables();
+            return true;
+        }
+
+        /// <summary>
+        /// S2/S4ラジオボタンの選択
+        /// </summary>
+        private void RdoProfilePreset_Checked(object sender, RoutedEventArgs e)
+        {
+            if (suppressProfileEvents || !versionConfirmed)
+            {
+                return;
+            }
+
+            ImportanceProfile target = ReferenceEquals(sender, rdoProfileS4) ? ImportanceProfile.S4 : ImportanceProfile.S2;
+            _ = ApplyPresetProfile(target);
+        }
+
+        /// <summary>
+        /// カスタム(ファイル読込)ラジオボタンの選択。キャンセル時は元のプロファイルへ戻す
+        /// </summary>
+        private void RdoProfileCustom_Checked(object sender, RoutedEventArgs e)
+        {
+            if (suppressProfileEvents || !versionConfirmed)
+            {
+                return;
+            }
+
+            string path = GetPathWithDialog("csvファイル(*.csv)|*.csv");
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
+            {
+                SetProfileRadio(currentProfile);
+                return;
+            }
+
+            ReadCsv(path);
+            currentProfile = ImportanceProfile.Custom;
+            RefreshSettingTables();
+        }
+
+        /// <summary>
+        /// Checkedイベントを発火させずにラジオボタンの選択状態を設定する
+        /// </summary>
+        private void SetProfileRadio(ImportanceProfile profile)
+        {
+            suppressProfileEvents = true;
+            rdoProfileS2.IsChecked = profile == ImportanceProfile.S2;
+            rdoProfileS4.IsChecked = profile == ImportanceProfile.S4;
+            rdoProfileCustom.IsChecked = profile == ImportanceProfile.Custom;
+            suppressProfileEvents = false;
+        }
+
+        /// <summary>
+        /// プロファイルの選択表示(編集済みなら「S2*」等)を更新する
+        /// </summary>
+        private void UpdateProfileUI()
+        {
+            string mark = importanceModified ? "*" : "";
+            rdoProfileS2.Content = "S2" + (currentProfile == ImportanceProfile.S2 ? mark : "");
+            rdoProfileS4.Content = "S4" + (currentProfile == ImportanceProfile.S4 ? mark : "");
+            rdoProfileCustom.Content = "カスタム(ファイル読込)" + (currentProfile == ImportanceProfile.Custom ? mark : "");
+            txtProfileState.Text = importanceModified ? "編集あり: 適用時から変更されたセルを着色表示" : "";
         }
 
         private void BtnStbA_Click(object sender, RoutedEventArgs e)
@@ -132,6 +330,7 @@ namespace STB_DiffChecker
                 istBridgeA = istBridge;
                 versionA = engine.Version;
                 DirStbA.Text = path;
+                ConfirmVersionIfFirst();
             }
         }
 
@@ -150,6 +349,7 @@ namespace STB_DiffChecker
                 istBridgeB = istBridge;
                 versionB = engine.Version;
                 DirStbB.Text = path;
+                ConfirmVersionIfFirst();
             }
         }
 
@@ -158,6 +358,17 @@ namespace STB_DiffChecker
         /// </summary>
         private void BtnReadSet_Click(object sender, RoutedEventArgs e)
         {
+            // 重要度を含むためカスタム読込はバージョン確定後のみ許可
+            if (!versionConfirmed)
+            {
+                _ = MessageBox.Show(
+                    "先にST-Bridgeファイルを指定してバージョンを認識させてください。",
+                    "情報",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                return;
+            }
+
             string path = GetPathWithDialog("csvファイル(*.csv)|*.csv");
             if (path == string.Empty)
             {
@@ -167,6 +378,8 @@ namespace STB_DiffChecker
             if (File.Exists(path))
             {
                 ReadCsv(path);
+                currentProfile = ImportanceProfile.Custom;
+                SetProfileRadio(currentProfile);
                 RefreshSettingTables();
             }
             else
@@ -196,6 +409,10 @@ namespace STB_DiffChecker
         /// </summary>
         private ResultFormSetting SetSetting()
         {
+            // 編集中のセルが未確定のまま実行された場合に備えて確定させる
+            _ = dgrdTolerance.CommitEdit(DataGridEditingUnit.Row, true);
+            _ = dgrdImportance.CommitEdit(DataGridEditingUnit.Row, true);
+
             IToleranceSetting tolerance = engine.ToleranceFactory();
             for (int i = 0; i < toleranceTable.Rows.Count; i++)
             {

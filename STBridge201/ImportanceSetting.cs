@@ -19,6 +19,20 @@ namespace STB_DiffChecker_201
             return XmlValidate.GetEmbeddedXsd(Assembly.GetExecutingAssembly(), @"STB_DiffChecker_201.STBridge.STBridge_v201.xsd", Encoding.UTF8);
         }
 
+        /// <summary>
+        /// リソースに保存した重要度プリセットCSVの文字列を取得。未同梱ならnull
+        /// </summary>
+        public string? GetPresetCsv(string name)
+        {
+            using Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"STB_DiffChecker_201.Presets.{name}.csv");
+            if (stream == null)
+            {
+                return null;
+            }
+            using StreamReader reader = new(stream, Encoding.UTF8);
+            return reader.ReadToEnd();
+        }
+
         public IReadOnlyList<(string, string)> GetTabs()
         {
             return [

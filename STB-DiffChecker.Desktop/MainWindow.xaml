@@ -68,7 +68,25 @@
                         </TabItem>
                         <TabItem x:Name="tabImportance" Header="重要度">
                             <Grid Background="#FFE5E5E5">
-                                <DataGrid x:Name="dgrdImportance"
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel x:Name="pnlImportanceProfile" Orientation="Horizontal" Margin="5,5,5,5">
+                                    <TextBlock Text="プロファイル:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                    <RadioButton x:Name="rdoProfileS2" Content="S2" GroupName="ImportanceProfile"
+                                                 VerticalAlignment="Center" Margin="0,0,15,0" Checked="RdoProfilePreset_Checked"/>
+                                    <RadioButton x:Name="rdoProfileS4" Content="S4" GroupName="ImportanceProfile"
+                                                 VerticalAlignment="Center" Margin="0,0,15,0" Checked="RdoProfilePreset_Checked"/>
+                                    <RadioButton x:Name="rdoProfileCustom" Content="カスタム(ファイル読込)" GroupName="ImportanceProfile"
+                                                 VerticalAlignment="Center" Margin="0,0,15,0" Checked="RdoProfileCustom_Checked"/>
+                                    <TextBlock x:Name="txtProfileState" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold"/>
+                                </StackPanel>
+                                <TextBlock x:Name="txtImportanceGuide" Grid.Row="1"
+                                           Text="先にファイルを指定してバージョンを認識させてください"
+                                           Foreground="#FFB00000" Margin="5,0,5,5"/>
+                                <DataGrid x:Name="dgrdImportance" Grid.Row="2"
                                           ItemsSource="{Binding}"
                                           AutoGenerateColumns="True"
                                           Margin="0,0,0,0"

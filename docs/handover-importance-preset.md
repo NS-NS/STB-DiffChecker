@@ -1,7 +1,12 @@
 # 引継ぎ: 重要度プリセット(S2/S4)＋プロファイル切替機能
 
-最終更新: 2026-07-20。別アカウント/別セッションで続きを行うための自己完結メモ。
+最終更新: 2026-07-21。別アカウント/別セッションで続きを行うための自己完結メモ。
 （設計プラン・作業ログは元アカウントの `~/.claude` 配下でこのリポジトリには無いため、必要情報を全てここに集約している。）
+
+> **2026-07-21更新: セクション1(プロファイル切替機能)と「次にやること」1〜6は実装完了。**
+> ビルド0エラー、ハーネス回帰(202実データ・210Mini)は変更前後で全レコード一致、
+> 6プリセットの埋め込み読込・適用をランタイム検証済み(分布はセクション0の記載と一致)。
+> 残タスク: Desktop手動検証(下記「検証」参照)とセクション2の符号解決(保留)。
 
 ---
 
@@ -92,10 +97,18 @@ Desktop版(WPF)の「入力・設定」→「重要度」タブを、**設計段
 
 ## 4. 次にやることチェックリスト
 
-1. 各 `STBridge2XX.csproj` に `Presets/S2.csv`・`S4.csv` の `<EmbeddedResource>` を追加。
-2. `IImportanceSetting` に `PresetNames` / `GetPresetCsv` を追加し各版実装。
-3. `ChangedCellToBrushConverter` 新規、`AbstractMainWindow` の ComboBox化＋着色＋`ApplyCsvLines`切出し。
-4. `MainWindow.xaml`/`.xaml.cs` にプロファイル切替UI＋状態機械＋起動ゲート。
-5. `Home.razor` にS2/S4ボタン。README追記。
-6. `dotnet build` ＋ Desktop手動検証。
+1. ~~各 `STBridge2XX.csproj` に `Presets/S2.csv`・`S4.csv` の `<EmbeddedResource>` を追加。~~ 済(2026-07-21)
+2. ~~`IImportanceSetting` に `PresetNames` / `GetPresetCsv` を追加し各版実装。~~ 済
+3. ~~`ChangedCellToBrushConverter` 新規、`AbstractMainWindow` の ComboBox化＋着色＋`ApplyCsvLines`切出し。~~ 済
+4. ~~`MainWindow.xaml`/`.xaml.cs` にプロファイル切替UI＋状態機械＋起動ゲート。~~ 済
+5. ~~`Home.razor` にS2/S4ボタン。README追記。~~ 済
+6. `dotnet build`(済・0エラー) ＋ Desktop手動検証(**未**: セクション1「検証」の手順で要確認)。
 7. (保留)`id_weld` / `id_section_start-end` の符号解決実装＋該当プリセット値を高へ。
+
+### 実装時の判断メモ(プランからの差分)
+- 「重要度タブ無効化」は、タブ自体を無効化すると案内文が見えないため、
+  タブ内のプロファイル行とグリッドを`IsEnabled=false`にし案内TextBlockを表示する形にした。
+- `BtnRun_Click`(実行)時に`CommitEdit`を追加(セル編集中に実行を押した場合の未確定値対策)。
+- `ApplyCsvLines`は空白行をスキップするようにした(プリセット/手書きCSVの空行でのクラッシュ防止)。
+- 編集検知は`DataTable.ColumnChanged`で行い、基準(適用時値)との全行比較で`S2*`表示を復帰可能にした
+  (編集を手で元に戻すと`*`が消える)。

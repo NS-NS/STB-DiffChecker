@@ -1,13 +1,16 @@
-﻿using DiffCheckerLib.Interface;
+﻿using DiffCheckerLib.Enum;
+using DiffCheckerLib.Interface;
 using DiffCheckerLib.Setting;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace DiffCheckerLib.WPF
 {
@@ -27,6 +30,33 @@ namespace DiffCheckerLib.WPF
         /// 重要度設定テーブル
         /// </summary>
         protected DataTable importanceTable = new("Importance");
+
+        /// <summary>
+        /// プロファイル適用時の重要度(StbName→日本語表記)。編集セル着色の基準
+        /// </summary>
+        protected readonly Dictionary<string, string> importanceBaseline = new();
+
+        /// <summary>
+        /// 重要度セルの着色コンバーター(基準はimportanceBaselineを共有)
+        /// </summary>
+        protected readonly ChangedCellToBrushConverter importanceCellConverter;
+
+        protected AbstractMainWindow()
+        {
+            importanceCellConverter = new ChangedCellToBrushConverter { Baseline = importanceBaseline };
+        }
+
+        /// <summary>
+        /// 現在のimportanceTableの内容を着色の基準値として取り直す
+        /// </summary>
+        protected void RebuildImportanceBaseline()
+        {
+            importanceBaseline.Clear();
+            foreach (DataRow row in importanceTable.Rows)
+            {
+                importanceBaseline[row[0].ToString()] = row[1].ToString();
+            }
+        }
 
         /// <summary>
         /// 前回設定保存用のレジストリキー
@@ -170,10 +200,28 @@ namespace DiffCheckerLib.WPF
                     e.Column.DisplayIndex = 0;
                     break;
                 case "Importance":
-                    e.Column.Header = "重要度";
-                    e.Column.DisplayIndex = 1;
-                    e.Column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-                    break;
+                    {
+                        // 4値(高/中/低/対象外)限定のドロップダウンにして不正値の混入を防ぐ
+                        DataGridComboBoxColumn combo = new()
+                        {
+                            Header = "重要度",
+                            DisplayIndex = 1,
+                            Width = new DataGridLength(1, DataGridLengthUnitType.Star),
+                            ItemsSource = System.Enum.GetValues(typeof(Importance)).Cast<Importance>().Select(i => i.ToJapanese()).ToList(),
+                            SelectedItemBinding = new Binding("Importance"),
+                        };
+
+                        // プロファイル適用時の値から変更されたセルを着色
+                        MultiBinding backgroundBinding = new() { Converter = importanceCellConverter };
+                        backgroundBinding.Bindings.Add(new Binding("Importance"));
+                        backgroundBinding.Bindings.Add(new Binding("StbName"));
+                        Style cellStyle = new(typeof(DataGridCell));
+                        cellStyle.Setters.Add(new Setter(Control.BackgroundProperty, backgroundBinding));
+                        combo.CellStyle = cellStyle;
+
+                        e.Column = combo;
+                        break;
+                    }
                 default:
                     _ = MessageBox.Show("重要度に意図しない情報が入っており、UIに表示が出来ません。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
                     throw new InvalidOperationException();
@@ -324,6 +372,14 @@ namespace DiffCheckerLib.WPF
                 return;
             }
 
+            ApplyCsvLines(readData);
+        }
+
+        /// <summary>
+        /// 設定CSVの行(&lt;Tolerance&gt;/&lt;Importance&gt;セクション形式)を現在の設定へ適用する
+        /// </summary>
+        protected void ApplyCsvLines(string[] readData)
+        {
             List<string> csvTolerance = [];
             List<string> csvImportance = [];
             int flag = 0;   //Tleranceは1,Importanceは2
@@ -331,6 +387,11 @@ namespace DiffCheckerLib.WPF
             #region 読込み処理
             foreach (string line in readData)
             {
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
+
                 if (flag == 0)
                 {
                     string head = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)[0].Trim();
