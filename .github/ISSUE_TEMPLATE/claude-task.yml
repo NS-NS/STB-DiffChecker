@@ -1,0 +1,48 @@
+name: Claude タスク
+description: Claude IssueOps に処理させるタスク(プラン作成 → 人間承認 → 実装 → PR)
+title: "[Claude] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        記入後、リポジトリの write 権限を持つ人が `claude:plan` ラベルを付けるとプラン作成が始まります。
+        (public リポジトリでは、ラベルを付ける前に右サイドバーの Lock conversation を推奨)
+  - type: textarea
+    id: goal
+    attributes:
+      label: やりたいこと
+      description: 何を実現したいか。背景・動機も含めて具体的に。
+      placeholder: 例) ○○画面で△△できるようにしたい。現状は…という問題がある。
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 完了条件
+      description: どうなったら完了か、確認可能な形で。プランの「検証方法」の材料になります。
+      placeholder: |
+        - ○○を実行すると△△になる
+        - 既存の□□の動作は変わらない
+    validations:
+      required: true
+  - type: textarea
+    id: hints
+    attributes:
+      label: 関連する場所・参考情報(任意)
+      description: 関係しそうなファイル・クラス名・過去の issue/PR・スクリーンショットなど、調査の起点になる情報。
+    validations:
+      required: false
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: やらないこと(任意)
+      description: 今回のスコープ外として触ってほしくないこと。
+    validations:
+      required: false
+  - type: textarea
+    id: constraints
+    attributes:
+      label: 制約・注意(任意)
+      description: 互換性・性能・依存関係・コーディング規約など、プラン時に守ってほしい制約。
+    validations:
+      required: false
