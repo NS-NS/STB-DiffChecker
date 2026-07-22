@@ -205,14 +205,12 @@ namespace DiffCheckerLib
 
                 // Specifiedフラグを持たない属性(文字列属性等)がnullの場合、
                 // StbApplyConditionsListのset_defaultによる当て込みを試みる
-                if (valueA == null && objA is IApplyConditionDefault applyDefaultA && applyDefaultA.TryGetApplyConditionDefault(property, stbA, out object defaultValueA))
+                if (valueA == null && TryApplyConditionDefault(objA, property, stbA, ref valueA))
                 {
-                    valueA = defaultValueA;
                     appliedDefaultComment = ApplyConditionDefaultComment;
                 }
-                if (valueB == null && objB is IApplyConditionDefault applyDefaultB && applyDefaultB.TryGetApplyConditionDefault(property, stbB, out object defaultValueB))
+                if (valueB == null && TryApplyConditionDefault(objB, property, stbB, ref valueB))
                 {
-                    valueB = defaultValueB;
                     appliedDefaultComment = ApplyConditionDefaultComment;
                 }
 
@@ -237,15 +235,13 @@ namespace DiffCheckerLib
                     bool specifiedB = (bool)specifiedProp.GetValue(objB, null);
 
                     // Specifiedがfalse(未入力)の場合、StbApplyConditionsListのset_defaultによる当て込みを試みる
-                    if (!specifiedA && objA is IApplyConditionDefault applyDefaultSpecA && applyDefaultSpecA.TryGetApplyConditionDefault(property, stbA, out object defaultSpecA))
+                    if (!specifiedA && TryApplyConditionDefault(objA, property, stbA, ref valueA))
                     {
-                        valueA = defaultSpecA;
                         specifiedA = true;
                         appliedDefaultComment = ApplyConditionDefaultComment;
                     }
-                    if (!specifiedB && objB is IApplyConditionDefault applyDefaultSpecB && applyDefaultSpecB.TryGetApplyConditionDefault(property, stbB, out object defaultSpecB))
+                    if (!specifiedB && TryApplyConditionDefault(objB, property, stbB, ref valueB))
                     {
-                        valueB = defaultSpecB;
                         specifiedB = true;
                         appliedDefaultComment = ApplyConditionDefaultComment;
                     }
@@ -261,6 +257,9 @@ namespace DiffCheckerLib
                     }
                     else
                     {
+                        // 注意: IProperty.IsSpecial経由の場合、CompareProperty(IProperty版)はobjA/objBから値を再取得するため、
+                        // 上記で当て込んだvalueA/valueBは使われない。当て込み対象のクラスにIPropertyを実装する場合は
+                        // 当て込みを考慮した実装にすること。
                         if (objA is IProperty hasReference && hasReference.IsSpecial(property))
                         {
                             hasReference.CompareProperty(property, stbA, objB, stbB, propertyPath, key, records, importanceDict, toleranceSetting);
@@ -322,6 +321,20 @@ namespace DiffCheckerLib
 
                 CompareProperty(property, valueA, stbA, valueB, stbB, propertyPath, key, records, importanceDict, toleranceSetting);
             }
+        }
+
+        /// <summary>
+        /// objがIApplyConditionDefaultを実装していれば、StbApplyConditionsListのset_defaultによる当て込みを試みる。
+        /// 成立した場合のみvalueを実効値に差し替えてtrueを返す(呼び出し元の現行動作は変えない)。
+        /// </summary>
+        private static bool TryApplyConditionDefault(object obj, PropertyInfo property, IST_BRIDGE stb, ref object value)
+        {
+            if (obj is IApplyConditionDefault applyDefault && applyDefault.TryGetApplyConditionDefault(property, stb, out object defaultValue))
+            {
+                value = defaultValue;
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
