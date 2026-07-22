@@ -17,6 +17,11 @@ namespace DiffCheckerLib
     public static class ObjectComparer
     {
         /// <summary>
+        /// StbApplyConditionsListのset_default当て込みで実効値を補完したことを示すコメント
+        /// </summary>
+        private const string ApplyConditionDefaultComment = "StbApplyConditionsListのset_defaultにより当て込み";
+
+        /// <summary>
         /// 型ごとのリフレクション情報キャッシュ
         /// GetProperties/GetCustomAttributesは高コストなため型単位で1回だけ解決する
         /// </summary>
@@ -196,6 +201,21 @@ namespace DiffCheckerLib
             {
                 object valueA = property.GetValue(objA);
                 object valueB = property.GetValue(objB);
+                string appliedDefaultComment = null;
+
+                // Specifiedフラグを持たない属性(文字列属性等)がnullの場合、
+                // StbApplyConditionsListのset_defaultによる当て込みを試みる
+                if (valueA == null && objA is IApplyConditionDefault applyDefaultA && applyDefaultA.TryGetApplyConditionDefault(property, stbA, out object defaultValueA))
+                {
+                    valueA = defaultValueA;
+                    appliedDefaultComment = ApplyConditionDefaultComment;
+                }
+                if (valueB == null && objB is IApplyConditionDefault applyDefaultB && applyDefaultB.TryGetApplyConditionDefault(property, stbB, out object defaultValueB))
+                {
+                    valueB = defaultValueB;
+                    appliedDefaultComment = ApplyConditionDefaultComment;
+                }
+
                 if (valueA == null && valueB == null)
                 {
                     continue;
@@ -215,6 +235,21 @@ namespace DiffCheckerLib
                 {
                     bool specifiedA = (bool)specifiedProp.GetValue(objA, null);
                     bool specifiedB = (bool)specifiedProp.GetValue(objB, null);
+
+                    // Specifiedがfalse(未入力)の場合、StbApplyConditionsListのset_defaultによる当て込みを試みる
+                    if (!specifiedA && objA is IApplyConditionDefault applyDefaultSpecA && applyDefaultSpecA.TryGetApplyConditionDefault(property, stbA, out object defaultSpecA))
+                    {
+                        valueA = defaultSpecA;
+                        specifiedA = true;
+                        appliedDefaultComment = ApplyConditionDefaultComment;
+                    }
+                    if (!specifiedB && objB is IApplyConditionDefault applyDefaultSpecB && applyDefaultSpecB.TryGetApplyConditionDefault(property, stbB, out object defaultSpecB))
+                    {
+                        valueB = defaultSpecB;
+                        specifiedB = true;
+                        appliedDefaultComment = ApplyConditionDefaultComment;
+                    }
+
                     if (specifiedA == false && specifiedB == false)
                     {
                         continue; // FieldSpecifiedがfalseの場合はスキップ
@@ -232,7 +267,7 @@ namespace DiffCheckerLib
                         }
                         else
                         {
-                            CompareProperty(property, valueA, stbA, valueB, stbB, propertyPath, key, records, importanceDict, toleranceSetting);
+                            CompareProperty(property, valueA, stbA, valueB, stbB, propertyPath, key, records, importanceDict, toleranceSetting, appliedDefaultComment);
                         }
                         continue;
                     }
@@ -248,7 +283,7 @@ namespace DiffCheckerLib
                 }
 
 
-                CompareProperty(property, valueA, stbA, valueB, stbB, propertyPath, key, records, importanceDict, toleranceSetting);
+                CompareProperty(property, valueA, stbA, valueB, stbB, propertyPath, key, records, importanceDict, toleranceSetting, appliedDefaultComment);
             }
 
 
@@ -292,7 +327,7 @@ namespace DiffCheckerLib
         /// <summary>
         /// プロパティの比較を行う関数
         /// </summary>
-        internal static void CompareProperty(PropertyInfo property, object valueA, IST_BRIDGE stbA, object valueB, IST_BRIDGE stbB, string xmlPath, List<string> key, List<DiffCheckerLib.Record> records, Dictionary<string, Importance> importanceDict, IToleranceSetting toleranceSetting)
+        internal static void CompareProperty(PropertyInfo property, object valueA, IST_BRIDGE stbA, object valueB, IST_BRIDGE stbB, string xmlPath, List<string> key, List<DiffCheckerLib.Record> records, Dictionary<string, Importance> importanceDict, IToleranceSetting toleranceSetting, string comment = null)
         {
             string propertyName = property.Name != "Item" ? property.Name : valueA.GetType().Name;
 
@@ -306,7 +341,8 @@ namespace DiffCheckerLib
                     valueB?.ToString(),
                      Math.Abs((double)valueA - (double)valueB) < 0.000001 ? Consistency.Consistent : Consistency.Inconsistent,
                     CheckImportance(xmlPath, importanceDict)
-                ));
+                )
+                { Comment = comment });
             }
             else if (property.PropertyType.IsPrimitive)
             {
@@ -318,7 +354,8 @@ namespace DiffCheckerLib
                     valueB?.ToString(),
                      valueA?.ToString() == valueB?.ToString() ? Consistency.Consistent : Consistency.Inconsistent,
                     CheckImportance(xmlPath, importanceDict)
-                ));
+                )
+                { Comment = comment });
             }
             else if (property.PropertyType == typeof(string))
             {
@@ -330,7 +367,8 @@ namespace DiffCheckerLib
                     valueB?.ToString(),
                      valueA?.ToString() == valueB?.ToString() ? Consistency.Consistent : Consistency.Inconsistent,
                     CheckImportance(xmlPath, importanceDict)
-                ));
+                )
+                { Comment = comment });
             }
             else if (property.PropertyType.IsEnum)
             {
@@ -342,7 +380,8 @@ namespace DiffCheckerLib
                     valueB.ToString(),
                     valueA.Equals(valueB) ? Consistency.Consistent : Consistency.Inconsistent,
                     CheckImportance(xmlPath, importanceDict)
-                ));
+                )
+                { Comment = comment });
             }
             else if (property.PropertyType.IsArray)
             {
