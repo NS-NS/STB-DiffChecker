@@ -17,6 +17,11 @@ namespace DiffCheckerLib
     public static class ObjectComparer
     {
         /// <summary>
+        /// StbApplyConditionsListのset_default当て込みで実効値を補完したことを示すコメント
+        /// </summary>
+        private const string ApplyConditionDefaultComment = "StbApplyConditionsListのset_defaultにより当て込み";
+
+        /// <summary>
         /// 型ごとのリフレクション情報キャッシュ
         /// GetProperties/GetCustomAttributesは高コストなため型単位で1回だけ解決する
         /// </summary>
@@ -196,6 +201,19 @@ namespace DiffCheckerLib
             {
                 object valueA = property.GetValue(objA);
                 object valueB = property.GetValue(objB);
+                string appliedDefaultComment = null;
+
+                // Specifiedフラグを持たない属性(文字列属性等)がnullの場合、
+                // StbApplyConditionsListのset_defaultによる当て込みを試みる
+                if (valueA == null && TryApplyConditionDefault(objA, property, stbA, ref valueA))
+                {
+                    appliedDefaultComment = ApplyConditionDefaultComment;
+                }
+                if (valueB == null && TryApplyConditionDefault(objB, property, stbB, ref valueB))
+                {
+                    appliedDefaultComment = ApplyConditionDefaultComment;
+                }
+
                 if (valueA == null && valueB == null)
                 {
                     continue;
@@ -215,6 +233,19 @@ namespace DiffCheckerLib
                 {
                     bool specifiedA = (bool)specifiedProp.GetValue(objA, null);
                     bool specifiedB = (bool)specifiedProp.GetValue(objB, null);
+
+                    // Specifiedがfalse(未入力)の場合、StbApplyConditionsListのset_defaultによる当て込みを試みる
+                    if (!specifiedA && TryApplyConditionDefault(objA, property, stbA, ref valueA))
+                    {
+                        specifiedA = true;
+                        appliedDefaultComment = ApplyConditionDefaultComment;
+                    }
+                    if (!specifiedB && TryApplyConditionDefault(objB, property, stbB, ref valueB))
+                    {
+                        specifiedB = true;
+                        appliedDefaultComment = ApplyConditionDefaultComment;
+                    }
+
                     if (specifiedA == false && specifiedB == false)
                     {
                         continue; // FieldSpecifiedがfalseの場合はスキップ
@@ -226,13 +257,16 @@ namespace DiffCheckerLib
                     }
                     else
                     {
+                        // 注意: IProperty.IsSpecial経由の場合、CompareProperty(IProperty版)はobjA/objBから値を再取得するため、
+                        // 上記で当て込んだvalueA/valueBは使われない。当て込み対象のクラスにIPropertyを実装する場合は
+                        // 当て込みを考慮した実装にすること。
                         if (objA is IProperty hasReference && hasReference.IsSpecial(property))
                         {
                             hasReference.CompareProperty(property, stbA, objB, stbB, propertyPath, key, records, importanceDict, toleranceSetting);
                         }
                         else
                         {
-                            CompareProperty(property, valueA, stbA, valueB, stbB, propertyPath, key, records, importanceDict, toleranceSetting);
+                            CompareProperty(property, valueA, stbA, valueB, stbB, propertyPath, key, records, importanceDict, toleranceSetting, appliedDefaultComment);
                         }
                         continue;
                     }
@@ -248,7 +282,7 @@ namespace DiffCheckerLib
                 }
 
 
-                CompareProperty(property, valueA, stbA, valueB, stbB, propertyPath, key, records, importanceDict, toleranceSetting);
+                CompareProperty(property, valueA, stbA, valueB, stbB, propertyPath, key, records, importanceDict, toleranceSetting, appliedDefaultComment);
             }
 
 
@@ -290,9 +324,23 @@ namespace DiffCheckerLib
         }
 
         /// <summary>
+        /// objがIApplyConditionDefaultを実装していれば、StbApplyConditionsListのset_defaultによる当て込みを試みる。
+        /// 成立した場合のみvalueを実効値に差し替えてtrueを返す(呼び出し元の現行動作は変えない)。
+        /// </summary>
+        private static bool TryApplyConditionDefault(object obj, PropertyInfo property, IST_BRIDGE stb, ref object value)
+        {
+            if (obj is IApplyConditionDefault applyDefault && applyDefault.TryGetApplyConditionDefault(property, stb, out object defaultValue))
+            {
+                value = defaultValue;
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// プロパティの比較を行う関数
         /// </summary>
-        internal static void CompareProperty(PropertyInfo property, object valueA, IST_BRIDGE stbA, object valueB, IST_BRIDGE stbB, string xmlPath, List<string> key, List<DiffCheckerLib.Record> records, Dictionary<string, Importance> importanceDict, IToleranceSetting toleranceSetting)
+        internal static void CompareProperty(PropertyInfo property, object valueA, IST_BRIDGE stbA, object valueB, IST_BRIDGE stbB, string xmlPath, List<string> key, List<DiffCheckerLib.Record> records, Dictionary<string, Importance> importanceDict, IToleranceSetting toleranceSetting, string comment = null)
         {
             string propertyName = property.Name != "Item" ? property.Name : valueA.GetType().Name;
 
@@ -306,7 +354,8 @@ namespace DiffCheckerLib
                     valueB?.ToString(),
                      Math.Abs((double)valueA - (double)valueB) < 0.000001 ? Consistency.Consistent : Consistency.Inconsistent,
                     CheckImportance(xmlPath, importanceDict)
-                ));
+                )
+                { Comment = comment });
             }
             else if (property.PropertyType.IsPrimitive)
             {
@@ -318,7 +367,8 @@ namespace DiffCheckerLib
                     valueB?.ToString(),
                      valueA?.ToString() == valueB?.ToString() ? Consistency.Consistent : Consistency.Inconsistent,
                     CheckImportance(xmlPath, importanceDict)
-                ));
+                )
+                { Comment = comment });
             }
             else if (property.PropertyType == typeof(string))
             {
@@ -330,7 +380,8 @@ namespace DiffCheckerLib
                     valueB?.ToString(),
                      valueA?.ToString() == valueB?.ToString() ? Consistency.Consistent : Consistency.Inconsistent,
                     CheckImportance(xmlPath, importanceDict)
-                ));
+                )
+                { Comment = comment });
             }
             else if (property.PropertyType.IsEnum)
             {
@@ -342,7 +393,8 @@ namespace DiffCheckerLib
                     valueB.ToString(),
                     valueA.Equals(valueB) ? Consistency.Consistent : Consistency.Inconsistent,
                     CheckImportance(xmlPath, importanceDict)
-                ));
+                )
+                { Comment = comment });
             }
             else if (property.PropertyType.IsArray)
             {

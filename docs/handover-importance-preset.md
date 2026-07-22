@@ -91,7 +91,8 @@ Desktop版(WPF)の「入力・設定」→「重要度」タブを、**設計段
 - 意図的に別値でよいもの(判断の記録): プレキャストの`@depth_cover_top`=高(他は低)、`StbNode/@Z`=高、`StbSecRoundBar/@R`=高(丸鋼半径=断面寸法)、パネルゾーン/貫通孔配置は一律低優先、`StbApplyConditionsList`配下は全て低。
 
 ### StbApplyConditionsList(適用条件)について
-`set_default=false`運用(断面で個別指定)では既定値が空でnull同士=比較レコードを生まない休眠状態。実データもfalse。当て込み(defaultを断面へ補完してから比較)は**旧コードでも未実装**で今もしない。プリセットでは配下を全て「低」で残している。将来 set_default=true モデルを正確に比較したい場合のみ、当て込み前処理を新規実装(スコープ保留)。
+`set_default=false`運用(断面で個別指定)では既定値が空でnull同士=比較レコードを生まない休眠状態。実データもfalse。
+`set_default=true`の当て込み(defaultを意味的に対応する断面配筋側の属性へ補完してから比較)は issue #11 で実装済み(`DiffCheckerCore/ObjectComparer.cs`の`TryApplyConditionDefault`と、v201/v202の`STBridge2XX/ICompare/*ApplyConditionDefault*.cs`)。ただしv210は`set_default`相当の概念がスキーマ上存在しないため対象外。プリセットでは`StbApplyConditionsList`配下の重要度自体は変更せず全て「低」のまま(重要度設定の見直しは別issue)。
 
 ---
 
